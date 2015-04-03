@@ -50,16 +50,6 @@
     <AssemblyOriginatorKeyFile>..\CodeTigerLib.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\CodeTiger.Core\AsyncLazy.cs">
       <Link>AsyncLazy.cs</Link>
     </Compile>
