@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>CodeTiger.Core</id>
+        <version>0.0.1</version>
+        <authors>Chris Dahlberg</authors>
+        <owners>Chris Dahlberg</owners>
+        <licenseUrl>https://github.com/csdahlberg/CodeTigerLib/wiki/License</licenseUrl>
+        <projectUrl>https://github.com/csdahlberg/CodeTigerLib</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>A .NET library that provides a variety of reusable functionality, including packed integers (PackedInt16, PackedInt32, and PackedInt64), guard methods, various extension methods, and classes related to the Task Parallel Library (AsyncLazy, AsyncLock, AsyncAutoResetEvent, and AsyncManualResetEvent).</description>
+        <summary>A .NET library that provides a variety of reusable functionality.</summary>
+        <copyright>Chris Dahlberg</copyright>
+        <language>es-US</language>
+        <tags>TPL Task Parallel Library Async Await Lazy AsyncLazy Lock AsyncLock AsyncAutoResetEvent AsyncManualResetEvent Packed PackedInt16 PackedInt32 PackedInt64 Guard</tags>
+    </metadata>
+    <files>
+        <file src="..\Build\Release\net451\CodeTiger.Core.dll" target="lib\net451\CodeTiger.Core.dll" />
+        <file src="..\Build\Release\net451\CodeTiger.Core.xml" target="lib\net451\CodeTiger.Core.xml" />
+        <file src="..\Build\Release\portable-net451+netcore451+wpa81\CodeTiger.Core.dll" target="lib\portable-net451+netcore451+wpa81\CodeTiger.Core.dll" />
+        <file src="..\Build\Release\portable-net451+netcore451+wpa81\CodeTiger.Core.xml" target="lib\portable-net451+netcore451+wpa81\CodeTiger.Core.xml" />
+    </files>
+</package>
