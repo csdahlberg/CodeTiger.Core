@@ -15,8 +15,8 @@
         <tags>TPL Task Parallel Library Async Await Lazy AsyncLazy Lock AsyncLock AsyncAutoResetEvent AsyncManualResetEvent Packed PackedInt16 PackedInt32 PackedInt64 Guard</tags>
     </metadata>
     <files>
-        <file src="..\Build\Release\net45\CodeTiger.Core.dll" target="lib\net451\CodeTiger.Core.dll" />
-        <file src="..\Build\Release\net45\CodeTiger.Core.xml" target="lib\net451\CodeTiger.Core.xml" />
+        <file src="..\Build\Release\net45\CodeTiger.Core.dll" target="lib\net45\CodeTiger.Core.dll" />
+        <file src="..\Build\Release\net45\CodeTiger.Core.xml" target="lib\net45\CodeTiger.Core.xml" />
         <file src="..\Build\Release\portable-net45+netcore45+wpa81+MonoAndroid1+MonoTouch1+Xamarin.iOS1\CodeTiger.Core.dll" target="lib\portable-net45+netcore45+wpa81+MonoAndroid1+MonoTouch1+Xamarin.iOS1\CodeTiger.Core.dll" />
         <file src="..\Build\Release\portable-net45+netcore45+wpa81+MonoAndroid1+MonoTouch1+Xamarin.iOS1\CodeTiger.Core.xml" target="lib\portable-net45+netcore45+wpa81+MonoAndroid1+MonoTouch1+Xamarin.iOS1\CodeTiger.Core.xml" />
     </files>
