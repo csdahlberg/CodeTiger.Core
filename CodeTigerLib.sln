@@ -14,9 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTiger.Core.Portable", "CodeTiger.Core.Portable\CodeTiger.Core.Portable.csproj", "{13F2D83F-7508-44AA-BFC7-0E69EBCBFD96}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9986FDB1-A1EC-4996-81E9-32875E197AFA}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.CodeTiger.Core.Portable", "UnitTests\UnitTests.CodeTiger.Core.Portable\UnitTests.CodeTiger.Core.Portable.csproj", "{7D27CFC4-677C-4CD5-BD9E-4FEB5B54F9B8}"
 EndProject

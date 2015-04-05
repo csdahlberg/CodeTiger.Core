@@ -11,7 +11,7 @@
     <AssemblyName>CodeTiger.Core</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>5d97be3e</NuGetPackageImportStamp>
   </PropertyGroup>
