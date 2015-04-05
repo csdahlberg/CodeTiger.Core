@@ -10,8 +10,8 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>A .NET library that provides a variety of reusable functionality, including packed integers (PackedInt16, PackedInt32, and PackedInt64), guard methods, various extension methods, and classes related to the Task Parallel Library (AsyncLazy, AsyncLock, AsyncAutoResetEvent, and AsyncManualResetEvent).</description>
         <summary>A .NET library that provides a variety of reusable functionality.</summary>
-        <copyright>Chris Dahlberg</copyright>
-        <language>es-US</language>
+        <copyright>Copyright 2015 © Chris Dahlberg</copyright>
+        <language>en-US</language>
         <tags>TPL Task Parallel Library Async Await Lazy AsyncLazy Lock AsyncLock AsyncAutoResetEvent AsyncManualResetEvent Packed PackedInt16 PackedInt32 PackedInt64 Guard</tags>
     </metadata>
     <files>
