@@ -87,6 +87,7 @@ namespace CodeTiger
         /// <summary>
         /// Gets the individual <see cref="Int16"/> values that make up this 32-bit value.
         /// </summary>
+        /// <returns>The individual <see cref="Int16"/> values that make up this 32-bit value.</returns>
         public short[] GetInt16Values()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.
@@ -98,6 +99,7 @@ namespace CodeTiger
         /// <summary>
         /// Gets the individual <see cref="Byte"/> values that make up this 32-bit value.
         /// </summary>
+        /// <returns>The individual <see cref="Byte"/> values that make up this 32-bit value.</returns>
         public byte[] GetByteValues()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.

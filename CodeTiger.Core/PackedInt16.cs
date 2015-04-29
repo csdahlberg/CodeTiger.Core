@@ -71,6 +71,7 @@ namespace CodeTiger
         /// <summary>
         /// Gets the individual <see cref="Byte"/> values that make up this 16-bit value.
         /// </summary>
+        /// <returns>The individual <see cref="Byte"/> values that make up this 16-bit value.</returns>
         public byte[] GetByteValues()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.

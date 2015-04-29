@@ -55,6 +55,7 @@ namespace CodeTiger.Threading.Tasks
         /// <see cref="TimeoutException"/> if the original <see cref="Task{TResult}"/> takes longer than a
         /// specified number of milliseconds to complete.
         /// </summary>
+        /// <typeparam name="TResult">The type of the result produced by the task.</typeparam>
         /// <param name="task">The original task.</param>
         /// <param name="timeoutMilliseconds">The maximum number of milliseconds to wait for
         /// <paramref name="task"/> to complete.</param>
@@ -73,6 +74,7 @@ namespace CodeTiger.Threading.Tasks
         /// <see cref="TimeoutException"/> if the original <see cref="Task{TResult}"/> takes longer than a
         /// specified amount of time to complete.
         /// </summary>
+        /// <typeparam name="TResult">The type of the result produced by the task.</typeparam>
         /// <param name="task">The original task.</param>
         /// <param name="timeout">The maximum amount of time to wait for <paramref name="task"/> to complete.
         /// </param>
