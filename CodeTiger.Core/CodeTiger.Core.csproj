@@ -83,7 +83,6 @@
       <Link>CodeTigerLib.snk</Link>
     </None>
     <None Include="CodeTiger.Core.nuspec" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

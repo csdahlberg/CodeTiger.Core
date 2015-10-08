@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
+using Xunit;
 
 [assembly: AssemblyTitle("UnitTests.CodeTiger.Core")]
 [assembly: AssemblyDescription("Contains unit tests for the CodeTiger.Core assembly.")]
@@ -17,3 +18,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("0.0.1.0")]
 [assembly: AssemblyFileVersion("0.0.1.0")]
 [assembly: AssemblyInformationalVersion("0.0.1.0")]
+
+// Disable test parallelization due to intermittent timing issues with async-related tests
+[assembly: CollectionBehavior(DisableTestParallelization = true)]

@@ -58,6 +58,17 @@ namespace CodeTiger.Threading
         /// </summary>
         /// <param name="cancellationToken">A cancellation token to observe.</param>
         /// <returns>A <see cref="TaskCompletionSource{Boolean}"/> to use for a new wait operation.</returns>
+        protected override TaskCompletionSource<bool> GetWaitTaskSource(
+            CancellationToken cancellationToken)
+        {
+            return _waitTaskSource;
+        }
+
+        /// <summary>
+        /// Gets a <see cref="TaskCompletionSource{Boolean}"/> to use for a new wait operation.
+        /// </summary>
+        /// <param name="cancellationToken">A cancellation token to observe.</param>
+        /// <returns>A <see cref="TaskCompletionSource{Boolean}"/> to use for a new wait operation.</returns>
         protected override Task<TaskCompletionSource<bool>> GetWaitTaskSourceAsync(
             CancellationToken cancellationToken)
         {

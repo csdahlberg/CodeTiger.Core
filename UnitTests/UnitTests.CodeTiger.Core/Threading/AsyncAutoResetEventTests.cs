@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CodeTiger.Threading;
@@ -21,7 +22,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 var successfulWaitTask = Task.Run(() => target.WaitOne());
                 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(250))).Result);
             }
 
             [Fact]
@@ -32,7 +33,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 var successfulWaitTask = Task.Run(() => target.WaitOne());
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(250))).Result);
             }
 
             [Fact]
@@ -41,15 +42,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncAutoResetEvent(false);
 
                 var successfulWaitTask = Task.Run(() => target.WaitOne());
-
-                // Add a small delay to make sure the first task calls WaitOne first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
-
-                Assert.False(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                
+                Assert.False(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(250))).Result);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
             }
 
             [Fact]
@@ -60,7 +58,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 var successfulWaitTask = Task.Run(() => target.WaitOne());
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
             }
 
             [Fact]
@@ -78,12 +76,12 @@ namespace UnitTests.CodeTiger.Threading
                 // Add a small delay to make sure the second task calls WaitOne first
                 Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
 
-                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(250))).Result);
+                Assert.False(Task.Run(() => successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(250))).Result);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50))).Result);
             }
         }
 
@@ -96,11 +94,9 @@ namespace UnitTests.CodeTiger.Threading
 
                 var waitTask = Task.Run(() => target.WaitOne(250));
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(150)));
-
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.False(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(200))).Result);
+                Assert.True(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(100))).Result);
+                Assert.False(waitTask.Result);
             }
 
             [Fact]
@@ -111,11 +107,9 @@ namespace UnitTests.CodeTiger.Threading
 
                 var waitTask = Task.Run(() => target.WaitOne(250));
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(150)));
-
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.False(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(200))).Result);
+                Assert.True(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(100))).Result);
+                Assert.False(waitTask.Result);
             }
 
             [Fact]
@@ -130,12 +124,10 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(250));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.True(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(300))).Result);
+                Assert.False(unsuccessfulWaitTask.Result);
             }
 
             [Fact]
@@ -151,12 +143,12 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(250));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(300))).Result);
+                Assert.False(unsuccessfulWaitTask.Result);
             }
 
             [Fact]
@@ -171,17 +163,17 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(250));
 
-                Assert.False(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                
+                Assert.False(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+
                 target.Set();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(300))).Result);
+                Assert.False(unsuccessfulWaitTask.Result);
             }
 
             [Fact]
@@ -197,12 +189,11 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(250));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(300))).Result);
+                Assert.False(unsuccessfulWaitTask.Result);
             }
 
             [Fact]
@@ -222,18 +213,19 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(250));
 
-                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask1.Result);
+                Assert.False(Task.Run(() => successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask2.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000))).Result);
+                Assert.False(unsuccessfulWaitTask.Result);
             }
         }
 
@@ -246,11 +238,11 @@ namespace UnitTests.CodeTiger.Threading
 
                 var waitTask = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(150)));
+                Assert.False(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(200))).Result);
 
                 // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(100))).Result);
+                Assert.False(waitTask.Result);
             }
 
             [Fact]
@@ -261,11 +253,10 @@ namespace UnitTests.CodeTiger.Threading
 
                 var waitTask = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(150)));
+                Assert.False(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(200))).Result);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(100))).Result);
+                Assert.False(waitTask.Result);
             }
 
             [Fact]
@@ -280,12 +271,13 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(300))).Result);
+                Assert.False(unsuccessfulWaitTask.Result);
             }
 
             [Fact]
@@ -301,12 +293,12 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(300))).Result);
+                Assert.False(unsuccessfulWaitTask.Result);
             }
 
             [Fact]
@@ -321,17 +313,18 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
 
-                Assert.False(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.False(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(300))).Result);
+                Assert.False(unsuccessfulWaitTask.Result);
             }
 
             [Fact]
@@ -347,12 +340,12 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(300))).Result);
+                Assert.False(unsuccessfulWaitTask.Result);
             }
 
             [Fact]
@@ -372,41 +365,44 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
 
-                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask1.Result);
+                Assert.False(Task.Run(() => successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask2.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(300))).Result);
+                Assert.False(unsuccessfulWaitTask.Result);
             }
         }
 
         public class WaitOne_CancellationToken
         {
             [Fact]
-            public async Task DoesNotReturnUntilCancelTokenIsSetWhenEventIsAlwaysUnset()
+            public void DoesNotReturnUntilCancelTokenIsSetWhenEventIsAlwaysUnset()
             {
                 var target = new AsyncAutoResetEvent(false);
 
                 var cancelSource = new CancellationTokenSource();
                 var waitTask = Task.Run(() => target.WaitOne(cancelSource.Token));
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                Assert.False(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(250))).Result);
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await waitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => waitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsOnceWhenEventIsInitiallySet()
+            public void ReturnsOnceWhenEventIsInitiallySet()
             {
                 var target = new AsyncAutoResetEvent(true);
 
@@ -418,18 +414,18 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(cancelSource.Token));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOne()
+            public void ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOne()
             {
                 var target = new AsyncAutoResetEvent(false);
                 target.Set();
@@ -442,18 +438,18 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(cancelSource.Token));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetAfterCallingWaitOne()
+            public void ReturnsOnceWhenEventIsNotInitiallySetThenSetAfterCallingWaitOne()
             {
                 var target = new AsyncAutoResetEvent(false);
 
@@ -465,23 +461,23 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(cancelSource.Token));
 
-                Assert.False(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                
+                Assert.False(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+
                 target.Set();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOne()
+            public void ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOne()
             {
                 var target = new AsyncAutoResetEvent(true);
                 target.Set();
@@ -494,18 +490,18 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(cancelSource.Token));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsTwiceWhenEventIsSetBeforeAndAfterCallingWaitOne()
+            public void ReturnsTwiceWhenEventIsSetBeforeAndAfterCallingWaitOne()
             {
                 var target = new AsyncAutoResetEvent(true);
 
@@ -522,20 +518,20 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(cancelSource.Token));
 
-                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
         }
 
@@ -549,24 +545,25 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask = Task.Run(() => target.WaitOne(250, CancellationToken.None));
 
                 // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(1000))).Result);
+                Assert.False(waitTask.Result);
             }
 
             [Fact]
-            public async Task DoesNotReturnUntilCancelTokenIsSetWhenEventIsAlwaysUnset()
+            public void DoesNotReturnUntilCancelTokenIsSetWhenEventIsAlwaysUnset()
             {
                 var target = new AsyncAutoResetEvent(false);
 
                 var cancelSource = new CancellationTokenSource();
                 var waitTask = Task.Run(() => target.WaitOne(Timeout.Infinite, cancelSource.Token));
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                Assert.False(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(250))).Result);
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await waitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => waitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
@@ -578,12 +575,12 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask = Task.Run(() => target.WaitOne(250, CancellationToken.None));
 
                 // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(1000))).Result);
+                Assert.False(waitTask.Result);
             }
 
             [Fact]
-            public async Task DoesNotReturnUntilCancelTokenIsSetWhenEventIsInitiallySetThenReset()
+            public void DoesNotReturnUntilCancelTokenIsSetWhenEventIsInitiallySetThenReset()
             {
                 var target = new AsyncAutoResetEvent(true);
                 target.Reset();
@@ -591,16 +588,17 @@ namespace UnitTests.CodeTiger.Threading
                 var cancelSource = new CancellationTokenSource();
                 var waitTask = Task.Run(() => target.WaitOne(Timeout.Infinite, cancelSource.Token));
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                Assert.False(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(250))).Result);
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await waitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => waitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsOnceWhenEventIsInitiallySet()
+            public void ReturnsOnceWhenEventIsInitiallySet()
             {
                 var target = new AsyncAutoResetEvent(true);
 
@@ -612,18 +610,19 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(Timeout.Infinite, cancelSource.Token));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOne()
+            public void ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOne()
             {
                 var target = new AsyncAutoResetEvent(false);
                 target.Set();
@@ -636,18 +635,19 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(Timeout.Infinite, cancelSource.Token));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetAfterCallingWaitOne()
+            public void ReturnsOnceWhenEventIsNotInitiallySetThenSetAfterCallingWaitOne()
             {
                 var target = new AsyncAutoResetEvent(false);
 
@@ -659,23 +659,23 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(Timeout.Infinite, cancelSource.Token));
 
-                Assert.False(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                
+                Assert.False(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+
                 target.Set();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOne()
+            public void ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOne()
             {
                 var target = new AsyncAutoResetEvent(true);
                 target.Set();
@@ -688,18 +688,19 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(Timeout.Infinite, cancelSource.Token));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsTwiceWhenEventIsSetBeforeAndAfterCallingWaitOne()
+            public void ReturnsTwiceWhenEventIsSetBeforeAndAfterCallingWaitOne()
             {
                 var target = new AsyncAutoResetEvent(true);
 
@@ -716,20 +717,22 @@ namespace UnitTests.CodeTiger.Threading
 
                 var unsuccessfulWaitTask = Task.Run(() => target.WaitOne(Timeout.Infinite, cancelSource.Token));
 
-                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask1.Result);
+                Assert.False(Task.Run(() => successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask2.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
         }
 
@@ -743,15 +746,15 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask = Task.Run(
                     () => target.WaitOne(TimeSpan.FromMilliseconds(250), CancellationToken.None));
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(150)));
+                Assert.False(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(150))).Result);
 
                 // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(1000))).Result);
+                Assert.False(waitTask.Result);
             }
 
             [Fact]
-            public async Task DoesNotReturnUntilCancelTokenIsSetWhenEventIsAlwaysUnset()
+            public void DoesNotReturnUntilCancelTokenIsSetWhenEventIsAlwaysUnset()
             {
                 var target = new AsyncAutoResetEvent(false);
 
@@ -759,12 +762,13 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask = Task.Run(
                     () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token));
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                Assert.False(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(250))).Result);
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await waitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => waitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
@@ -777,12 +781,12 @@ namespace UnitTests.CodeTiger.Threading
                     () => target.WaitOne(TimeSpan.FromMilliseconds(250), CancellationToken.None));
 
                 // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.True(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(300))).Result);
+                Assert.False(waitTask.Result);
             }
 
             [Fact]
-            public async Task DoesNotReturnUntilCancelTokenIsSetWhenEventIsInitiallySetThenReset()
+            public void DoesNotReturnUntilCancelTokenIsSetWhenEventIsInitiallySetThenReset()
             {
                 var target = new AsyncAutoResetEvent(true);
                 target.Reset();
@@ -791,16 +795,17 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask = Task.Run(
                     () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token));
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                Assert.False(Task.Run(() => waitTask.Wait(TimeSpan.FromMilliseconds(250))).Result);
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await waitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => waitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsOnceWhenEventIsInitiallySet()
+            public void ReturnsOnceWhenEventIsInitiallySet()
             {
                 var target = new AsyncAutoResetEvent(true);
 
@@ -814,18 +819,19 @@ namespace UnitTests.CodeTiger.Threading
                 var unsuccessfulWaitTask = Task.Run(
                     () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOne()
+            public void ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOne()
             {
                 var target = new AsyncAutoResetEvent(false);
                 target.Set();
@@ -840,18 +846,19 @@ namespace UnitTests.CodeTiger.Threading
                 var unsuccessfulWaitTask = Task.Run(
                     () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetAfterCallingWaitOne()
+            public void ReturnsOnceWhenEventIsNotInitiallySetThenSetAfterCallingWaitOne()
             {
                 var target = new AsyncAutoResetEvent(false);
 
@@ -865,23 +872,24 @@ namespace UnitTests.CodeTiger.Threading
                 var unsuccessfulWaitTask = Task.Run(
                     () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token));
 
-                Assert.False(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                
+                Assert.False(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+
                 target.Set();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOne()
+            public void ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOne()
             {
                 var target = new AsyncAutoResetEvent(true);
                 target.Set();
@@ -896,18 +904,19 @@ namespace UnitTests.CodeTiger.Threading
                 var unsuccessfulWaitTask = Task.Run(
                     () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
 
             [Fact]
-            public async Task ReturnsTwiceWhenEventIsSetBeforeAndAfterCallingWaitOne()
+            public void ReturnsTwiceWhenEventIsSetBeforeAndAfterCallingWaitOne()
             {
                 var target = new AsyncAutoResetEvent(true);
 
@@ -927,152 +936,152 @@ namespace UnitTests.CodeTiger.Threading
                 var unsuccessfulWaitTask = Task.Run(
                     () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token));
 
-                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask1.Result);
+                Assert.False(Task.Run(() => successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(Task.Run(() => successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50))).Result);
+                Assert.True(successfulWaitTask2.Result);
+                Assert.False(Task.Run(() => unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50))).Result);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                Assert.Equal(typeof(OperationCanceledException),
+                    aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
         }
 
         public class WaitOneAsync
         {
             [Fact]
-            public void ReturnsOnceWhenEventIsInitiallySet()
+            public async Task ReturnsOnceWhenEventIsInitiallySet()
             {
                 var target = new AsyncAutoResetEvent(true);
 
                 var successfulWaitTask = target.WaitOneAsync();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                await successfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(250));
             }
 
             [Fact]
-            public void ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOneAsync()
+            public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(false);
                 target.Set();
 
                 var successfulWaitTask = target.WaitOneAsync();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
+                await successfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(250));
             }
 
             [Fact]
-            public void ReturnsOnceWhenEventIsNotInitiallySetThenSetAfterCallingWaitOneAsync()
+            public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetAfterCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(false);
 
                 var successfulWaitTask = target.WaitOneAsync();
 
-                // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(250);
 
-                Assert.False(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                Assert.False(successfulWaitTask.IsCompleted);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await successfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(50));
             }
 
             [Fact]
-            public void ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOneAsync()
+            public async Task ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(true);
                 target.Set();
 
-                var cancelSource = new CancellationTokenSource();
                 var successfulWaitTask = target.WaitOneAsync();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await successfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(50));
             }
 
             [Fact]
-            public void ReturnsTwiceWhenEventIsSetBeforeAndAfterCallingWaitOneAsync()
+            public async Task ReturnsTwiceWhenEventIsSetBeforeAndAfterCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(true);
 
                 var successfulWaitTask1 = target.WaitOneAsync();
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(50);
 
                 var successfulWaitTask2 = target.WaitOneAsync();
 
                 // Add a small delay to make sure the second task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(50);
 
-                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
+                await successfulWaitTask1.WithTimeout(TimeSpan.FromMilliseconds(50));
+
+                await Task.Delay(50);
+                Assert.False(successfulWaitTask2.IsCompleted);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
+                await successfulWaitTask2.WithTimeout(TimeSpan.FromMilliseconds(50));
             }
         }
 
         public class WaitOneAsync_Int32
         {
             [Fact]
-            public void DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
+            public async Task DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
             {
                 var target = new AsyncAutoResetEvent(false);
 
                 var waitTask = target.WaitOneAsync(250);
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(150)));
+                await Task.Delay(200);
+                Assert.False(waitTask.IsCompleted);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(10000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.False(await waitTask.WithTimeout(100));
             }
 
             [Fact]
-            public void DoesNotReturnUntilTimeoutElapsesWhenEventIsInitiallySetThenReset()
+            public async Task DoesNotReturnUntilTimeoutElapsesWhenEventIsInitiallySetThenReset()
             {
                 var target = new AsyncAutoResetEvent(true);
                 target.Reset();
 
                 var waitTask = target.WaitOneAsync(250);
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(150)));
+                await Task.Delay(200);
+                Assert.False(waitTask.IsCompleted);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.False(await waitTask.WithTimeout(TimeSpan.FromMilliseconds(100)));
             }
 
             [Fact]
-            public void ReturnsOnceWhenEventIsInitiallySet()
+            public async Task ReturnsOnceWhenEventIsInitiallySet()
             {
                 var target = new AsyncAutoResetEvent(true);
 
                 var successfulWaitTask = target.WaitOneAsync(250);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(250);
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(await successfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(50)));
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                await Task.Delay(200);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
+
+                Assert.False(await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(100)));
             }
 
             [Fact]
-            public void ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOneAsync()
+            public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(false);
                 target.Set();
@@ -1080,45 +1089,48 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(250);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(250);
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(await successfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(50)));
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                await Task.Delay(200);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
+
+                Assert.False(await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(300)));
             }
 
             [Fact]
-            public void ReturnsOnceWhenEventIsNotInitiallySetThenSetAfterCallingWaitOneAsync()
+            public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetAfterCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(false);
 
                 var successfulWaitTask = target.WaitOneAsync(250);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(250);
 
-                Assert.False(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.False(successfulWaitTask.IsCompleted);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                await Task.Delay(100);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
+
+                Assert.False(await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(300)));
             }
 
             [Fact]
-            public void ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOneAsync()
+            public async Task ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(true);
                 target.Set();
@@ -1126,103 +1138,103 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(250);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(250);
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(await successfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(50)));
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                await Task.Delay(200);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
+
+                Assert.False(await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(300)));
             }
 
             [Fact]
-            public void ReturnsTwiceWhenEventIsSetBeforeAndAfterCallingWaitOneAsync()
+            public async Task ReturnsTwiceWhenEventIsSetBeforeAndAfterCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(true);
 
                 var successfulWaitTask1 = target.WaitOneAsync(250);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var successfulWaitTask2 = target.WaitOneAsync(250);
 
                 // Add a small delay to make sure the second task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(250);
 
-                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(await successfulWaitTask1.WithTimeout(TimeSpan.FromMilliseconds(50)));
+
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                Assert.False(successfulWaitTask2.IsCompleted);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(await successfulWaitTask2.WithTimeout(TimeSpan.FromMilliseconds(50)));
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
+
+                Assert.False(await unsuccessfulWaitTask.WithTimeout(100));
             }
         }
 
         public class WaitOneAsync_TimeSpan
         {
             [Fact]
-            public void DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
+            public async Task DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
             {
                 var target = new AsyncAutoResetEvent(false);
 
                 var waitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(150)));
+                await Task.Delay(200);
+                Assert.False(waitTask.IsCompleted);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.False(await waitTask.WithTimeout(100));
             }
 
             [Fact]
-            public void DoesNotReturnUntilTimeoutElapsesWhenEventIsInitiallySetThenReset()
+            public async Task DoesNotReturnUntilTimeoutElapsesWhenEventIsInitiallySetThenReset()
             {
                 var target = new AsyncAutoResetEvent(true);
                 target.Reset();
 
                 var waitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(150)));
+                await Task.Delay(200);
+                Assert.False(waitTask.IsCompleted);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.False(await waitTask.WithTimeout(TimeSpan.FromMilliseconds(100)));
             }
 
             [Fact]
-            public void ReturnsOnceWhenEventIsInitiallySet()
+            public async Task ReturnsOnceWhenEventIsInitiallySet()
             {
                 var target = new AsyncAutoResetEvent(true);
 
                 var successfulWaitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(await successfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(50)));
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                await Task.Delay(200);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
+
+                Assert.False(await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(100)));
             }
 
             [Fact]
-            public void ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOneAsync()
+            public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(false);
                 target.Set();
@@ -1230,45 +1242,48 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(await successfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(50)));
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                await Task.Delay(200);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
+
+                Assert.False(await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(300)));
             }
 
             [Fact]
-            public void ReturnsOnceWhenEventIsNotInitiallySetThenSetAfterCallingWaitOneAsync()
+            public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetAfterCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(false);
 
                 var successfulWaitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                Assert.False(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.False(successfulWaitTask.IsCompleted);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                await Task.Delay(100);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
+
+                Assert.False(await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(300)));
             }
 
             [Fact]
-            public void ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOneAsync()
+            public async Task ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(true);
                 target.Set();
@@ -1276,47 +1291,49 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(await successfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(50)));
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                await Task.Delay(200);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
+
+                Assert.False(await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(300)));
             }
 
             [Fact]
-            public void ReturnsTwiceWhenEventIsSetBeforeAndAfterCallingWaitOneAsync()
+            public async Task ReturnsTwiceWhenEventIsSetBeforeAndAfterCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(true);
 
                 var successfulWaitTask1 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var successfulWaitTask2 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
                 // Add a small delay to make sure the second task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(await successfulWaitTask1.WithTimeout(TimeSpan.FromMilliseconds(50)));
+
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                Assert.False(successfulWaitTask2.IsCompleted);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(await successfulWaitTask2.WithTimeout(TimeSpan.FromMilliseconds(50)));
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(unsuccessfulWaitTask.GetAwaiter().GetResult());
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
+
+                Assert.False(await unsuccessfulWaitTask.WithTimeout(100));
             }
         }
 
@@ -1330,12 +1347,12 @@ namespace UnitTests.CodeTiger.Threading
                 var cancelSource = new CancellationTokenSource();
                 var waitTask = target.WaitOneAsync(cancelSource.Token);
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                await Task.Delay(250);
+                Assert.False(waitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await waitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1347,18 +1364,18 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(cancelSource.Token);
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1371,18 +1388,18 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(cancelSource.Token);
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1394,23 +1411,24 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(cancelSource.Token);
 
-                Assert.False(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.False(successfulWaitTask.IsCompleted);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1423,18 +1441,18 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(cancelSource.Token);
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1446,44 +1464,47 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask1 = target.WaitOneAsync(cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var successfulWaitTask2 = target.WaitOneAsync(cancelSource.Token);
 
                 // Add a small delay to make sure the second task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(cancelSource.Token);
 
-                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                Assert.True(successfulWaitTask1.IsCompleted);
+                Assert.True(successfulWaitTask1.Result);
+                Assert.False(successfulWaitTask2.IsCompleted);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                Assert.True(successfulWaitTask2.IsCompleted);
+                Assert.True(successfulWaitTask2.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
         }
 
         public class WaitOneAsync_Int32_CancellationToken
         {
             [Fact]
-            public void DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
+            public async Task DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
             {
                 var target = new AsyncAutoResetEvent(false);
 
                 var waitTask = target.WaitOneAsync(250, CancellationToken.None);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                await Task.Delay(200);
+                Assert.False(waitTask.IsCompleted);
+
+                Assert.False(await waitTask.WithTimeout(100));
             }
 
             [Fact]
@@ -1494,25 +1515,23 @@ namespace UnitTests.CodeTiger.Threading
                 var cancelSource = new CancellationTokenSource();
                 var waitTask = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                await Task.Delay(250);
+                Assert.False(waitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await waitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask.WithTimeout(50));
             }
 
             [Fact]
-            public void DoesNotReturnUntilTimeoutElapsesWhenEventIsInitiallySetThenReset()
+            public async Task DoesNotReturnUntilTimeoutElapsesWhenEventIsInitiallySetThenReset()
             {
                 var target = new AsyncAutoResetEvent(true);
                 target.Reset();
 
                 var waitTask = target.WaitOneAsync(250, CancellationToken.None);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.False(await waitTask.WithTimeout(TimeSpan.FromMilliseconds(300)));
             }
 
             [Fact]
@@ -1524,12 +1543,12 @@ namespace UnitTests.CodeTiger.Threading
                 var cancelSource = new CancellationTokenSource();
                 var waitTask = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                await Task.Delay(TimeSpan.FromMilliseconds(250));
+                Assert.False(waitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await waitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1541,18 +1560,18 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1565,18 +1584,18 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1588,47 +1607,48 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
-                Assert.False(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.False(successfulWaitTask.IsCompleted);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
 
             [Fact]
             public async Task ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOneAsync()
             {
-                var target = new AsyncAutoResetEvent(false);
+                var target = new AsyncAutoResetEvent(true);
                 target.Set();
 
                 var cancelSource = new CancellationTokenSource();
                 var successfulWaitTask = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1640,46 +1660,47 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask1 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var successfulWaitTask2 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
                 // Add a small delay to make sure the second task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
-                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                Assert.True(successfulWaitTask1.IsCompleted);
+                Assert.True(successfulWaitTask1.Result);
+                Assert.False(successfulWaitTask2.IsCompleted);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                Assert.True(successfulWaitTask2.IsCompleted);
+                Assert.True(successfulWaitTask2.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
         }
 
         public class WaitOneAsync_TimeSpan_CancellationToken
         {
             [Fact]
-            public void DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
+            public async Task DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
             {
                 var target = new AsyncAutoResetEvent(false);
 
                 var waitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250), CancellationToken.None);
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(150)));
+                await Task.Delay(200);
+                Assert.False(waitTask.IsCompleted);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.False(await waitTask.WithTimeout(100));
             }
 
             [Fact]
@@ -1690,25 +1711,23 @@ namespace UnitTests.CodeTiger.Threading
                 var cancelSource = new CancellationTokenSource();
                 var waitTask = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                await Task.Delay(250);
+                Assert.False(waitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await waitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask.WithTimeout(50));
             }
 
             [Fact]
-            public void DoesNotReturnUntilTimeoutElapsesWhenEventIsInitiallySetThenReset()
+            public async Task DoesNotReturnUntilTimeoutElapsesWhenEventIsInitiallySetThenReset()
             {
                 var target = new AsyncAutoResetEvent(true);
                 target.Reset();
 
                 var waitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250), CancellationToken.None);
 
-                // Wait for the task to complete so aren't any lingering background threads.
-                Assert.True(waitTask.Wait(TimeSpan.FromMilliseconds(1000)));
-                Assert.False(waitTask.GetAwaiter().GetResult());
+                Assert.False(await waitTask.WithTimeout(TimeSpan.FromMilliseconds(300)));
             }
 
             [Fact]
@@ -1720,12 +1739,12 @@ namespace UnitTests.CodeTiger.Threading
                 var cancelSource = new CancellationTokenSource();
                 var waitTask = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
-                Assert.False(waitTask.Wait(TimeSpan.FromMilliseconds(250)));
+                await Task.Delay(TimeSpan.FromMilliseconds(250));
+                Assert.False(waitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await waitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1737,18 +1756,18 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1761,18 +1780,18 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1784,23 +1803,24 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
-                Assert.False(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.False(successfulWaitTask.IsCompleted);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1813,18 +1833,18 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
-                Assert.True(successfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(50);
+                Assert.True(successfulWaitTask.IsCompleted);
+                Assert.True(successfulWaitTask.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
 
             [Fact]
@@ -1836,29 +1856,31 @@ namespace UnitTests.CodeTiger.Threading
                 var successfulWaitTask1 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
                 // Add a small delay to make sure the first task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var successfulWaitTask2 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
                 // Add a small delay to make sure the second task calls WaitOneAsync first
-                Task.Delay(TimeSpan.FromMilliseconds(50)).Wait();
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
 
                 var unsuccessfulWaitTask = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
-                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                Assert.True(successfulWaitTask1.IsCompleted);
+                Assert.True(successfulWaitTask1.Result);
+                Assert.False(successfulWaitTask2.IsCompleted);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 target.Set();
 
-                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
-                Assert.False(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(50)));
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                Assert.True(successfulWaitTask2.IsCompleted);
+                Assert.True(successfulWaitTask2.Result);
+                Assert.False(unsuccessfulWaitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                // Wait for the canceled task to complete so aren't any lingering background threads.
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await unsuccessfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(1000)));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50));
             }
         }
     }

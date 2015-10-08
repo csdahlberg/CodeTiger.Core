@@ -22,13 +22,102 @@ namespace UnitTests.CodeTiger.Threading
             }
         }
 
-        public class WaitOne_TimeSpan_CancellationToken
+        public class WaitOne
         {
             [Fact]
-            public void CallsGetWaitTaskSourceAsyncWithSameCancellationToken()
+            public void CallsGetWaitTaskSourceWithCorrectCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
                 var target = new MockAsyncWaitHandle(tcs);
+
+                tcs.SetResult(false);
+
+                target.WaitOne();
+
+                Assert.Equal(1, target.WaitTaskRetrievalCount);
+                Assert.Equal(CancellationToken.None, target.MostRecentCancellationToken);
+            }
+        }
+
+        public class WaitOne_Int32
+        {
+            [Fact]
+            public void CallsGetWaitTaskSourceWithCorrectCancellationToken()
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var target = new MockAsyncWaitHandle(tcs);
+
+                tcs.SetResult(false);
+
+                target.WaitOne(0);
+
+                Assert.Equal(1, target.WaitTaskRetrievalCount);
+                Assert.Equal(CancellationToken.None, target.MostRecentCancellationToken);
+            }
+        }
+
+        public class WaitOne_TimeSpan
+        {
+            [Fact]
+            public void CallsGetWaitTaskSourceWithCorrectCancellationToken()
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var target = new MockAsyncWaitHandle(tcs);
+
+                tcs.SetResult(false);
+
+                target.WaitOne(TimeSpan.Zero);
+
+                Assert.Equal(1, target.WaitTaskRetrievalCount);
+                Assert.Equal(CancellationToken.None, target.MostRecentCancellationToken);
+            }
+        }
+
+        public class WaitOne_CancellationToken
+        {
+            [Fact]
+            public void CallsGetWaitTaskSourceWithSameCancellationToken()
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var target = new MockAsyncWaitHandle(tcs);
+
+                tcs.SetResult(false);
+
+                var cts = new CancellationTokenSource();
+                target.WaitOne(cts.Token);
+
+                Assert.Equal(1, target.WaitTaskRetrievalCount);
+                Assert.Equal(cts.Token, target.MostRecentCancellationToken);
+            }
+        }
+
+        public class WaitOne_Int32_CancellationToken
+        {
+            [Fact]
+            public void CallsGetWaitTaskSourceWithSameCancellationToken()
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var target = new MockAsyncWaitHandle(tcs);
+
+                tcs.SetResult(false);
+
+                var cts = new CancellationTokenSource();
+                target.WaitOne(0, cts.Token);
+
+                Assert.Equal(1, target.WaitTaskRetrievalCount);
+                Assert.Equal(cts.Token, target.MostRecentCancellationToken);
+            }
+        }
+
+        public class WaitOne_TimeSpan_CancellationToken
+        {
+            [Fact]
+            public void CallsGetWaitTaskSourceWithSameCancellationToken()
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var target = new MockAsyncWaitHandle(tcs);
+
+                tcs.SetResult(false);
 
                 var cts = new CancellationTokenSource();
                 target.WaitOne(TimeSpan.Zero, cts.Token);
@@ -38,18 +127,107 @@ namespace UnitTests.CodeTiger.Threading
             }
         }
 
-        public class WaitOneAsync_TimeSpan_CancellationToken
+        public class WaitOneAsync
         {
             [Fact]
-            public void CallsGetWaitTaskSourceAsyncWithSameCancellationToken()
+            public async Task CallsGetWaitTaskSourceAsyncWithCorrectCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
                 var target = new MockAsyncWaitHandle(tcs);
 
-                var cts = new CancellationTokenSource();
-                target.WaitOneAsync(TimeSpan.Zero, cts.Token).GetAwaiter().GetResult();
+                tcs.SetResult(false);
 
-                Assert.Equal(1, target.WaitTaskRetrievalCount);
+                await target.WaitOneAsync();
+
+                Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
+                Assert.Equal(CancellationToken.None, target.MostRecentCancellationToken);
+            }
+        }
+
+        public class WaitOneAsync_Int32
+        {
+            [Fact]
+            public async Task CallsGetWaitTaskSourceAsyncWithCorrectCancellationToken()
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var target = new MockAsyncWaitHandle(tcs);
+
+                tcs.SetResult(false);
+
+                await target.WaitOneAsync(0);
+
+                Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
+                Assert.Equal(CancellationToken.None, target.MostRecentCancellationToken);
+            }
+        }
+
+        public class WaitOneAsync_TimeSpan
+        {
+            [Fact]
+            public async Task CallsGetWaitTaskSourceAsyncWithCorrectCancellationToken()
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var target = new MockAsyncWaitHandle(tcs);
+
+                tcs.SetResult(false);
+
+                await target.WaitOneAsync(TimeSpan.Zero);
+
+                Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
+                Assert.Equal(CancellationToken.None, target.MostRecentCancellationToken);
+            }
+        }
+
+        public class WaitOneAsync_CancellationToken
+        {
+            [Fact]
+            public async Task CallsGetWaitTaskSourceAsyncWithSameCancellationToken()
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var target = new MockAsyncWaitHandle(tcs);
+
+                tcs.SetResult(false);
+
+                var cts = new CancellationTokenSource();
+                await target.WaitOneAsync(cts.Token);
+
+                Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
+                Assert.Equal(cts.Token, target.MostRecentCancellationToken);
+            }
+        }
+
+        public class WaitOneAsync_Int32_CancellationToken
+        {
+            [Fact]
+            public async Task CallsGetWaitTaskSourceAsyncWithSameCancellationToken()
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var target = new MockAsyncWaitHandle(tcs);
+
+                tcs.SetResult(false);
+
+                var cts = new CancellationTokenSource();
+                await target.WaitOneAsync(0, cts.Token);
+
+                Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
+                Assert.Equal(cts.Token, target.MostRecentCancellationToken);
+            }
+        }
+
+        public class WaitOneAsync_TimeSpan_CancellationToken
+        {
+            [Fact]
+            public async Task CallsGetWaitTaskSourceAsyncWithSameCancellationToken()
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var target = new MockAsyncWaitHandle(tcs);
+
+                tcs.SetResult(false);
+
+                var cts = new CancellationTokenSource();
+                await target.WaitOneAsync(TimeSpan.Zero, cts.Token);
+
+                Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
                 Assert.Equal(cts.Token, target.MostRecentCancellationToken);
             }
         }
@@ -65,16 +243,27 @@ namespace UnitTests.CodeTiger.Threading
 
             public int WaitTaskRetrievalCount { get; private set; }
 
+            public int WaitTaskAsyncRetrievalCount { get; private set; }
+
             public MockAsyncWaitHandle(TaskCompletionSource<bool> waitTaskCompletionSource)
             {
                 _waitTaskCompletionSource = waitTaskCompletionSource;
+            }
+
+            protected override TaskCompletionSource<bool> GetWaitTaskSource(
+                CancellationToken cancellationToken)
+            {
+                MostRecentCancellationToken = cancellationToken;
+                WaitTaskRetrievalCount++;
+
+                return _waitTaskCompletionSource;
             }
 
             protected override Task<TaskCompletionSource<bool>> GetWaitTaskSourceAsync(
                 CancellationToken cancellationToken)
             {
                 MostRecentCancellationToken = cancellationToken;
-                WaitTaskRetrievalCount++;
+                WaitTaskAsyncRetrievalCount++;
 
                 return Task.FromResult(_waitTaskCompletionSource);
             }

@@ -33,8 +33,10 @@ namespace UnitTests.CodeTiger
             {
                 var target = new AsyncLazy<object>();
 
-                Assert.NotNull(target.Value.GetAwaiter().GetResult());
-                Assert.Equal(typeof(object), target.Value.GetAwaiter().GetResult().GetType());
+                var actual = target.Value.ConfigureAwait(false).GetAwaiter().GetResult();
+
+                Assert.NotNull(actual);
+                Assert.Equal(typeof(object), actual.GetType());
             }
 
             [Fact]

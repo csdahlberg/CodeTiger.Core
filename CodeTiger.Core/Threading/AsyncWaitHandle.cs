@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
+using CodeTiger.Threading.Tasks;
 
 namespace CodeTiger.Threading
 {
@@ -89,45 +90,24 @@ namespace CodeTiger.Threading
         /// </returns>
         public bool WaitOne(TimeSpan timeout, CancellationToken cancellationToken)
         {
-            var waitTaskSource = GetWaitTaskSourceAsync(cancellationToken).GetAwaiter().GetResult();
+            var waitTaskSource = GetWaitTaskSource(cancellationToken);
 
-            if (cancellationToken != CancellationToken.None)
+            if (cancellationToken.CanBeCanceled)
             {
                 // Have the cancellation token attempt to cancel the wait task.
                 cancellationToken.Register(() => waitTaskSource.TrySetCanceled());
             }
 
-            if (timeout != Timeout.InfiniteTimeSpan)
-            {
-                using (var compositeCancellationSource = CancellationTokenSource.CreateLinkedTokenSource(
-                    cancellationToken))
-                {
-                    var timeoutTask = Task.Delay(timeout, compositeCancellationSource.Token);
-                    var completedTask = Task.WhenAny(waitTaskSource.Task, timeoutTask).GetAwaiter().GetResult();
-
-                    if (completedTask == timeoutTask)
-                    {
-                        waitTaskSource.TrySetResult(false);
-                    }
-                    else
-                    {
-                        // If the timeout task has not yet completed, use the composite cancellation token to
-                        // cancel it so it will not continue running in the background.
-                        compositeCancellationSource.Cancel();
-                    }
-                }
-            }
-
-            return waitTaskSource.Task.GetAwaiter().GetResult();
+            return Task.Run(() => waitTaskSource.Task.Wait(timeout, cancellationToken)).Result;
         }
 
         /// <summary>
         /// Asynchronously waits until this event is signaled.
         /// </summary>
         /// <returns>A <see cref="Task"/> that will complete when the event is signaled.</returns>
-        public async Task WaitOneAsync()
+        public Task WaitOneAsync()
         {
-            await WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None).ConfigureAwait(false);
+            return WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
         }
 
         /// <summary>
@@ -137,10 +117,9 @@ namespace CodeTiger.Threading
         /// <see cref="Timeout.Infinite"/> (negative 1) to wait indefinitely.</param>
         /// <returns>A <see cref="Task{Boolean}"/> that will complete with a result of <c>true</c> if this wait
         /// handle was signaled before the timeout elapsed; otherwise, with a result of <c>false</c>.</returns>
-        public async Task<bool> WaitOneAsync(int timeoutMilliseconds)
+        public Task<bool> WaitOneAsync(int timeoutMilliseconds)
         {
-            return await WaitOneAsync(TimeSpan.FromMilliseconds(timeoutMilliseconds), CancellationToken.None)
-                .ConfigureAwait(false);
+            return WaitOneAsync(TimeSpan.FromMilliseconds(timeoutMilliseconds), CancellationToken.None);
         }
 
         /// <summary>
@@ -150,9 +129,9 @@ namespace CodeTiger.Threading
         /// milliseconds) to wait indefinitely.</param>
         /// <returns>A <see cref="Task{Boolean}"/> that will complete with a result of <c>true</c> if this wait
         /// handle was signaled before the timeout elapsed; otherwise, with a result of <c>false</c>.</returns>
-        public async Task<bool> WaitOneAsync(TimeSpan timeout)
+        public Task<bool> WaitOneAsync(TimeSpan timeout)
         {
-            return await WaitOneAsync(timeout, CancellationToken.None).ConfigureAwait(false);
+            return WaitOneAsync(timeout, CancellationToken.None);
         }
 
         /// <summary>
@@ -161,9 +140,9 @@ namespace CodeTiger.Threading
         /// <param name="cancellationToken">A cancellation token to observe.</param>
         /// <returns>A <see cref="Task{Boolean}"/> that will complete with a result of <c>true</c> if this wait
         /// handle was signaled before the timeout elapsed; otherwise, with a result of <c>false</c>.</returns>
-        public async Task<bool> WaitOneAsync(CancellationToken cancellationToken)
+        public Task<bool> WaitOneAsync(CancellationToken cancellationToken)
         {
-            return await WaitOneAsync(Timeout.InfiniteTimeSpan, cancellationToken).ConfigureAwait(false);
+            return WaitOneAsync(Timeout.InfiniteTimeSpan, cancellationToken);
         }
 
         /// <summary>
@@ -175,10 +154,9 @@ namespace CodeTiger.Threading
         /// <param name="cancellationToken">A cancellation token to observe.</param>
         /// <returns>A <see cref="Task{Boolean}"/> that will complete with a result of <c>true</c> if this wait
         /// handle was signaled before the timeout elapsed; otherwise, with a result of <c>false</c>.</returns>
-        public async Task<bool> WaitOneAsync(int timeoutMilliseconds, CancellationToken cancellationToken)
+        public Task<bool> WaitOneAsync(int timeoutMilliseconds, CancellationToken cancellationToken)
         {
-            return await WaitOneAsync(TimeSpan.FromMilliseconds(timeoutMilliseconds), cancellationToken)
-                .ConfigureAwait(false);
+            return WaitOneAsync(TimeSpan.FromMilliseconds(timeoutMilliseconds), cancellationToken);
         }
 
         /// <summary>
@@ -194,26 +172,22 @@ namespace CodeTiger.Threading
         {
             var waitTaskSource = await GetWaitTaskSourceAsync(cancellationToken).ConfigureAwait(false);
 
-            if (cancellationToken != CancellationToken.None)
+            if (cancellationToken.CanBeCanceled)
             {
                 // Have the cancellation token attempt to cancel the wait task.
                 cancellationToken.Register(() => waitTaskSource.TrySetCanceled());
             }
             
-            Task completedTask;
-            Task timeoutTask = null;
+            if (timeout == Timeout.InfiniteTimeSpan)
+            {
+                return await waitTaskSource.Task.ConfigureAwait(false);
+            }
+
             using (var compositeCancellationSource = CancellationTokenSource.CreateLinkedTokenSource(
                 cancellationToken))
             {
-                if (timeout != Timeout.InfiniteTimeSpan)
-                {
-                    timeoutTask = Task.Delay(timeout, compositeCancellationSource.Token);
-                    completedTask = await Task.WhenAny(waitTaskSource.Task, timeoutTask).ConfigureAwait(false);
-                }
-                else
-                {
-                    completedTask = waitTaskSource.Task;
-                }
+                var timeoutTask = Task.Delay(timeout, compositeCancellationSource.Token);
+                var completedTask = await Task.WhenAny(waitTaskSource.Task, timeoutTask).ConfigureAwait(false);
 
                 if (completedTask == timeoutTask)
                 {
@@ -229,6 +203,15 @@ namespace CodeTiger.Threading
 
             return await waitTaskSource.Task.ConfigureAwait(false);
         }
+
+        /// <summary>
+        /// Gets a <see cref="TaskCompletionSource{Boolean}"/> object to use for a new wait operation.
+        /// </summary>
+        /// <param name="cancellationToken">A cancellation token to observe.</param>
+        /// <returns>A <see cref="TaskCompletionSource{Boolean}"/> object to use for a new wait operation.
+        /// </returns>
+        protected abstract TaskCompletionSource<bool> GetWaitTaskSource(
+            CancellationToken cancellationToken);
 
         /// <summary>
         /// Gets a <see cref="TaskCompletionSource{Boolean}"/> object to use for a new wait operation.

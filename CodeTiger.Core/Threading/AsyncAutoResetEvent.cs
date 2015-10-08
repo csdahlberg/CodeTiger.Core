@@ -100,6 +100,38 @@ namespace CodeTiger.Threading
         /// Gets a <see cref="TaskCompletionSource{Boolean}"/> to use for a new wait operation.
         /// </summary>
         /// <returns>A <see cref="TaskCompletionSource{Boolean}"/> to use for a new wait operation.</returns>
+        protected override TaskCompletionSource<bool> GetWaitTaskSource(
+            CancellationToken cancellationToken)
+        {
+            if (Interlocked.CompareExchange(ref _isSignaled, 0, 1) == 1)
+            {
+                return CompletedWaitTaskSource;
+            }
+
+            TaskCompletionSource<bool> waitTaskSource;
+
+            using (_pendingWaitTaskSourcesLock.Acquire(cancellationToken))
+            {
+                // If this event is already signaled, return the already-completed wait task.
+                if (Interlocked.CompareExchange(ref _isSignaled, 0, 1) == 1)
+                {
+                    waitTaskSource = CompletedWaitTaskSource;
+                }
+                else
+                {
+                    waitTaskSource = new TaskCompletionSource<bool>();
+                    cancellationToken.Register(() => waitTaskSource.TrySetCanceled());
+                    _pendingWaitTaskSources.Enqueue(waitTaskSource);
+                }
+            }
+
+            return waitTaskSource;
+        }
+
+        /// <summary>
+        /// Gets a <see cref="TaskCompletionSource{Boolean}"/> to use for a new wait operation.
+        /// </summary>
+        /// <returns>A <see cref="TaskCompletionSource{Boolean}"/> to use for a new wait operation.</returns>
         protected async override Task<TaskCompletionSource<bool>> GetWaitTaskSourceAsync(
             CancellationToken cancellationToken)
         {

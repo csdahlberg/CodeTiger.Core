@@ -42,12 +42,28 @@ namespace CodeTiger.Threading.Tasks
         /// amount of time to complete.</exception>
         public static Task WithTimeout(this Task task, TimeSpan timeout)
         {
-            if (task == null || task.IsCompleted || timeout == Timeout.InfiniteTimeSpan)
+            Guard.ArgumentIsNotNull(nameof(task), task);
+
+            if (task.IsCompleted || timeout == Timeout.InfiniteTimeSpan)
             {
                 return task;
             }
 
-            return WaitForCompletionOrTimeoutAsync(task, timeout);
+            var timeoutCancelTokenSource = new CancellationTokenSource();
+            var timeoutTask = Task.Delay(timeout, timeoutCancelTokenSource.Token);
+            return Task.Factory.ContinueWhenAny(new[] { task, timeoutTask },
+                completedTask =>
+                    {
+                        if (completedTask == timeoutTask)
+                        {
+                            throw new TimeoutException();
+                        }
+
+                        timeoutCancelTokenSource.Cancel();
+
+                        return task;
+                    })
+                .Unwrap();
         }
 
         /// <summary>
@@ -83,30 +99,49 @@ namespace CodeTiger.Threading.Tasks
         /// <see cref="Timeout.InfiniteTimeSpan"/> or <paramref name="task"/> has already completed.</returns>
         /// <exception cref="TimeoutException">Thrown when <paramref name="task"/> takes longer than the specified
         /// amount of time to complete.</exception>
-        public static async Task<TResult> WithTimeout<TResult>(this Task<TResult> task, TimeSpan timeout)
+        public static Task<TResult> WithTimeout<TResult>(this Task<TResult> task, TimeSpan timeout)
         {
+            Guard.ArgumentIsNotNull(nameof(task), task);
+
             if (timeout == Timeout.InfiniteTimeSpan || task.IsCompleted)
             {
-                return await task;
+                return task;
             }
 
-            await WaitForCompletionOrTimeoutAsync(task, timeout);
-
-            return await task;
-        }
-
-        private static async Task WaitForCompletionOrTimeoutAsync(Task task, TimeSpan timeout)
-        {
             var timeoutCancelTokenSource = new CancellationTokenSource();
             var timeoutTask = Task.Delay(timeout, timeoutCancelTokenSource.Token);
 
-            var completedTask = await Task.WhenAny(task, timeoutTask).ConfigureAwait(false);
-            if (completedTask == timeoutTask)
-            {
-                throw new TimeoutException();
-            }
-            
-            timeoutCancelTokenSource.Cancel();
+            return Task.WhenAny(task, timeoutTask)
+                .ContinueWith(completedTask =>
+                    {
+                        if (completedTask == timeoutTask)
+                        {
+                            throw new TimeoutException();
+                        }
+
+                        timeoutCancelTokenSource.Cancel();
+
+                        return task;
+                    })
+                .Unwrap();
+        }
+
+        /// <summary>
+        /// Waits for a <see cref="Task"/> to complete execution. The wait terminates if a timeout interval
+        /// elapses or a cancellation token is canceled before the task completes.
+        /// </summary>
+        /// <param name="task">The original task.</param>
+        /// <param name="timeout">The maximum amount of time to wait for <paramref name="task"/> to complete.
+        /// </param>
+        /// <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.
+        /// </param>
+        /// <returns><c>true</c> if <paramref name="task"/> completed execution within the allotted time,
+        /// <c>false</c> otherwise.</returns>
+        public static bool Wait(this Task task, TimeSpan timeout, CancellationToken cancellationToken)
+        {
+            Guard.ArgumentIsNotNull(nameof(task), task);
+
+            return task.Wait((int)timeout.TotalMilliseconds, cancellationToken);
         }
     }
 }

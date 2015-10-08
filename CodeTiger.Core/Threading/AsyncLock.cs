@@ -37,7 +37,7 @@ namespace CodeTiger.Threading
         /// </returns>
         public IDisposable Acquire()
         {
-            return GetWaitTask(CancellationToken.None).ConfigureAwait(false).GetAwaiter().GetResult();
+            return Acquire(CancellationToken.None);
         }
 
         /// <summary>
@@ -48,7 +48,30 @@ namespace CodeTiger.Threading
         /// </returns>
         public IDisposable Acquire(CancellationToken cancellationToken)
         {
-            return GetWaitTask(cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
+            if (Interlocked.CompareExchange(ref _acquiredCount, 1, 0) == 0)
+            {
+                return _releaser;
+            }
+
+            TaskCompletionSource<IDisposable> waitTaskSource;
+
+            lock (_pendingWaitTaskSources)
+            {
+                if (Interlocked.CompareExchange(ref _acquiredCount, 1, 0) == 0)
+                {
+                    return _releaser;
+                }
+
+                waitTaskSource = new TaskCompletionSource<IDisposable>();
+                _pendingWaitTaskSources.Enqueue(waitTaskSource);
+            }
+
+            if (cancellationToken.CanBeCanceled)
+            {
+                var cancellationRegistration = cancellationToken.Register(() => waitTaskSource.TrySetCanceled());
+            }
+
+            return Task.Run(() => waitTaskSource.Task).Result;
         }
 
         /// <summary>
@@ -58,7 +81,7 @@ namespace CodeTiger.Threading
         /// </returns>
         public Task<IDisposable> AcquireAsync()
         {
-            return GetWaitTask(CancellationToken.None);
+            return AcquireAsync(CancellationToken.None);
         }
 
         /// <summary>
@@ -69,15 +92,12 @@ namespace CodeTiger.Threading
         /// </returns>
         public Task<IDisposable> AcquireAsync(CancellationToken cancellationToken)
         {
-            return GetWaitTask(cancellationToken);
-        }
-
-        private Task<IDisposable> GetWaitTask(CancellationToken cancellationToken)
-        {
             if (Interlocked.CompareExchange(ref _acquiredCount, 1, 0) == 0)
             {
                 return _completedWaitTask;
             }
+
+            TaskCompletionSource<IDisposable> waitTaskSource;
 
             lock (_pendingWaitTaskSources)
             {
@@ -86,32 +106,29 @@ namespace CodeTiger.Threading
                     return _completedWaitTask;
                 }
 
-                var waitTaskSource = new TaskCompletionSource<IDisposable>();
-                var waitTask = waitTaskSource.Task;
-
-                if (cancellationToken != CancellationToken.None)
-                {
-                    var cancellationRegistration = cancellationToken
-                        .Register(() => waitTaskSource.TrySetCanceled());
-
-                    waitTask = waitTask
-                        .ContinueWith(task =>
-                            {
-                                if (waitTask.IsCanceled)
-                                {
-                                    cancellationRegistration.Dispose();
-                                }
-
-                                return task;
-                            },
-                            TaskContinuationOptions.ExecuteSynchronously)
-                        .Unwrap();
-                }
-
+                waitTaskSource = new TaskCompletionSource<IDisposable>();
                 _pendingWaitTaskSources.Enqueue(waitTaskSource);
-
-                return waitTask;
             }
+
+            if (!cancellationToken.CanBeCanceled)
+            {
+                return waitTaskSource.Task;
+            }
+
+            var cancellationRegistration = cancellationToken.Register(() => waitTaskSource.TrySetCanceled());
+
+            return waitTaskSource.Task
+                .ContinueWith(task =>
+                    {
+                        if (waitTaskSource.Task.IsCanceled)
+                        {
+                            cancellationRegistration.Dispose();
+                        }
+
+                        return task;
+                    },
+                    TaskContinuationOptions.ExecuteSynchronously)
+                .Unwrap();
         }
 
         private void ReleaseLock()
