@@ -247,5 +247,34 @@ namespace UnitTests.CodeTiger
                 Assert.Same(task, target.Value);
             }
         }
+
+        public class GetAwaiter
+        {
+            [Fact]
+            public void ReturnsCompletedAwaiterWithCorrectResult()
+            {
+                object expected = new object();
+
+                var task = Task.FromResult(expected);
+
+                var target = new AsyncLazy<object>(() => task);
+                var awaiter = target.GetAwaiter();
+
+                Assert.True(awaiter.IsCompleted);
+                Assert.Same(expected, awaiter.GetResult());
+            }
+
+            [Fact]
+            public async Task ReturnsCorrectResultWhenAwaited()
+            {
+                object expected = new object();
+
+                var task = Task.FromResult(expected);
+
+                var target = new AsyncLazy<object>(() => task);
+
+                Assert.Same(expected, await target);
+            }
+        }
     }
 }

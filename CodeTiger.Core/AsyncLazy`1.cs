@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -84,6 +85,15 @@ namespace CodeTiger
         public AsyncLazy(Func<Task<T>> valueFactory, LazyThreadSafetyMode mode)
             : base(valueFactory, mode)
         {
+        }
+
+        /// <summary>
+        /// Gets an awaiter used to await <see cref="Lazy{T}.Value"/>.
+        /// </summary>
+        /// <returns>An awaiter instance.</returns>
+        public TaskAwaiter<T> GetAwaiter()
+        {
+            return Value.GetAwaiter();
         }
     }
 }
