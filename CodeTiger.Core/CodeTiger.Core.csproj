@@ -55,6 +55,7 @@
     <Compile Include="Bitmask.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Guard.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Lazy.cs" />
     <Compile Include="PackedInt16.cs" />
     <Compile Include="PackedInt32.cs" />

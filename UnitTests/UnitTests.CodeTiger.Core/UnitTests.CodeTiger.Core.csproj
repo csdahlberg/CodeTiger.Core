@@ -52,6 +52,7 @@
     <Compile Include="AsyncLazyTests.cs" />
     <Compile Include="AsyncLazy`1Tests.cs" />
     <Compile Include="GuardTests.cs" />
+    <Compile Include="EnumerableExtensionsTests.cs" />
     <Compile Include="LazyTests.cs" />
     <Compile Include="PackedInt16Tests.cs" />
     <Compile Include="PackedInt32Tests.cs" />
