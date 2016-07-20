@@ -61,5 +61,48 @@ namespace CodeTiger
 
             return !source.Any(predicate);
         }
+
+        /// <summary>
+        /// Bypasses elements in a sequence until a specified condition is true and then returns the remaining
+        /// elements.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}"/> to return elements from.</param>
+        /// <param name="predicate">A function to test each element for a condition.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains the elements from the input sequence
+        /// starting at the first element in the linear series that passes the test specified by
+        /// <paramref name="predicate"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="predicate"/> is
+        /// <c>null</c>.</exception>
+        public static IEnumerable<TSource> SkipUntil<TSource>(this IEnumerable<TSource> source,
+            Func<TSource, bool> predicate)
+        {
+            Guard.ArgumentIsNotNull(nameof(source), source);
+            Guard.ArgumentIsNotNull(nameof(predicate), predicate);
+
+            return source.SkipWhile(element => !predicate(element));
+        }
+
+        /// <summary>
+        /// Bypasses elements in a sequence until a specified condition is true and then returns the remaining
+        /// elements. The element's index is used in the logic of the predicate function.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}"/> to return elements from.</param>
+        /// <param name="predicate">A function to test each element for a condition; the second parameter of the
+        /// function represents the index of the source element.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains the elements from the input sequence
+        /// starting at the first element in the linear series that passes the test specified by
+        /// <paramref name="predicate"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="predicate"/> is
+        /// <c>null</c>.</exception>
+        public static IEnumerable<TSource> SkipUntil<TSource>(this IEnumerable<TSource> source,
+            Func<TSource, int, bool> predicate)
+        {
+            Guard.ArgumentIsNotNull(nameof(source), source);
+            Guard.ArgumentIsNotNull(nameof(predicate), predicate);
+
+            return source.SkipWhile((element, index) => !predicate(element, index));
+        }
     }
 }

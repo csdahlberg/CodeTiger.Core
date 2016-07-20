@@ -225,5 +225,227 @@ namespace UnitTests.CodeTiger
                 Assert.True(EnumerableExtensions.None(target, predicate));
             }
         }
+
+        public class SkipUntil_IEnumerableOfTSource_FuncOfTSourceAndBoolean
+        {
+            [Fact]
+            public void ThrowsArgumentNullExceptionWhenSourceIsNull()
+            {
+                List<int> target = null;
+                Func<int, bool> predicate = element => true;
+
+                Assert.Throws<ArgumentNullException>("source",
+                    () => EnumerableExtensions.SkipUntil(target, predicate));
+            }
+
+            [Fact]
+            public void ThrowsArgumentNullExceptionWhenPredicateIsNull()
+            {
+                var target = new List<int>();
+                Func<int, bool> predicate = null;
+
+                Assert.Throws<ArgumentNullException>("predicate",
+                    () => EnumerableExtensions.SkipUntil(target, predicate));
+            }
+
+            [Theory]
+            [InlineData(true)]
+            [InlineData(false)]
+            public void ReturnsEmptySequenceWhenSourceContainsNoElements(bool predicateResult)
+            {
+                var target = new List<int>();
+                Func<int, bool> predicate = element => predicateResult;
+
+                var actual = EnumerableExtensions.SkipUntil(target, predicate);
+
+                Assert.Equal(0, actual.Count());
+            }
+
+            [Theory]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(100)]
+            public void ReturnsAllElementsWhenPredicateAlwaysReturnsTrue(int numberOfElements)
+            {
+                var target = Enumerable.Range(0, numberOfElements)
+                    .Select(x => x * 2);
+
+                Func<int, bool> predicate = element => true;
+
+                var actual = EnumerableExtensions.SkipUntil(target, predicate);
+
+                Assert.Equal(numberOfElements, actual.Count());
+
+                for (int i = 0; i < numberOfElements; i++)
+                {
+                    Assert.Equal(i * 2, actual.ElementAt(i));
+                }
+            }
+
+            [Theory]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(100)]
+            public void ReturnsAllElementsWhenPredicateReturnsTrueOnlyForFirstElement(int numberOfElements)
+            {
+                var target = Enumerable.Range(0, numberOfElements)
+                    .Select(x => x * 2);
+
+                Func<int, bool> predicate = element => element == 0;
+
+                var actual = EnumerableExtensions.SkipUntil(target, predicate);
+
+                Assert.Equal(numberOfElements, actual.Count());
+
+                for (int i = 0; i < numberOfElements; i++)
+                {
+                    Assert.Equal(i * 2, actual.ElementAt(i));
+                }
+            }
+
+            [Theory]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(100)]
+            public void ReturnsLastElementWhenPredicateReturnsTrueForLastElement(int numberOfElements)
+            {
+                var target = Enumerable.Range(0, numberOfElements)
+                    .Select(x => x * 2);
+
+                Func<int, bool> predicate = element => element == (numberOfElements - 1) * 2;
+
+                var actual = EnumerableExtensions.SkipUntil(target, predicate);
+
+                Assert.Equal(1, actual.Count());
+                Assert.Equal((numberOfElements - 1) * 2, actual.ElementAt(0));
+            }
+
+            [Theory]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(100)]
+            public void ReturnsEmptySequenceWhenPredicateAlwaysReturnsFalse(int numberOfElements)
+            {
+                var target = Enumerable.Range(0, numberOfElements)
+                    .Select(x => x * 2);
+
+                Func<int, bool> predicate = element => false;
+
+                var actual = EnumerableExtensions.SkipUntil(target, predicate);
+
+                Assert.Equal(0, actual.Count());
+            }
+        }
+
+        public class SkipUntil_IEnumerableOfTSource_FuncOfTSourceAndInt32AndBoolean
+        {
+            [Fact]
+            public void ThrowsArgumentNullExceptionWhenSourceIsNull()
+            {
+                List<int> target = null;
+                Func<int, int, bool> predicate = (element, index) => true;
+
+                Assert.Throws<ArgumentNullException>("source",
+                    () => EnumerableExtensions.SkipUntil(target, predicate));
+            }
+
+            [Fact]
+            public void ThrowsArgumentNullExceptionWhenPredicateIsNull()
+            {
+                var target = new List<int>();
+                Func<int, int, bool> predicate = null;
+
+                Assert.Throws<ArgumentNullException>("predicate",
+                    () => EnumerableExtensions.SkipUntil(target, predicate));
+            }
+
+            [Theory]
+            [InlineData(true)]
+            [InlineData(false)]
+            public void ReturnsEmptySequenceWhenSourceContainsNoElements(bool predicateResult)
+            {
+                var target = new List<int>();
+                Func<int, int, bool> predicate = (element, index) => predicateResult;
+
+                var actual = EnumerableExtensions.SkipUntil(target, predicate);
+
+                Assert.Equal(0, actual.Count());
+            }
+
+            [Theory]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(100)]
+            public void ReturnsAllElementsWhenPredicateAlwaysReturnsTrue(int numberOfElements)
+            {
+                var target = Enumerable.Range(0, numberOfElements)
+                    .Select(x => x * 2);
+
+                Func<int, int, bool> predicate = (element, index) => true;
+
+                var actual = EnumerableExtensions.SkipUntil(target, predicate);
+
+                Assert.Equal(numberOfElements, actual.Count());
+
+                for (int i = 0; i < numberOfElements; i++)
+                {
+                    Assert.Equal(i * 2, actual.ElementAt(i));
+                }
+            }
+
+            [Theory]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(100)]
+            public void ReturnsAllElementsWhenPredicateReturnsTrueOnlyForFirstElement(int numberOfElements)
+            {
+                var target = Enumerable.Range(0, numberOfElements)
+                    .Select(x => x * 2);
+
+                Func<int, int, bool> predicate = (element, index) => index == 0;
+
+                var actual = EnumerableExtensions.SkipUntil(target, predicate);
+
+                Assert.Equal(numberOfElements, actual.Count());
+
+                for (int i = 0; i < numberOfElements; i++)
+                {
+                    Assert.Equal(i * 2, actual.ElementAt(i));
+                }
+            }
+
+            [Theory]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(100)]
+            public void ReturnsLastElementWhenPredicateReturnsTrueForLastElement(int numberOfElements)
+            {
+                var target = Enumerable.Range(0, numberOfElements)
+                    .Select(x => x * 2);
+
+                Func<int, int, bool> predicate = (element, index) => index == numberOfElements - 1;
+
+                var actual = EnumerableExtensions.SkipUntil(target, predicate);
+
+                Assert.Equal(1, actual.Count());
+                Assert.Equal((numberOfElements - 1) * 2, actual.ElementAt(0));
+            }
+
+            [Theory]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(100)]
+            public void ReturnsEmptySequenceWhenPredicateAlwaysReturnsFalse(int numberOfElements)
+            {
+                var target = Enumerable.Range(0, numberOfElements)
+                    .Select(x => x * 2);
+
+                Func<int, int, bool> predicate = (element, index) => false;
+
+                var actual = EnumerableExtensions.SkipUntil(target, predicate);
+
+                Assert.Equal(0, actual.Count());
+            }
+        }
     }
 }
