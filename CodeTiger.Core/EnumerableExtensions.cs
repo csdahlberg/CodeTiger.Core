@@ -28,5 +28,38 @@ namespace CodeTiger
 
             return source.Any(element => !predicate(element));
         }
+
+        /// <summary>
+        /// Determines whether a sequence contains no elements.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to check for emptiness.</param>
+        /// <returns><c>true</c> if the source sequence does not contain any elements; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is <c>null</c>.</exception>
+        public static bool None<TSource>(this IEnumerable<TSource> source)
+        {
+            Guard.ArgumentIsNotNull(nameof(source), source);
+
+            return !source.Any();
+        }
+
+        /// <summary>
+        /// Determines whether a sequence contains no elements.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to check for emptiness.</param>
+        /// <param name="predicate">A function to test each element for a condition.</param>
+        /// <returns><c>true</c> if the source sequence does not contain any elements; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="predicate"/> is
+        /// <c>null</c>.</exception>
+        public static bool None<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            Guard.ArgumentIsNotNull(nameof(source), source);
+            Guard.ArgumentIsNotNull(nameof(predicate), predicate);
+
+            return !source.Any(predicate);
+        }
     }
 }
