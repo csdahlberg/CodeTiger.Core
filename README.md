@@ -1,9 +1,9 @@
 # CodeTiger.Core
+[![Gitter](https://badges.gitter.im/csdahlberg/CodeTiger.Core.svg)](https://gitter.im/csdahlberg/CodeTiger.Core?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 CodeTiger.Core is a .NET library that provides a variety of reusable functionality, including packed integers (PackedInt16, PackedInt32, and PackedInt64), guard methods, various extension methods, and classes related to the Task Parallel Library (AsyncLazy, AsyncLock, AsyncAutoResetEvent, and AsyncManualResetEvent).
 
 Documentation can be found at [http://www.codetiger.net/Documentation/CodeTigerLib/](http://www.codetiger.net/Documentation/CodeTigerLib/).
-
-[![Gitter](https://badges.gitter.im/csdahlberg/CodeTiger.Core.svg)](https://gitter.im/csdahlberg/CodeTiger.Core?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### Source code
 
