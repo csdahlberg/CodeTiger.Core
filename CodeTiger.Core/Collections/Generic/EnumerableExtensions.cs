@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodeTiger
+namespace CodeTiger.Collections.Generic
 {
     /// <summary>
     /// Contains extension methods for <see cref="IEnumerable{T}"/>.

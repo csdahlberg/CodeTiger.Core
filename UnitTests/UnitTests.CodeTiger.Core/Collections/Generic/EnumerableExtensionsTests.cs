@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CodeTiger;
+using CodeTiger.Collections.Generic;
 using Xunit;
 
-namespace UnitTests.CodeTiger
+namespace UnitTests.CodeTiger.Collections.Generic
 {
     public class EnumerableExtensionsTests
     {
