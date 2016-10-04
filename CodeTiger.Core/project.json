@@ -1,8 +1,7 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "NETStandard.Library": "1.6.0",
-    "NuGet.CommandLine": "3.4.3"
+    "NETStandard.Library": "1.6.0"
   },
   "frameworks": {
     "netstandard1.1": {}

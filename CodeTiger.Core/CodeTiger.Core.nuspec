@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>CodeTiger.Core</id>
-        <version>0.0.1-unofficial</version>
+        <version>$version$</version>
         <authors>Chris Dahlberg</authors>
         <owners>Chris Dahlberg</owners>
         <licenseUrl>https://github.com/csdahlberg/CodeTigerLib/wiki/License</licenseUrl>
@@ -14,10 +14,4 @@
         <language>en-US</language>
         <tags>TPL Task Parallel Library Async Await Lazy AsyncLazy Lock AsyncLock AsyncAutoResetEvent AsyncManualResetEvent Packed PackedInt16 PackedInt32 PackedInt64 Guard</tags>
     </metadata>
-    <files>
-        <file src="CodeTiger.Core.dll" target="lib\netstandard1.1\CodeTiger.Core.dll" />
-        <file src="CodeTiger.Core.xml" target="lib\netstandard1.1\CodeTiger.Core.xml" />
-        <file src="CodeTiger.Core.dll" target="lib\portable-net45+netcore45+wpa81+MonoAndroid1+MonoTouch1+Xamarin.iOS1\CodeTiger.Core.dll" />
-        <file src="CodeTiger.Core.xml" target="lib\portable-net45+netcore45+wpa81+MonoAndroid1+MonoTouch1+Xamarin.iOS1\CodeTiger.Core.xml" />
-    </files>
 </package>
