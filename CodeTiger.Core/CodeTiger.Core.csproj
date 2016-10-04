@@ -54,6 +54,9 @@
     <Compile Include="AsyncLazy`1.cs" />
     <Compile Include="Bitmask.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Guard.ArgumentIsNotNegative.cs" />
+    <Compile Include="Guard.ArgumentIsPositive.cs" />
+    <Compile Include="Guard.ArgumentIsWithinRange.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Collections\Generic\EnumerableExtensions.cs" />
     <Compile Include="Lazy.cs" />
