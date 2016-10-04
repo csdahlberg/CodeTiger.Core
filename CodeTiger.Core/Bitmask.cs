@@ -7,8 +7,6 @@ namespace CodeTiger
     /// </summary>
     public static class Bitmask
     {
-        #region Bitmasks for Int16
-
         /// <summary>
         /// A bit mask that includes the lowest 8 bits (0 through 7) of an <see cref="Int16"/> value.
         /// </summary>
@@ -18,10 +16,6 @@ namespace CodeTiger
         /// A bit mask that includes the highest 8 bits (8 through 15) of an <see cref="Int16"/> value.
         /// </summary>
         public const short Int16Upper8 = unchecked((short)0xff00);
-
-        #endregion
-
-        #region Bitmasks for Int32
 
         /// <summary>
         /// A bit mask that includes the lower 16 bits (8 through 15) of an <see cref="Int32"/> value.
@@ -52,10 +46,6 @@ namespace CodeTiger
         /// A bit mask that includes bits 24 through 31 (8 bits total) of an <see cref="Int32"/> value.
         /// </summary>
         public const int Int32Bits24To31 = unchecked((int)0xff000000);
-
-        #endregion
-
-        #region Bitmasks for Int64
 
         /// <summary>
         /// A bit mask that includes the lower 32 bits (0 through 31) of an <see cref="Int64"/> value.
@@ -126,7 +116,5 @@ namespace CodeTiger
         /// A bit mask that includes bits 56 through 63 (8 bits total) of an <see cref="Int64"/> value.
         /// </summary>
         public const long Int64Bits56To63 = unchecked((long)0xff00000000000000L);
-
-        #endregion
     }
 }
