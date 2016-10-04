@@ -91,6 +91,8 @@ namespace CodeTiger
         /// Gets an awaiter used to await <see cref="Lazy{T}.Value"/>.
         /// </summary>
         /// <returns>An awaiter instance.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Awaiter")]
         public TaskAwaiter<T> GetAwaiter()
         {
             return Value.GetAwaiter();
