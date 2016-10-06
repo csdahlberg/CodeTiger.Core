@@ -71,7 +71,7 @@ namespace CodeTiger.Threading
 
             if (cancellationToken.CanBeCanceled)
             {
-                var cancellationRegistration = cancellationToken.Register(() => waitTaskSource.TrySetCanceled());
+                cancellationToken.Register(() => waitTaskSource.TrySetCanceled());
             }
 
             return Task.Run(() => waitTaskSource.Task).Result;
