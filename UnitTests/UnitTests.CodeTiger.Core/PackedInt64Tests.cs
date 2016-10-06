@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using CodeTiger;
 using Xunit;
 
@@ -141,6 +142,8 @@ namespace UnitTests.CodeTiger
         {
             [Theory]
             [MemberData("GetByteValuesForEdgeCases")]
+            [SuppressMessage("CodeTiger.Design", "CT1003:Methods should not exceed seven parameters.",
+                Justification = "This test requires more than seven generated arguments.")]
             public void GetterReturnsArrayWithValuesPassedInToConstructor(byte value0, byte value1, byte value2,
                 byte value3, byte value4, byte value5, byte value6, byte value7)
             {
@@ -342,6 +345,8 @@ namespace UnitTests.CodeTiger
                 9223372036854775806)]
             [InlineData((byte)255, (byte)255, (byte)255, (byte)255, (byte)255, (byte)255, (byte)255, (byte)127,
                 long.MaxValue)]
+            [SuppressMessage("CodeTiger.Design", "CT1003:Methods should not exceed seven parameters.",
+                Justification = "This test requires more than seven generated arguments.")]
             public void SetsValueToCombinationOfValuesPassedIn(byte value0, byte value1, byte value2,
                 byte value3, byte value4, byte value5, byte value6, byte value7, long expectedValue)
             {
