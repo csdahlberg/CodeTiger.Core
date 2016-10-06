@@ -100,6 +100,22 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\CodeTiger.CodeAnalysis.dll" />
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\CodeTiger.Core.dll" />
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\Microsoft.Build.dll" />
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\Microsoft.Build.Engine.dll" />
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\Microsoft.Build.Framework.dll" />
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\Microsoft.Build.Tasks.Core.dll" />
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\Microsoft.Build.Utilities.Core.dll" />
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll" />
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\System.Composition.AttributedModel.dll" />
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\System.Composition.Convention.dll" />
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\System.Composition.Hosting.dll" />
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\System.Composition.Runtime.dll" />
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\System.Composition.TypedParts.dll" />
+    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\System.Threading.Tasks.Dataflow.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

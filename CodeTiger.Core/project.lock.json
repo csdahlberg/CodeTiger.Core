@@ -3,6 +3,9 @@
   "version": 2,
   "targets": {
     ".NETStandard,Version=v1.1": {
+      "CodeTiger.CodeAnalysis/0.3.2-alpha": {
+        "type": "package"
+      },
       "Microsoft.NETCore.Platforms/1.0.1": {
         "type": "package",
         "compile": {
@@ -407,6 +410,31 @@
     }
   },
   "libraries": {
+    "CodeTiger.CodeAnalysis/0.3.2-alpha": {
+      "sha512": "zKTamfFfQMQE9ybhSjzBO7WaaVOH86yuRk3rylAZjTIl7JQ2gV5yhLKLbvRvtHfSa0Qu0Om1FM/Z/7OpGYNZ7Q==",
+      "type": "package",
+      "path": "CodeTiger.CodeAnalysis/0.3.2-alpha",
+      "files": [
+        "CodeTiger.CodeAnalysis.0.3.2-alpha.nupkg.sha512",
+        "CodeTiger.CodeAnalysis.nuspec",
+        "analyzers/dotnet/cs/CodeTiger.CodeAnalysis.dll",
+        "analyzers/dotnet/cs/CodeTiger.Core.dll",
+        "analyzers/dotnet/cs/Microsoft.Build.Engine.dll",
+        "analyzers/dotnet/cs/Microsoft.Build.Framework.dll",
+        "analyzers/dotnet/cs/Microsoft.Build.Tasks.Core.dll",
+        "analyzers/dotnet/cs/Microsoft.Build.Utilities.Core.dll",
+        "analyzers/dotnet/cs/Microsoft.Build.dll",
+        "analyzers/dotnet/cs/Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll",
+        "analyzers/dotnet/cs/System.Composition.AttributedModel.dll",
+        "analyzers/dotnet/cs/System.Composition.Convention.dll",
+        "analyzers/dotnet/cs/System.Composition.Hosting.dll",
+        "analyzers/dotnet/cs/System.Composition.Runtime.dll",
+        "analyzers/dotnet/cs/System.Composition.TypedParts.dll",
+        "analyzers/dotnet/cs/System.Threading.Tasks.Dataflow.dll",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
     "Microsoft.NETCore.Platforms/1.0.1": {
       "sha512": "2G6OjjJzwBfNOO8myRV/nFrbTw5iA+DEm0N+qUqhrOmaVtn4pC77h38I1jsXGw5VH55+dPfQsqHD0We9sCl9FQ==",
       "type": "package",
@@ -2463,6 +2491,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
+      "CodeTiger.CodeAnalysis >= 0.3.2-alpha",
       "NETStandard.Library >= 1.6.0"
     ],
     ".NETStandard,Version=v1.1": []
