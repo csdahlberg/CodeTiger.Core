@@ -12,7 +12,7 @@ namespace CodeTiger
         private readonly long _value;
 
         /// <summary>
-        /// Gets the underlying <see cref="Int64"/> value.
+        /// Gets the underlying <see cref="long"/> value.
         /// </summary>
         public long Value
         {
@@ -20,7 +20,7 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Gets the <see cref="Int32"/> value from the lower 32 bits of this 64-bit value.
+        /// Gets the <see cref="int"/> value from the lower 32 bits of this 64-bit value.
         /// </summary>
         public int LowerInt32
         {
@@ -28,7 +28,7 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Gets the <see cref="Int32"/> value from the upper 32 bits of this 64-bit value.
+        /// Gets the <see cref="int"/> value from the upper 32 bits of this 64-bit value.
         /// </summary>
         public int UpperInt32
         {
@@ -38,7 +38,7 @@ namespace CodeTiger
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt64"/> structure to a specified packed value.
         /// </summary>
-        /// <param name="value">The packed <see cref="Int64"/> value.</param>
+        /// <param name="value">The packed <see cref="long"/> value.</param>
         public PackedInt64(long value)
         {
             _value = value;
@@ -46,10 +46,10 @@ namespace CodeTiger
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt64"/> structure to the packed value of two
-        /// <see cref="Int32"/> values.
+        /// <see cref="int"/> values.
         /// </summary>
-        /// <param name="lowerValue">The <see cref="Int32"/> value to be stored in the lower 32 bits.</param>
-        /// <param name="upperValue">The <see cref="Int32"/> value to be stored in the upper 32 bits.</param>
+        /// <param name="lowerValue">The <see cref="int"/> value to be stored in the lower 32 bits.</param>
+        /// <param name="upperValue">The <see cref="int"/> value to be stored in the upper 32 bits.</param>
         public PackedInt64(int lowerValue, int upperValue)
         {
             _value = ((long)upperValue << 32) | ((long)lowerValue & Bitmask.Int64Lower32);
@@ -57,9 +57,9 @@ namespace CodeTiger
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt64"/> structure to the packed value of an array
-        /// of two <see cref="Int32"/> values.
+        /// of two <see cref="int"/> values.
         /// </summary>
-        /// <param name="values">The array of two <see cref="Int32"/> values that will be packed.</param>
+        /// <param name="values">The array of two <see cref="int"/> values that will be packed.</param>
         public PackedInt64(int[] values)
         {
             Guard.ArgumentIsNotNull("values", values);
@@ -70,9 +70,9 @@ namespace CodeTiger
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt64"/> structure to the packed value of an array
-        /// of four <see cref="Int16"/> values.
+        /// of four <see cref="short"/> values.
         /// </summary>
-        /// <param name="values">The array of four <see cref="Int16"/> values that will be packed.</param>
+        /// <param name="values">The array of four <see cref="short"/> values that will be packed.</param>
         public PackedInt64(short[] values)
         {
             Guard.ArgumentIsNotNull("values", values);
@@ -86,9 +86,9 @@ namespace CodeTiger
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt64"/> structure to the packed value of an array
-        /// of four <see cref="Byte"/> values.
+        /// of four <see cref="byte"/> values.
         /// </summary>
-        /// <param name="values">The array of eight <see cref="Byte"/> values that will be packed.</param>
+        /// <param name="values">The array of eight <see cref="byte"/> values that will be packed.</param>
         public PackedInt64(byte[] values)
         {
             Guard.ArgumentIsNotNull("values", values);
@@ -105,9 +105,9 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Gets the individual <see cref="Int32"/> values that make up this 64-bit value.
+        /// Gets the individual <see cref="int"/> values that make up this 64-bit value.
         /// </summary>
-        /// <returns>The individual <see cref="Int32"/> values that make up this 64-bit value.</returns>
+        /// <returns>The individual <see cref="int"/> values that make up this 64-bit value.</returns>
         public int[] GetInt32Values()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.
@@ -117,9 +117,9 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Gets the individual <see cref="Int16"/> values that make up this 64-bit value.
+        /// Gets the individual <see cref="short"/> values that make up this 64-bit value.
         /// </summary>
-        /// <returns>The individual <see cref="Int16"/> values that make up this 64-bit value.</returns>
+        /// <returns>The individual <see cref="short"/> values that make up this 64-bit value.</returns>
         public short[] GetInt16Values()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.
@@ -135,9 +135,9 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Gets the individual <see cref="Byte"/> values that make up this 64-bit value.
+        /// Gets the individual <see cref="byte"/> values that make up this 64-bit value.
         /// </summary>
-        /// <returns>The individual <see cref="Byte"/> values that make up this 64-bit value.</returns>
+        /// <returns>The individual <see cref="byte"/> values that make up this 64-bit value.</returns>
         public byte[] GetByteValues()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.
@@ -158,9 +158,9 @@ namespace CodeTiger
 
         /// <summary>
         /// Returns a new <see cref="PackedInt64"/> value equivalent to this instance with its lower 32 bits set to
-        /// a given <see cref="Int32"/> value.
+        /// a given <see cref="int"/> value.
         /// </summary>
-        /// <param name="newLowerValue">The <see cref="Int32"/> value to use as the lower 32 bits of the new
+        /// <param name="newLowerValue">The <see cref="int"/> value to use as the lower 32 bits of the new
         /// <see cref="PackedInt64"/> value.</param>
         /// <returns>A new <see cref="PackedInt64"/> value equivalent to this instance with its lower 32 bits set to
         /// <paramref name="newLowerValue"/>.</returns>
@@ -171,9 +171,9 @@ namespace CodeTiger
 
         /// <summary>
         /// Returns a new <see cref="PackedInt64"/> value equivalent to this instance with its upper 32 bits set to
-        /// a given <see cref="Int32"/> value.
+        /// a given <see cref="int"/> value.
         /// </summary>
-        /// <param name="newUpperValue">The <see cref="Int32"/> value to use as the upper 32 bits of the new
+        /// <param name="newUpperValue">The <see cref="int"/> value to use as the upper 32 bits of the new
         /// <see cref="PackedInt64"/> value.</param>
         /// <returns>A new <see cref="PackedInt64"/> value equivalent to this instance with its upper 32 bits set to
         /// <paramref name="newUpperValue"/>.</returns>
@@ -183,9 +183,9 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Converts the value of this <see cref="PackedInt64"/> value to an equivalent <see cref="Int64"/> value.
+        /// Converts the value of this <see cref="PackedInt64"/> value to an equivalent <see cref="long"/> value.
         /// </summary>
-        /// <returns>An <see cref="Int64"/> value equivalent to this <see cref="PackedInt64"/> value.</returns>
+        /// <returns>An <see cref="long"/> value equivalent to this <see cref="PackedInt64"/> value.</returns>
         public long ToInt64()
         {
             return _value;
@@ -298,7 +298,7 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Defines an implicit conversion of an <see cref="Int64"/> value to a <see cref="PackedInt64"/> value.
+        /// Defines an implicit conversion of an <see cref="long"/> value to a <see cref="PackedInt64"/> value.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The converted value.</returns>
@@ -308,7 +308,7 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Defines an implicit conversion of a <see cref="PackedInt64"/> value to a <see cref="Int64"/> value.
+        /// Defines an implicit conversion of a <see cref="PackedInt64"/> value to a <see cref="long"/> value.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The converted value.</returns>

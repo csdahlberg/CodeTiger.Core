@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace CodeTiger
@@ -12,7 +11,7 @@ namespace CodeTiger
         private readonly short _value;
 
         /// <summary>
-        /// Gets the underlying <see cref="Int16"/> value.
+        /// Gets the underlying <see cref="short"/> value.
         /// </summary>
         public short Value
         {
@@ -20,7 +19,7 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Gets the <see cref="Byte"/> value from the lower 8 bits of this 16-bit value.
+        /// Gets the <see cref="byte"/> value from the lower 8 bits of this 16-bit value.
         /// </summary>
         public byte LowerByte
         {
@@ -28,7 +27,7 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Gets the <see cref="Byte"/> value from the upper 8 bits of this 16-bit value.
+        /// Gets the <see cref="byte"/> value from the upper 8 bits of this 16-bit value.
         /// </summary>
         public byte UpperByte
         {
@@ -38,7 +37,7 @@ namespace CodeTiger
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt16"/> structure to a specified packed value.
         /// </summary>
-        /// <param name="value">The packed <see cref="Int16"/> value.</param>
+        /// <param name="value">The packed <see cref="short"/> value.</param>
         public PackedInt16(short value)
         {
             _value = value;
@@ -46,10 +45,10 @@ namespace CodeTiger
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt16"/> structure to the packed value of two
-        /// <see cref="Byte"/> values.
+        /// <see cref="byte"/> values.
         /// </summary>
-        /// <param name="lowerValue">The <see cref="Byte"/> value to be stored in the lower 8 bits.</param>
-        /// <param name="upperValue">The <see cref="Byte"/> value to be stored in the upper 8 bits.</param>
+        /// <param name="lowerValue">The <see cref="byte"/> value to be stored in the lower 8 bits.</param>
+        /// <param name="upperValue">The <see cref="byte"/> value to be stored in the upper 8 bits.</param>
         public PackedInt16(byte lowerValue, byte upperValue)
         {
             _value = unchecked((short)((upperValue << 8) | lowerValue));
@@ -57,9 +56,9 @@ namespace CodeTiger
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt16"/> structure to the packed value of an array
-        /// of two <see cref="Byte"/> values.
+        /// of two <see cref="byte"/> values.
         /// </summary>
-        /// <param name="values">The array of two <see cref="Byte"/> values that will be packed.</param>
+        /// <param name="values">The array of two <see cref="byte"/> values that will be packed.</param>
         public PackedInt16(byte[] values)
         {
             Guard.ArgumentIsNotNull("values", values);
@@ -69,9 +68,9 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Gets the individual <see cref="Byte"/> values that make up this 16-bit value.
+        /// Gets the individual <see cref="byte"/> values that make up this 16-bit value.
         /// </summary>
-        /// <returns>The individual <see cref="Byte"/> values that make up this 16-bit value.</returns>
+        /// <returns>The individual <see cref="byte"/> values that make up this 16-bit value.</returns>
         public byte[] GetByteValues()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.
@@ -82,9 +81,9 @@ namespace CodeTiger
 
         /// <summary>
         /// Returns a new <see cref="PackedInt16"/> value equivalent to this instance with its lower 8 bits set to
-        /// a given <see cref="Byte"/> value.
+        /// a given <see cref="byte"/> value.
         /// </summary>
-        /// <param name="newLowerValue">The <see cref="Byte"/> value to use as the lower 8 bits of the new
+        /// <param name="newLowerValue">The <see cref="byte"/> value to use as the lower 8 bits of the new
         /// <see cref="PackedInt16"/> value.</param>
         /// <returns>A new <see cref="PackedInt16"/> value equivalent to this instance with its lower 8 bits set to
         /// <paramref name="newLowerValue"/>.</returns>
@@ -95,9 +94,9 @@ namespace CodeTiger
 
         /// <summary>
         /// Returns a new <see cref="PackedInt16"/> value equivalent to this instance with its upper 8 bits set to
-        /// a given <see cref="Byte"/> value.
+        /// a given <see cref="byte"/> value.
         /// </summary>
-        /// <param name="newUpperValue">The <see cref="Byte"/> value to use as the lower 8 bits of the new
+        /// <param name="newUpperValue">The <see cref="byte"/> value to use as the lower 8 bits of the new
         /// <see cref="PackedInt16"/> value.</param>
         /// <returns>A new <see cref="PackedInt16"/> value equivalent to this instance with its lower 8 bits set to
         /// <paramref name="newUpperValue"/>.</returns>
@@ -107,9 +106,9 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Converts the value of this <see cref="PackedInt16"/> value to an equivalent <see cref="Int16"/> value.
+        /// Converts the value of this <see cref="PackedInt16"/> value to an equivalent <see cref="short"/> value.
         /// </summary>
-        /// <returns>An <see cref="Int16"/> value equivalent to this <see cref="PackedInt16"/> value.</returns>
+        /// <returns>An <see cref="short"/> value equivalent to this <see cref="PackedInt16"/> value.</returns>
         public short ToInt16()
         {
             return _value;
@@ -222,7 +221,7 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Defines an implicit conversion of an <see cref="Int16"/> value to a <see cref="PackedInt16"/> value.
+        /// Defines an implicit conversion of an <see cref="short"/> value to a <see cref="PackedInt16"/> value.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The converted value.</returns>
@@ -232,7 +231,7 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Defines an implicit conversion of a <see cref="PackedInt16"/> value to an <see cref="Int16"/> value.
+        /// Defines an implicit conversion of a <see cref="PackedInt16"/> value to an <see cref="short"/> value.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The converted value.</returns>

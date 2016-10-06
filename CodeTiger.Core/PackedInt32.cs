@@ -12,7 +12,7 @@ namespace CodeTiger
         private readonly int _value;
 
         /// <summary>
-        /// Gets the underlying <see cref="Int32"/> value.
+        /// Gets the underlying <see cref="int"/> value.
         /// </summary>
         public int Value
         {
@@ -20,7 +20,7 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Gets the <see cref="Int16"/> value from the lower 16 bits of this 32-bit value.
+        /// Gets the <see cref="short"/> value from the lower 16 bits of this 32-bit value.
         /// </summary>
         public short LowerInt16
         {
@@ -28,7 +28,7 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Gets the <see cref="Int16"/> value from the upper 16 bits of this 32-bit value.
+        /// Gets the <see cref="short"/> value from the upper 16 bits of this 32-bit value.
         /// </summary>
         public short UpperInt16
         {
@@ -38,7 +38,7 @@ namespace CodeTiger
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt32"/> structure to a specified packed value.
         /// </summary>
-        /// <param name="value">The packed <see cref="Int32"/> value.</param>
+        /// <param name="value">The packed <see cref="int"/> value.</param>
         public PackedInt32(int value)
         {
             _value = value;
@@ -46,10 +46,10 @@ namespace CodeTiger
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt32"/> structure to the packed value of two
-        /// <see cref="Int16"/> values.
+        /// <see cref="short"/> values.
         /// </summary>
-        /// <param name="lowerValue">The <see cref="Int16"/> value to be stored in the lower 16 bits.</param>
-        /// <param name="upperValue">The <see cref="Int16"/> value to be stored in the upper 16 bits.</param>
+        /// <param name="lowerValue">The <see cref="short"/> value to be stored in the lower 16 bits.</param>
+        /// <param name="upperValue">The <see cref="short"/> value to be stored in the upper 16 bits.</param>
         public PackedInt32(short lowerValue, short upperValue)
         {
             _value = (upperValue << 16) | ((int)lowerValue & Bitmask.Int32Lower16);
@@ -57,9 +57,9 @@ namespace CodeTiger
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt32"/> structure to the packed value of an array
-        /// of two <see cref="Int16"/> values.
+        /// of two <see cref="short"/> values.
         /// </summary>
-        /// <param name="values">The array of two <see cref="Int16"/> values that will be packed.</param>
+        /// <param name="values">The array of two <see cref="short"/> values that will be packed.</param>
         public PackedInt32(short[] values)
         {
             Guard.ArgumentIsNotNull("values", values);
@@ -70,9 +70,9 @@ namespace CodeTiger
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt32"/> structure to the packed value of an array
-        /// of four <see cref="Byte"/> values.
+        /// of four <see cref="byte"/> values.
         /// </summary>
-        /// <param name="values">The array of four <see cref="Byte"/> values that will be packed.</param>
+        /// <param name="values">The array of four <see cref="byte"/> values that will be packed.</param>
         public PackedInt32(byte[] values)
         {
             Guard.ArgumentIsNotNull("values", values);
@@ -85,9 +85,9 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Gets the individual <see cref="Int16"/> values that make up this 32-bit value.
+        /// Gets the individual <see cref="short"/> values that make up this 32-bit value.
         /// </summary>
-        /// <returns>The individual <see cref="Int16"/> values that make up this 32-bit value.</returns>
+        /// <returns>The individual <see cref="short"/> values that make up this 32-bit value.</returns>
         public short[] GetInt16Values()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.
@@ -97,9 +97,9 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Gets the individual <see cref="Byte"/> values that make up this 32-bit value.
+        /// Gets the individual <see cref="byte"/> values that make up this 32-bit value.
         /// </summary>
-        /// <returns>The individual <see cref="Byte"/> values that make up this 32-bit value.</returns>
+        /// <returns>The individual <see cref="byte"/> values that make up this 32-bit value.</returns>
         public byte[] GetByteValues()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.
@@ -116,9 +116,9 @@ namespace CodeTiger
 
         /// <summary>
         /// Returns a new <see cref="PackedInt32"/> value equivalent to this instance with its lower 16 bits set to
-        /// a given <see cref="Int16"/> value.
+        /// a given <see cref="short"/> value.
         /// </summary>
-        /// <param name="newLowerValue">The <see cref="Int16"/> value to use as the lower 8 bits of the new
+        /// <param name="newLowerValue">The <see cref="short"/> value to use as the lower 8 bits of the new
         /// <see cref="PackedInt32"/> value.</param>
         /// <returns>A new <see cref="PackedInt32"/> value equivalent to this instance with its lower 16 bits set to
         /// <paramref name="newLowerValue"/>.</returns>
@@ -130,9 +130,9 @@ namespace CodeTiger
 
         /// <summary>
         /// Returns a new <see cref="PackedInt32"/> value equivalent to this instance with its upper 16 bits set to
-        /// a given <see cref="Int16"/> value.
+        /// a given <see cref="short"/> value.
         /// </summary>
-        /// <param name="newUpperValue">The <see cref="Int16"/> value to use as the upper 16 bits of the new
+        /// <param name="newUpperValue">The <see cref="short"/> value to use as the upper 16 bits of the new
         /// <see cref="PackedInt32"/> value.</param>
         /// <returns>A new <see cref="PackedInt32"/> value equivalent to this instance with its upper 16 bits set to
         /// <paramref name="newUpperValue"/>.</returns>
@@ -142,9 +142,9 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Converts the value of this <see cref="PackedInt32"/> value to an equivalent <see cref="Int32"/> value.
+        /// Converts the value of this <see cref="PackedInt32"/> value to an equivalent <see cref="int"/> value.
         /// </summary>
-        /// <returns>An <see cref="Int32"/> value equivalent to this <see cref="PackedInt32"/> value.</returns>
+        /// <returns>An <see cref="int"/> value equivalent to this <see cref="PackedInt32"/> value.</returns>
         public int ToInt32()
         {
             return _value;
@@ -257,7 +257,7 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Defines an implicit conversion of an <see cref="Int32"/> value to a <see cref="PackedInt32"/> value.
+        /// Defines an implicit conversion of an <see cref="int"/> value to a <see cref="PackedInt32"/> value.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The converted value.</returns>
@@ -267,7 +267,7 @@ namespace CodeTiger
         }
 
         /// <summary>
-        /// Defines an implicit conversion of a <see cref="PackedInt32"/> value to an <see cref="Int32"/> value.
+        /// Defines an implicit conversion of a <see cref="PackedInt32"/> value to an <see cref="int"/> value.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The converted value.</returns>
