@@ -134,7 +134,7 @@ namespace CodeTiger.Threading
         /// </summary>
         /// <param name="cancellationToken">A cancellation token to observe.</param>
         /// <returns>A <see cref="TaskCompletionSource{Boolean}"/> to use for a new wait operation.</returns>
-        protected async override Task<TaskCompletionSource<bool>> GetWaitTaskSourceAsync(
+        protected override async Task<TaskCompletionSource<bool>> GetWaitTaskSourceAsync(
             CancellationToken cancellationToken)
         {
             if (Interlocked.CompareExchange(ref _isSignaled, 0, 1) == 1)
