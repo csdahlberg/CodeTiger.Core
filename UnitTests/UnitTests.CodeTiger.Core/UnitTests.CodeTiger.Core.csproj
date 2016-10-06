@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="AsyncLazyTests.cs" />
     <Compile Include="AsyncLazy`1Tests.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GuardTests.cs" />
     <Compile Include="Collections\Generic\EnumerableExtensionsTests.cs" />
     <Compile Include="LazyTests.cs" />
