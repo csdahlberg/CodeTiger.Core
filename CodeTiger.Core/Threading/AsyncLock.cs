@@ -12,6 +12,9 @@ namespace CodeTiger.Threading
     [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable",
         Justification = "LockReleaser does not contain any unmanaged resources, and only implements IDisposable"
             + " so that consumers may use 'using' blocks to hold locks.")]
+    [SuppressMessage("CodeTiger.Reliability", "CT2001",
+        Justification = "LockReleaser does not contain any unmanaged resources, and only implements IDisposable"
+            + " so that consumers may use 'using' blocks to hold locks.")]
     public sealed class AsyncLock
     {
         private readonly ConcurrentQueue<TaskCompletionSource<IDisposable>> _pendingWaitTaskSources

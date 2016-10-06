@@ -219,7 +219,8 @@ namespace CodeTiger.Threading
         /// <param name="cancellationToken">A cancellation token to observe.</param>
         /// <returns>A <see cref="TaskCompletionSource{Boolean}"/> object to use for a new wait operation.
         /// </returns>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
+            Justification = "Nesting of a generic type within a Func or Action type is acceptable.")]
         protected abstract Task<TaskCompletionSource<bool>> GetWaitTaskSourceAsync(
             CancellationToken cancellationToken);
 
