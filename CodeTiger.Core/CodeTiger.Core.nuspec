@@ -12,6 +12,6 @@
         <summary>A .NET library that provides a variety of reusable functionality.</summary>
         <copyright>Copyright 2015 © Chris Dahlberg</copyright>
         <language>en-US</language>
-        <tags>TPL Task Parallel Library Async Await Lazy AsyncLazy Lock AsyncLock AsyncAutoResetEvent AsyncManualResetEvent Packed PackedInt16 PackedInt32 PackedInt64 Guard</tags>
+        <tags>TPL Task Parallel Library Async Await Lazy AsyncLazy Lock AsyncLock AsyncAutoResetEvent AsyncManualResetEvent Packed PackedInt16 PackedInt32 PackedInt64 Guard AnyNot None SkipUntil TakeUntil WhereNot</tags>
     </metadata>
 </package>
