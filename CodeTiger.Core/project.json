@@ -1,7 +1,10 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "CodeTiger.CodeAnalysis": "0.3.2-alpha",
+    "CodeTiger.CodeAnalysis": {
+      "version": "0.3.2-alpha",
+      "type" : "build"
+    },
     "NETStandard.Library": "1.6.0"
   },
   "frameworks": {
