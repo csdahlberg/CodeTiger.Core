@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-
-namespace CodeTiger
+﻿namespace CodeTiger
 {
     /// <summary>
     /// Contains extension methods for the <see cref="string"/> class.
@@ -17,8 +14,8 @@ namespace CodeTiger
         /// <returns>A string array consisting of two strings from <paramref name="original"/>.</returns>
         public static string[] SplitAt(this string original, int splitLocation)
         {
-            Guard.ArgumentIsNotNull("originalString", original);
-            Guard.ArgumentIsWithinRange("splitLocation", splitLocation, 0, original.Length);
+            Guard.ArgumentIsNotNull(nameof(original), original);
+            Guard.ArgumentIsWithinRange(nameof(splitLocation), splitLocation, 0, original.Length);
 
             return new string[]
                 {

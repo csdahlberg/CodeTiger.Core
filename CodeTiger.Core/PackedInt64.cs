@@ -62,8 +62,8 @@ namespace CodeTiger
         /// <param name="values">The array of two <see cref="int"/> values that will be packed.</param>
         public PackedInt64(int[] values)
         {
-            Guard.ArgumentIsNotNull("values", values);
-            Guard.ArgumentIsValid("values", values.Length == 2);
+            Guard.ArgumentIsNotNull(nameof(values), values);
+            Guard.ArgumentIsValid(nameof(values), values.Length == 2);
 
             _value = ((long)values[1] << 32) | ((long)values[0] & Bitmask.Int64Lower32);
         }
@@ -75,8 +75,8 @@ namespace CodeTiger
         /// <param name="values">The array of four <see cref="short"/> values that will be packed.</param>
         public PackedInt64(short[] values)
         {
-            Guard.ArgumentIsNotNull("values", values);
-            Guard.ArgumentIsValid("values", values.Length == 4);
+            Guard.ArgumentIsNotNull(nameof(values), values);
+            Guard.ArgumentIsValid(nameof(values), values.Length == 4);
 
             _value = ((long)values[3] << 48)
                 | (((long)values[2] << 32) & Bitmask.Int64Bits32To47)
@@ -91,8 +91,8 @@ namespace CodeTiger
         /// <param name="values">The array of eight <see cref="byte"/> values that will be packed.</param>
         public PackedInt64(byte[] values)
         {
-            Guard.ArgumentIsNotNull("values", values);
-            Guard.ArgumentIsValid("values", values.Length == 8);
+            Guard.ArgumentIsNotNull(nameof(values), values);
+            Guard.ArgumentIsValid(nameof(values), values.Length == 8);
 
             _value = ((long)values[7] << 56)
                 | ((long)values[6] << 48)

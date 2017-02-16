@@ -62,8 +62,8 @@ namespace CodeTiger
         /// <param name="values">The array of two <see cref="short"/> values that will be packed.</param>
         public PackedInt32(short[] values)
         {
-            Guard.ArgumentIsNotNull("values", values);
-            Guard.ArgumentIsValid("values", values.Length == 2);
+            Guard.ArgumentIsNotNull(nameof(values), values);
+            Guard.ArgumentIsValid(nameof(values), values.Length == 2);
 
             _value = (values[1] << 16) | ((int)values[0] & Bitmask.Int32Lower16);
         }
@@ -75,8 +75,8 @@ namespace CodeTiger
         /// <param name="values">The array of four <see cref="byte"/> values that will be packed.</param>
         public PackedInt32(byte[] values)
         {
-            Guard.ArgumentIsNotNull("values", values);
-            Guard.ArgumentIsValid("values", values.Length == 4);
+            Guard.ArgumentIsNotNull(nameof(values), values);
+            Guard.ArgumentIsValid(nameof(values), values.Length == 4);
 
             _value = (values[3] << 24)
                 | (values[2] << 16)

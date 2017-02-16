@@ -61,8 +61,8 @@ namespace CodeTiger
         /// <param name="values">The array of two <see cref="byte"/> values that will be packed.</param>
         public PackedInt16(byte[] values)
         {
-            Guard.ArgumentIsNotNull("values", values);
-            Guard.ArgumentIsValid("values", values.Length == 2);
+            Guard.ArgumentIsNotNull(nameof(values), values);
+            Guard.ArgumentIsValid(nameof(values), values.Length == 2);
 
             _value = unchecked((short)(((short)values[1] << 8) | values[0]));
         }
