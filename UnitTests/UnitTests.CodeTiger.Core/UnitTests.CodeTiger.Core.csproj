@@ -1,126 +1,36 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E02B2C6E-7BE6-4BE0-895A-1900EEF5C444}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>    
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <NoWarn>1701</NoWarn>
     <RootNamespace>UnitTests.CodeTiger</RootNamespace>
-    <AssemblyName>UnitTests.CodeTiger.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <Product>CodeTiger.Core</Product>
+    <Authors>Chris Dahlberg</Authors>
+    <Company>Chris Dahlberg</Company>
+    <Version>0.0.1-unofficial</Version>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\Build\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\Build\Debug\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\Build\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Build\Release\</OutputPath>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
+
   <ItemGroup>
-    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
-      <Visible>False</Visible>
-    </CodeAnalysisDependentAssemblyPaths>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170125-04" />
+    <PackageReference Include="xunit" Version="2.2.0-rc2-build3523" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0-rc2-build1249" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="AsyncLazyTests.cs" />
-    <Compile Include="AsyncLazy`1Tests.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="GuardTests.cs" />
-    <Compile Include="Collections\Generic\EnumerableExtensionsTests.cs" />
-    <Compile Include="LazyTests.cs" />
-    <Compile Include="PackedInt16Tests.cs" />
-    <Compile Include="PackedInt32Tests.cs" />
-    <Compile Include="PackedInt64Tests.cs" />
-    <Compile Include="StringExtensionsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Threading\AsyncAutoResetEventTests.cs" />
-    <Compile Include="Threading\AsyncLockTests.cs" />
-    <Compile Include="Threading\AsyncManualResetEventTests.cs" />
-    <Compile Include="Threading\AsyncWaitHandleTests.cs" />
-    <Compile Include="Threading\Tasks\TaskExtensionsUnitTests.cs" />
+    <ProjectReference Include="..\..\CodeTiger.Core\CodeTiger.Core.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\..\CodeTiger.Core\CodeTiger.Core.csproj">
-      <Project>{6f882a38-65f9-427a-a7f2-7919f79d3a1d}</Project>
-      <Name>CodeTiger.Core</Name>
-    </ProjectReference>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="xunit.abstractions">
-      <HintPath>..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.assert.2.1.0\lib\dotnet\xunit.assert.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.execution.desktop, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\CodeTiger.CodeAnalysis.dll" />
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\CodeTiger.Core.dll" />
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\Microsoft.Build.dll" />
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\Microsoft.Build.Engine.dll" />
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\Microsoft.Build.Framework.dll" />
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\Microsoft.Build.Tasks.Core.dll" />
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\Microsoft.Build.Utilities.Core.dll" />
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll" />
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\System.Composition.AttributedModel.dll" />
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\System.Composition.Convention.dll" />
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\System.Composition.Hosting.dll" />
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\System.Composition.Runtime.dll" />
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\System.Composition.TypedParts.dll" />
-    <Analyzer Include="..\..\packages\CodeTiger.CodeAnalysis.0.3.2-alpha\analyzers\dotnet\cs\System.Threading.Tasks.Dataflow.dll" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props'))" />
-  </Target>
+
 </Project>
