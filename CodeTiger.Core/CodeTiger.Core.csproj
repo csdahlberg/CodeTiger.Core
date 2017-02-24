@@ -13,6 +13,8 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageIconUrl>http://www.codetiger.net/images/tigerpaw32.png</PackageIconUrl>
     <PackageTags>TPL Task Parallel Library Async Await Lazy AsyncLazy Lock AsyncLock AsyncAutoResetEvent AsyncManualResetEvent Packed PackedInt16 PackedInt32 PackedInt64 Guard AnyNot None SkipUntil TakeUntil WhereNot</PackageTags>
+    <IncludeSymbols>True</IncludeSymbols>
+    <IncludeSource>True</IncludeSource>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\CodeTigerLib.snk</AssemblyOriginatorKeyFile>
     <NoWarn />
