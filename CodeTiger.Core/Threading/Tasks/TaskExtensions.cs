@@ -51,6 +51,7 @@ namespace CodeTiger.Threading.Tasks
 
             var timeoutCancelTokenSource = new CancellationTokenSource();
             var timeoutTask = Task.Delay(timeout, timeoutCancelTokenSource.Token);
+
             return Task.Factory.ContinueWhenAny(new[] { task, timeoutTask },
                 completedTask =>
                     {
@@ -62,7 +63,7 @@ namespace CodeTiger.Threading.Tasks
                         timeoutCancelTokenSource.Cancel();
 
                         return task;
-                    })
+                    }, TaskContinuationOptions.ExecuteSynchronously)
                 .Unwrap();
         }
 
@@ -122,7 +123,7 @@ namespace CodeTiger.Threading.Tasks
                         timeoutCancelTokenSource.Cancel();
 
                         return task;
-                    })
+                    }, TaskContinuationOptions.ExecuteSynchronously)
                 .Unwrap();
         }
 
