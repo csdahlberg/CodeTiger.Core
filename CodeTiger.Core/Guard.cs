@@ -24,6 +24,61 @@ namespace CodeTiger
         }
 
         /// <summary>
+        /// Ensures that a string argument is not null or empty, throwing an exception if it is either.
+        /// </summary>
+        /// <param name="name">The name of the argument.</param>
+        /// <param name="value">The value of the argument.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is empty.</exception>
+        public static void ArgumentIsNotNullOrEmpty(string name, [ValidatedNotNull] string value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(name);
+            }
+
+            if (value.Length == 0)
+            {
+                throw new ArgumentException(
+                    $"Value cannot be empty.{Environment.NewLine}Parameter name: {name}", name);
+            }
+        }
+
+        /// <summary>
+        /// Ensures that a string argument is not null or empty, throwing an exception if it is either.
+        /// </summary>
+        /// <param name="name">The name of the argument.</param>
+        /// <param name="value">The value of the argument.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is empty or contains only
+        /// whitespace characters.</exception>
+        public static void ArgumentIsNotNullOrWhiteSpace(string name, [ValidatedNotNull] string value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(name);
+            }
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                if (!char.IsWhiteSpace(value[i]))
+                {
+                    return;
+                }
+            }
+
+            if (value.Length == 0)
+            {
+                throw new ArgumentException(
+                    $"Value cannot be empty.{Environment.NewLine}Parameter name: {name}", name);
+            }
+
+            throw new ArgumentException(
+                $"Value cannot consist only of whitespace characters.{Environment.NewLine}Parameter name: {name}",
+                name);
+        }
+
+        /// <summary>
         /// Ensures that an argument is valid, throwing an exception if it is not valid.
         /// </summary>
         /// <param name="name">The name of the argument.</param>

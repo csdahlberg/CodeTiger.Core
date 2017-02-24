@@ -25,6 +25,73 @@ namespace UnitTests.CodeTiger
             }
         }
 
+        public class ArgumentIsNotNullOrEmpty
+        {
+            [Fact]
+            public void ThrowsArgumentNullExceptionWhenArgumentIsNull()
+            {
+                Assert.Throws<ArgumentNullException>("DummyArgumentName",
+                    () => Guard.ArgumentIsNotNullOrEmpty("DummyArgumentName", null));
+            }
+
+            [Fact]
+            public void ThrowsArgumentExceptionWhenArgumentIsEmptyString()
+            {
+                Assert.Throws<ArgumentException>("DummyArgumentName",
+                    () => Guard.ArgumentIsNotNullOrEmpty("DummyArgumentName", ""));
+            }
+
+            [Theory]
+            [InlineData(" ")]
+            [InlineData("\t")]
+            [InlineData("x")]
+            [InlineData(" x")]
+            [InlineData("x ")]
+            [InlineData(" x ")]
+            [InlineData("Testing")]
+            public void DoesNotThrowExceptionWhenArgumentIsNotNullOrEmpty(string argumentValue)
+            {
+                Guard.ArgumentIsNotNullOrEmpty("DummyArgumentName", argumentValue);
+            }
+        }
+
+        public class ArgumentIsNotNullOrWhiteSpace
+        {
+            [Fact]
+            public void ThrowsArgumentNullExceptionWhenArgumentIsNull()
+            {
+                Assert.Throws<ArgumentNullException>("DummyArgumentName",
+                    () => Guard.ArgumentIsNotNullOrWhiteSpace("DummyArgumentName", null));
+            }
+
+            [Fact]
+            public void ThrowsArgumentExceptionWhenArgumentIsEmptyString()
+            {
+                Assert.Throws<ArgumentException>("DummyArgumentName",
+                    () => Guard.ArgumentIsNotNullOrWhiteSpace("DummyArgumentName", ""));
+            }
+
+            [Theory]
+            [InlineData(" ")]
+            [InlineData("\t")]
+            public void ThrowsArgumentExceptionWhenArgumentIsWhiteSpace(string argumentValue)
+            {
+                Assert.Throws<ArgumentException>("DummyArgumentName",
+                    () => Guard.ArgumentIsNotNullOrWhiteSpace("DummyArgumentName", argumentValue));
+            }
+
+            [Theory]
+            [InlineData("x")]
+            [InlineData(" x")]
+            [InlineData("x ")]
+            [InlineData(" x ")]
+            [InlineData("Testing")]
+            public void DoesNotThrowExceptionWhenArgumentIsNotNullOrWhiteSpace(string argumentValue)
+            {
+                Guard.ArgumentIsNotNullOrWhiteSpace("DummyArgumentName", argumentValue);
+            }
+        }
+
         public class ArgumentIsValid_String_Boolean
         {
             [Fact]
