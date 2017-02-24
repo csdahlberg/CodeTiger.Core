@@ -115,5 +115,19 @@ namespace CodeTiger
                 throw new ArgumentOutOfRangeException(name);
             }
         }
+
+        /// <summary>
+        /// Ensures that the value of an argument is within a valid range, throwing an exception if it is outside
+        /// of that range.
+        /// </summary>
+        /// <param name="name">The name of the argument.</param>
+        /// <param name="isWithinRange"><c>true</c> if the argument is valid, <c>false</c> otherwise.</param>
+        public static void ArgumentIsWithinRange(string name, bool isWithinRange)
+        {
+            if (!isWithinRange)
+            {
+                throw new ArgumentOutOfRangeException(name);
+            }
+        }
     }
 }

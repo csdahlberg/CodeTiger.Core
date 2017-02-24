@@ -344,5 +344,21 @@ namespace UnitTests.CodeTiger
                 };
             }
         }
+
+        public class ArgumentIsWithinRange_String_Boolean
+        {
+            [Fact]
+            public void ThrowsArgumentOutOfRangeExceptionWhenConditionIsFalse()
+            {
+                Assert.Throws<ArgumentOutOfRangeException>("DummyArgumentName",
+                    () => Guard.ArgumentIsWithinRange("DummyArgumentName", false));
+            }
+
+            [Fact]
+            public void DoesNotThrowExceptionWhenConditionIsTrue()
+            {
+                Guard.ArgumentIsWithinRange("DummyArgumentName", true);
+            }
+        }
     }
 }
