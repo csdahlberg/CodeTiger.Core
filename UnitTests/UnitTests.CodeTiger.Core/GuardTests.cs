@@ -95,9 +95,9 @@ namespace UnitTests.CodeTiger
         public class ArgumentIsValid_String_Boolean
         {
             [Fact]
-            public void ThrowsArgumentOutOfRangeExceptionWhenConditionIsFalse()
+            public void ThrowsArgumentExceptionWhenConditionIsFalse()
             {
-                Assert.Throws<ArgumentOutOfRangeException>(
+                Assert.Throws<ArgumentException>("DummyArgumentName",
                     () => Guard.ArgumentIsValid("DummyArgumentName", false));
             }
 

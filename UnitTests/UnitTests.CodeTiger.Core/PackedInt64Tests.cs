@@ -280,7 +280,7 @@ namespace UnitTests.CodeTiger
             {
                 int[] values = new int[numberOfElements];
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => new PackedInt64(values));
+                Assert.Throws<ArgumentException>(() => new PackedInt64(values));
             }
         }
 
@@ -324,7 +324,7 @@ namespace UnitTests.CodeTiger
             {
                 short[] values = new short[numberOfElements];
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => new PackedInt64(values));
+                Assert.Throws<ArgumentException>(() => new PackedInt64(values));
             }
         }
 
@@ -386,7 +386,7 @@ namespace UnitTests.CodeTiger
             {
                 byte[] values = new byte[numberOfElements];
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => new PackedInt64(values));
+                Assert.Throws<ArgumentException>(() => new PackedInt64(values));
             }
         }
 

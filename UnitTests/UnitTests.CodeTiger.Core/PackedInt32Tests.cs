@@ -220,7 +220,7 @@ namespace UnitTests.CodeTiger
             {
                 short[] values = new short[numberOfElements];
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => new PackedInt32(values));
+                Assert.Throws<ArgumentException>(() => new PackedInt32(values));
             }
         }
 
@@ -264,7 +264,7 @@ namespace UnitTests.CodeTiger
             {
                 byte[] values = new byte[numberOfElements];
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => new PackedInt32(values));
+                Assert.Throws<ArgumentException>(() => new PackedInt32(values));
             }
         }
 

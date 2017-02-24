@@ -83,12 +83,12 @@ namespace CodeTiger
         /// </summary>
         /// <param name="name">The name of the argument.</param>
         /// <param name="condition"><c>true</c> if the argument is valid, <c>false</c> otherwise.</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="condition"/> is false.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="condition"/> is false.</exception>
         public static void ArgumentIsValid(string name, bool condition)
         {
             if (!condition)
             {
-                throw new ArgumentOutOfRangeException(name);
+                throw new ArgumentException("Value does not fall within the expected range.", name);
             }
         }
 

@@ -169,7 +169,7 @@ namespace UnitTests.CodeTiger
             {
                 byte[] values = new byte[numberOfElements];
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => new PackedInt16(values));
+                Assert.Throws<ArgumentException>(() => new PackedInt16(values));
             }
         }
 
