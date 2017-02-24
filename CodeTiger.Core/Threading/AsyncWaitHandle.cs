@@ -98,7 +98,7 @@ namespace CodeTiger.Threading
                 cancellationToken.Register(() => waitTaskSource.TrySetCanceled());
             }
 
-            return Task.Run(() => waitTaskSource.Task.Wait(timeout, cancellationToken)).Result;
+            return waitTaskSource.Task.Wait(timeout, cancellationToken);
         }
 
         /// <summary>
