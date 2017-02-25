@@ -20,9 +20,12 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(true);
 
-                var waitTask1 = Task.Run(() => target.WaitOne());
-                var waitTask2 = Task.Run(() => target.WaitOne());
-                var waitTask3 = Task.Run(() => target.WaitOne());
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
             }
@@ -33,9 +36,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(false);
                 target.Set();
 
-                var waitTask1 = Task.Run(() => target.WaitOne());
-                var waitTask2 = Task.Run(() => target.WaitOne());
-                var waitTask3 = Task.Run(() => target.WaitOne());
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
             }
@@ -45,9 +51,12 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var waitTask1 = Task.Run(() => target.WaitOne());
-                var waitTask2 = Task.Run(() => target.WaitOne());
-                var waitTask3 = Task.Run(() => target.WaitOne());
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 250));
 
@@ -62,9 +71,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Set();
 
-                var waitTask1 = Task.Run(() => target.WaitOne());
-                var waitTask2 = Task.Run(() => target.WaitOne());
-                var waitTask3 = Task.Run(() => target.WaitOne());
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
             }
@@ -77,7 +89,8 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var waitTask = Task.Run(() => target.WaitOne(250));
+                var waitTask = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.False(waitTask.Wait(200));
 
@@ -91,7 +104,8 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Reset();
 
-                var waitTask = Task.Run(() => target.WaitOne(250));
+                var waitTask = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.False(waitTask.Wait(200));
 
@@ -104,9 +118,12 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(true);
 
-                var waitTask1 = Task.Run(() => target.WaitOne(250));
-                var waitTask2 = Task.Run(() => target.WaitOne(250));
-                var waitTask3 = Task.Run(() => target.WaitOne(250));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
 
@@ -121,9 +138,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(false);
                 target.Set();
 
-                var waitTask1 = Task.Run(() => target.WaitOne(250));
-                var waitTask2 = Task.Run(() => target.WaitOne(250));
-                var waitTask3 = Task.Run(() => target.WaitOne(250));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
 
@@ -137,9 +157,12 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var waitTask1 = Task.Run(() => target.WaitOne(250));
-                var waitTask2 = Task.Run(() => target.WaitOne(250));
-                var waitTask3 = Task.Run(() => target.WaitOne(250));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 150));
 
@@ -158,9 +181,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Set();
 
-                var waitTask1 = Task.Run(() => target.WaitOne(250));
-                var waitTask2 = Task.Run(() => target.WaitOne(250));
-                var waitTask3 = Task.Run(() => target.WaitOne(250));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(250),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
 
@@ -177,7 +203,8 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var waitTask = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
+                var waitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.False(waitTask.Wait(200));
 
@@ -191,7 +218,8 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Reset();
 
-                var waitTask = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
+                var waitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.False(waitTask.Wait(200));
 
@@ -204,9 +232,12 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(true);
 
-                var waitTask1 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
-                var waitTask2 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
-                var waitTask3 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
 
@@ -221,9 +252,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(false);
                 target.Set();
 
-                var waitTask1 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
-                var waitTask2 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
-                var waitTask3 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
 
@@ -237,9 +271,12 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var waitTask1 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
-                var waitTask2 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
-                var waitTask3 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 200));
 
@@ -258,9 +295,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Set();
 
-                var waitTask1 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
-                var waitTask2 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
-                var waitTask3 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250)));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
 
@@ -278,7 +318,8 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(false);
 
                 var cancelSource = new CancellationTokenSource();
-                var waitTask = Task.Run(() => target.WaitOne(cancelSource.Token));
+                var waitTask = Task.Factory.StartNew(() => target.WaitOne(cancelSource.Token),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.False(waitTask.Wait(200));
 
@@ -294,9 +335,12 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(true);
 
-                var waitTask1 = Task.Run(() => target.WaitOne(CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
             }
@@ -307,9 +351,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(false);
                 target.Set();
 
-                var waitTask1 = Task.Run(() => target.WaitOne(CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
             }
@@ -319,9 +366,12 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var waitTask1 = Task.Run(() => target.WaitOne(CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 target.Set();
 
@@ -334,9 +384,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Set();
 
-                var waitTask1 = Task.Run(() => target.WaitOne(CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
                 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
             }
@@ -349,7 +402,8 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var waitTask = Task.Run(() => target.WaitOne(250, CancellationToken.None));
+                var waitTask = Task.Factory.StartNew(() => target.WaitOne(250, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(waitTask.Wait(300));
                 Assert.False(waitTask.Result);
@@ -361,9 +415,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(false);
 
                 var cancelSource = new CancellationTokenSource();
-                var waitTask1 = Task.Run(() => target.WaitOne(Timeout.Infinite, cancelSource.Token));
-                var waitTask2 = Task.Run(() => target.WaitOne(Timeout.Infinite, cancelSource.Token));
-                var waitTask3 = Task.Run(() => target.WaitOne(Timeout.Infinite, cancelSource.Token));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 250));
 
@@ -386,9 +443,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Reset();
 
-                var waitTask1 = Task.Run(() => target.WaitOne(250, CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(250, CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(250, CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(250, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(250, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(250, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 200));
 
@@ -406,9 +466,12 @@ namespace UnitTests.CodeTiger.Threading
                 target.Reset();
 
                 var cancelSource = new CancellationTokenSource();
-                var waitTask1 = Task.Run(() => target.WaitOne(Timeout.Infinite, cancelSource.Token));
-                var waitTask2 = Task.Run(() => target.WaitOne(Timeout.Infinite, cancelSource.Token));
-                var waitTask3 = Task.Run(() => target.WaitOne(Timeout.Infinite, cancelSource.Token));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 250));
 
@@ -430,9 +493,12 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(true);
 
-                var waitTask1 = Task.Run(() => target.WaitOne(Timeout.Infinite, CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(Timeout.Infinite, CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(Timeout.Infinite, CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
 
@@ -447,9 +513,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(false);
                 target.Set();
 
-                var waitTask1 = Task.Run(() => target.WaitOne(Timeout.Infinite, CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(Timeout.Infinite, CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(Timeout.Infinite, CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
 
@@ -463,9 +532,12 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var waitTask1 = Task.Run(() => target.WaitOne(Timeout.Infinite, CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(Timeout.Infinite, CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(Timeout.Infinite, CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 target.Set();
 
@@ -482,9 +554,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Set();
 
-                var waitTask1 = Task.Run(() => target.WaitOne(Timeout.Infinite, CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(Timeout.Infinite, CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(Timeout.Infinite, CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
 
@@ -501,8 +576,9 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var waitTask = Task.Run(
-                    () => target.WaitOne(TimeSpan.FromMilliseconds(250), CancellationToken.None));
+                var waitTask = Task.Factory.StartNew(
+                    () => target.WaitOne(TimeSpan.FromMilliseconds(250), CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.False(waitTask.Wait(200));
 
@@ -516,9 +592,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(false);
 
                 var cancelSource = new CancellationTokenSource();
-                var waitTask1 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token));
-                var waitTask2 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token));
-                var waitTask3 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 250));
 
@@ -541,16 +620,16 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Reset();
 
-                var waitTask1 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250),
-                    CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250),
-                    CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(TimeSpan.FromMilliseconds(250),
-                    CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250),
+                    CancellationToken.None), TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250),
+                    CancellationToken.None), TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250),
+                    CancellationToken.None), TaskCreationOptions.LongRunning);
 
                 Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 200));
 
-                Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 100));
+                Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 200));
 
                 Assert.False(waitTask1.Result);
                 Assert.False(waitTask2.Result);
@@ -564,9 +643,12 @@ namespace UnitTests.CodeTiger.Threading
                 target.Reset();
 
                 var cancelSource = new CancellationTokenSource();
-                var waitTask1 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token));
-                var waitTask2 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token));
-                var waitTask3 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 250));
 
@@ -588,9 +670,12 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(true);
 
-                var waitTask1 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
 
@@ -605,9 +690,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(false);
                 target.Set();
 
-                var waitTask1 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
 
@@ -621,9 +709,12 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var waitTask1 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 target.Set();
 
@@ -640,9 +731,12 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Set();
 
-                var waitTask1 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None));
-                var waitTask2 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None));
-                var waitTask3 = Task.Run(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None));
+                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
+                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.InfiniteTimeSpan, CancellationToken.None),
+                    TaskCreationOptions.LongRunning);
 
                 Assert.True(Task.WaitAll(new[] { waitTask1, waitTask2, waitTask3 }, 50));
 
@@ -663,7 +757,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync();
                 var waitTask3 = target.WaitOneAsync();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
             }
 
             [Fact]
@@ -676,7 +770,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync();
                 var waitTask3 = target.WaitOneAsync();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
             }
 
             [Fact]
@@ -688,7 +782,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync();
                 var waitTask3 = target.WaitOneAsync();
 
-                await Task.Delay(250);
+                await Task.Delay(250).ConfigureAwait(false);
 
                 Assert.False(waitTask1.IsCompleted);
                 Assert.False(waitTask2.IsCompleted);
@@ -696,7 +790,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 target.Set();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
             }
 
             [Fact]
@@ -709,7 +803,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync();
                 var waitTask3 = target.WaitOneAsync();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
             }
         }
 
@@ -722,10 +816,10 @@ namespace UnitTests.CodeTiger.Threading
 
                 var waitTask = target.WaitOneAsync(250);
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
                 Assert.False(waitTask.IsCompleted);
 
-                Assert.False(await waitTask.WithTimeout(100));
+                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
             }
 
             [Fact]
@@ -736,10 +830,10 @@ namespace UnitTests.CodeTiger.Threading
 
                 var waitTask = target.WaitOneAsync(250);
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
                 Assert.False(waitTask.IsCompleted);
 
-                Assert.False(await waitTask.WithTimeout(100));
+                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
             }
 
             [Fact]
@@ -751,11 +845,11 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(250);
                 var waitTask3 = target.WaitOneAsync(250);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -768,11 +862,11 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(250);
                 var waitTask3 = target.WaitOneAsync(250);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -784,18 +878,18 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(250);
                 var waitTask3 = target.WaitOneAsync(250);
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
                 Assert.False(waitTask1.IsCompleted);
                 Assert.False(waitTask2.IsCompleted);
                 Assert.False(waitTask3.IsCompleted);
 
                 target.Set();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -808,11 +902,11 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(250);
                 var waitTask3 = target.WaitOneAsync(250);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
         }
 
@@ -825,11 +919,11 @@ namespace UnitTests.CodeTiger.Threading
 
                 var waitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
 
                 Assert.False(waitTask.IsCompleted);
 
-                Assert.False(await waitTask.WithTimeout(100));
+                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
             }
 
             [Fact]
@@ -840,10 +934,10 @@ namespace UnitTests.CodeTiger.Threading
 
                 var waitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
                 Assert.False(waitTask.IsCompleted);
                 
-                Assert.False(await waitTask.WithTimeout(100));
+                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
             }
 
             [Fact]
@@ -855,11 +949,11 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
                 var waitTask3 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -872,11 +966,11 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
                 var waitTask3 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -888,18 +982,18 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
                 var waitTask3 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
                 Assert.False(waitTask1.IsCompleted);
                 Assert.False(waitTask2.IsCompleted);
                 Assert.False(waitTask3.IsCompleted);
 
                 target.Set();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -912,11 +1006,11 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
                 var waitTask3 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
         }
 
@@ -930,12 +1024,13 @@ namespace UnitTests.CodeTiger.Threading
                 var cancelSource = new CancellationTokenSource();
                 var waitTask = target.WaitOneAsync(cancelSource.Token);
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
                 Assert.False(waitTask.IsCompleted);
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask.WithTimeout(50));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask.WithTimeout(50))
+                    .ConfigureAwait(false);
             }
 
             [Fact]
@@ -947,7 +1042,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
             }
 
             [Fact]
@@ -960,7 +1055,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
             }
 
             [Fact]
@@ -974,7 +1069,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 target.Set();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
             }
 
             [Fact]
@@ -987,7 +1082,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
             }
         }
 
@@ -1000,11 +1095,11 @@ namespace UnitTests.CodeTiger.Threading
 
                 var waitTask = target.WaitOneAsync(250, CancellationToken.None);
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
 
                 Assert.False(waitTask.IsCompleted);
 
-                Assert.False(await waitTask.WithTimeout(100));
+                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
             }
 
             [Fact]
@@ -1017,7 +1112,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
                 var waitTask3 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
 
                 Assert.False(waitTask1.IsCompleted);
                 Assert.False(waitTask2.IsCompleted);
@@ -1025,9 +1120,12 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1.WithTimeout(50));
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2.WithTimeout(50));
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3.WithTimeout(50));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1.WithTimeout(50))
+                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2.WithTimeout(50))
+                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3.WithTimeout(50))
+                    .ConfigureAwait(false);
             }
 
             [Fact]
@@ -1040,17 +1138,17 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(250, CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(250, CancellationToken.None);
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
 
                 Assert.False(waitTask1.IsCompleted);
                 Assert.False(waitTask2.IsCompleted);
                 Assert.False(waitTask3.IsCompleted);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(100);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(100).ConfigureAwait(false);
 
-                Assert.False(waitTask1.Result);
-                Assert.False(waitTask2.Result);
-                Assert.False(waitTask3.Result);
+                Assert.False(await waitTask1.ConfigureAwait(false));
+                Assert.False(await waitTask2.ConfigureAwait(false));
+                Assert.False(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -1064,7 +1162,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
                 var waitTask3 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
 
                 Assert.False(waitTask1.IsCompleted);
                 Assert.False(waitTask2.IsCompleted);
@@ -1072,9 +1170,12 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1.WithTimeout(50));
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2.WithTimeout(50));
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3.WithTimeout(50));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1.WithTimeout(50))
+                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2.WithTimeout(50))
+                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3.WithTimeout(50))
+                    .ConfigureAwait(false);
             }
 
             [Fact]
@@ -1086,11 +1187,11 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.Infinite, CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(Timeout.Infinite, CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -1103,11 +1204,11 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.Infinite, CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(Timeout.Infinite, CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -1121,11 +1222,11 @@ namespace UnitTests.CodeTiger.Threading
 
                 target.Set();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -1138,11 +1239,11 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.Infinite, CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(Timeout.Infinite, CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
         }
 
@@ -1155,11 +1256,11 @@ namespace UnitTests.CodeTiger.Threading
 
                 var waitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250), CancellationToken.None);
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
 
                 Assert.False(waitTask.IsCompleted);
 
-                Assert.False(await waitTask.WithTimeout(100));
+                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
             }
 
             [Fact]
@@ -1172,7 +1273,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
                 var waitTask3 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
 
                 Assert.False(waitTask1.IsCompleted);
                 Assert.False(waitTask2.IsCompleted);
@@ -1180,9 +1281,12 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1.WithTimeout(50));
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2.WithTimeout(50));
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3.WithTimeout(50));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1.WithTimeout(50))
+                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2.WithTimeout(50))
+                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3.WithTimeout(50))
+                    .ConfigureAwait(false);
             }
 
             [Fact]
@@ -1195,17 +1299,17 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250), CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250), CancellationToken.None);
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
 
                 Assert.False(waitTask1.IsCompleted);
                 Assert.False(waitTask2.IsCompleted);
                 Assert.False(waitTask3.IsCompleted);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(100);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(100).ConfigureAwait(false);
 
-                Assert.False(waitTask1.Result);
-                Assert.False(waitTask2.Result);
-                Assert.False(waitTask3.Result);
+                Assert.False(await waitTask1.ConfigureAwait(false));
+                Assert.False(await waitTask2.ConfigureAwait(false));
+                Assert.False(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -1219,7 +1323,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
                 var waitTask3 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
-                await Task.Delay(200);
+                await Task.Delay(200).ConfigureAwait(false);
 
                 Assert.False(waitTask1.IsCompleted);
                 Assert.False(waitTask2.IsCompleted);
@@ -1227,9 +1331,12 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1.WithTimeout(50));
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2.WithTimeout(50));
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3.WithTimeout(50));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1.WithTimeout(50))
+                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2.WithTimeout(50))
+                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3.WithTimeout(50))
+                    .ConfigureAwait(false);
             }
 
             [Fact]
@@ -1241,11 +1348,11 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -1258,11 +1365,11 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -1276,11 +1383,11 @@ namespace UnitTests.CodeTiger.Threading
 
                 target.Set();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
 
             [Fact]
@@ -1293,11 +1400,11 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
 
-                Assert.True(waitTask1.Result);
-                Assert.True(waitTask2.Result);
-                Assert.True(waitTask3.Result);
+                Assert.True(await waitTask1.ConfigureAwait(false));
+                Assert.True(await waitTask2.ConfigureAwait(false));
+                Assert.True(await waitTask3.ConfigureAwait(false));
             }
         }
     }

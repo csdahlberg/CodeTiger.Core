@@ -14,9 +14,7 @@ namespace UnitTests.CodeTiger.Threading
             public void DoesNotCallGetWaitTaskSource()
             {
                 var tcs = new TaskCompletionSource<bool>();
-                var target = new MockAsyncWaitHandle(tcs);
-
-                var cts = new CancellationTokenSource();
+                var target = new TestableAsyncWaitHandle(tcs);
 
                 Assert.Equal(0, target.WaitTaskRetrievalCount);
             }
@@ -28,7 +26,7 @@ namespace UnitTests.CodeTiger.Threading
             public void CallsGetWaitTaskSourceWithCorrectCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
-                var target = new MockAsyncWaitHandle(tcs);
+                var target = new TestableAsyncWaitHandle(tcs);
 
                 tcs.SetResult(false);
 
@@ -45,7 +43,7 @@ namespace UnitTests.CodeTiger.Threading
             public void CallsGetWaitTaskSourceWithCorrectCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
-                var target = new MockAsyncWaitHandle(tcs);
+                var target = new TestableAsyncWaitHandle(tcs);
 
                 tcs.SetResult(false);
 
@@ -62,7 +60,7 @@ namespace UnitTests.CodeTiger.Threading
             public void CallsGetWaitTaskSourceWithCorrectCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
-                var target = new MockAsyncWaitHandle(tcs);
+                var target = new TestableAsyncWaitHandle(tcs);
 
                 tcs.SetResult(false);
 
@@ -79,7 +77,7 @@ namespace UnitTests.CodeTiger.Threading
             public void CallsGetWaitTaskSourceWithSameCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
-                var target = new MockAsyncWaitHandle(tcs);
+                var target = new TestableAsyncWaitHandle(tcs);
 
                 tcs.SetResult(false);
 
@@ -97,7 +95,7 @@ namespace UnitTests.CodeTiger.Threading
             public void CallsGetWaitTaskSourceWithSameCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
-                var target = new MockAsyncWaitHandle(tcs);
+                var target = new TestableAsyncWaitHandle(tcs);
 
                 tcs.SetResult(false);
 
@@ -115,7 +113,7 @@ namespace UnitTests.CodeTiger.Threading
             public void CallsGetWaitTaskSourceWithSameCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
-                var target = new MockAsyncWaitHandle(tcs);
+                var target = new TestableAsyncWaitHandle(tcs);
 
                 tcs.SetResult(false);
 
@@ -133,11 +131,11 @@ namespace UnitTests.CodeTiger.Threading
             public async Task CallsGetWaitTaskSourceAsyncWithCorrectCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
-                var target = new MockAsyncWaitHandle(tcs);
+                var target = new TestableAsyncWaitHandle(tcs);
 
                 tcs.SetResult(false);
 
-                await target.WaitOneAsync();
+                await target.WaitOneAsync().ConfigureAwait(false);
 
                 Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
                 Assert.Equal(CancellationToken.None, target.MostRecentCancellationToken);
@@ -150,11 +148,11 @@ namespace UnitTests.CodeTiger.Threading
             public async Task CallsGetWaitTaskSourceAsyncWithCorrectCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
-                var target = new MockAsyncWaitHandle(tcs);
+                var target = new TestableAsyncWaitHandle(tcs);
 
                 tcs.SetResult(false);
 
-                await target.WaitOneAsync(0);
+                await target.WaitOneAsync(0).ConfigureAwait(false);
 
                 Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
                 Assert.Equal(CancellationToken.None, target.MostRecentCancellationToken);
@@ -167,11 +165,11 @@ namespace UnitTests.CodeTiger.Threading
             public async Task CallsGetWaitTaskSourceAsyncWithCorrectCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
-                var target = new MockAsyncWaitHandle(tcs);
+                var target = new TestableAsyncWaitHandle(tcs);
 
                 tcs.SetResult(false);
 
-                await target.WaitOneAsync(TimeSpan.Zero);
+                await target.WaitOneAsync(TimeSpan.Zero).ConfigureAwait(false);
 
                 Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
                 Assert.Equal(CancellationToken.None, target.MostRecentCancellationToken);
@@ -184,12 +182,12 @@ namespace UnitTests.CodeTiger.Threading
             public async Task CallsGetWaitTaskSourceAsyncWithSameCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
-                var target = new MockAsyncWaitHandle(tcs);
+                var target = new TestableAsyncWaitHandle(tcs);
 
                 tcs.SetResult(false);
 
                 var cts = new CancellationTokenSource();
-                await target.WaitOneAsync(cts.Token);
+                await target.WaitOneAsync(cts.Token).ConfigureAwait(false);
 
                 Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
                 Assert.Equal(cts.Token, target.MostRecentCancellationToken);
@@ -202,12 +200,12 @@ namespace UnitTests.CodeTiger.Threading
             public async Task CallsGetWaitTaskSourceAsyncWithSameCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
-                var target = new MockAsyncWaitHandle(tcs);
+                var target = new TestableAsyncWaitHandle(tcs);
 
                 tcs.SetResult(false);
 
                 var cts = new CancellationTokenSource();
-                await target.WaitOneAsync(0, cts.Token);
+                await target.WaitOneAsync(0, cts.Token).ConfigureAwait(false);
 
                 Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
                 Assert.Equal(cts.Token, target.MostRecentCancellationToken);
@@ -220,12 +218,12 @@ namespace UnitTests.CodeTiger.Threading
             public async Task CallsGetWaitTaskSourceAsyncWithSameCancellationToken()
             {
                 var tcs = new TaskCompletionSource<bool>();
-                var target = new MockAsyncWaitHandle(tcs);
+                var target = new TestableAsyncWaitHandle(tcs);
 
                 tcs.SetResult(false);
 
                 var cts = new CancellationTokenSource();
-                await target.WaitOneAsync(TimeSpan.Zero, cts.Token);
+                await target.WaitOneAsync(TimeSpan.Zero, cts.Token).ConfigureAwait(false);
 
                 Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
                 Assert.Equal(cts.Token, target.MostRecentCancellationToken);
@@ -235,7 +233,7 @@ namespace UnitTests.CodeTiger.Threading
         /// <summary>
         /// A subclass of <see cref="AsyncWaitHandle"/> with some functionality mocked to allow for unit testing.
         /// </summary>
-        private class MockAsyncWaitHandle : AsyncWaitHandle
+        private class TestableAsyncWaitHandle : AsyncWaitHandle
         {
             private readonly TaskCompletionSource<bool> _waitTaskCompletionSource;
 
@@ -245,7 +243,7 @@ namespace UnitTests.CodeTiger.Threading
 
             public int WaitTaskAsyncRetrievalCount { get; private set; }
 
-            public MockAsyncWaitHandle(TaskCompletionSource<bool> waitTaskCompletionSource)
+            public TestableAsyncWaitHandle(TaskCompletionSource<bool> waitTaskCompletionSource)
             {
                 _waitTaskCompletionSource = waitTaskCompletionSource;
             }

@@ -19,9 +19,7 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                var lockObjectTask = Task.Factory.StartNew(() => target.Acquire());
-
-                Assert.True(lockObjectTask.Wait(50));
+                using (var lockObject = target.Acquire()) { }
             }
 
             [Fact]
@@ -29,12 +27,8 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                var firstLockObjectTask = Task.Factory.StartNew(() => target.Acquire());
-                firstLockObjectTask.GetAwaiter().GetResult().Dispose();
-
-                var secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire());
-
-                Assert.True(secondLockObjectTask.Wait(50));
+                using (var firstLockObject = target.Acquire()) { }
+                using (var secondLockObject = target.Acquire()) { }
             }
 
             [Fact]
@@ -42,13 +36,25 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                var firstLockObject = target.Acquire();
+                IDisposable firstLockObject = null;
+                Task<IDisposable> secondLockObjectTask = null;
 
-                Task.Delay(50).Wait();
+                try
+                {
+                    firstLockObject = target.Acquire();
+                    Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                var secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire());
+                    secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire(),
+                        TaskCreationOptions.LongRunning);
 
-                Assert.False(secondLockObjectTask.Wait(100));
+                    Assert.False(secondLockObjectTask.Wait(100));
+                }
+                finally
+                {
+                    // Clean up any outstanding locks or tasks
+                    firstLockObject?.Dispose();
+                    secondLockObjectTask?.Result?.Dispose();
+                }
             }
 
             [Fact]
@@ -56,19 +62,33 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                var firstLockObject = target.Acquire();
+                IDisposable firstLockObject = null;
+                Task<IDisposable> secondLockObjectTask = null;
 
-                Task.Delay(50).Wait();
+                try
+                {
+                    firstLockObject = target.Acquire();
 
-                var secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire());
+                    Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                Task.Delay(100).Wait();
+                    secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire(),
+                    TaskCreationOptions.LongRunning);
 
-                Assert.False(secondLockObjectTask.IsCompleted);
+                    Thread.Sleep(TimeSpan.FromMilliseconds(100));
 
-                firstLockObject.Dispose();
+                    Assert.False(secondLockObjectTask.IsCompleted);
 
-                Assert.True(secondLockObjectTask.Wait(50));
+                    firstLockObject.Dispose();
+                    firstLockObject = null;
+
+                    Assert.True(secondLockObjectTask.Wait(50));
+                }
+                finally
+                {
+                    // Clean up any outstanding locks or tasks
+                    firstLockObject?.Dispose();
+                    secondLockObjectTask?.Result?.Dispose();
+                }
             }
         }
 
@@ -79,9 +99,7 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                var lockObjectTask = Task.Factory.StartNew(() => target.Acquire(CancellationToken.None));
-
-                Assert.True(lockObjectTask.Wait(50));
+                using (var lockObject = target.Acquire(CancellationToken.None)) { }
             }
 
             [Fact]
@@ -89,12 +107,8 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                var firstLockObjectTask = Task.Factory.StartNew(() => target.Acquire(CancellationToken.None));
-                firstLockObjectTask.Result.Dispose();
-
-                var secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire(CancellationToken.None));
-
-                Assert.True(secondLockObjectTask.Wait(50));
+                using (var firstLockObject = target.Acquire(CancellationToken.None)) { }
+                using (var secondLockObject = target.Acquire(CancellationToken.None)) { }
             }
 
             [Fact]
@@ -102,13 +116,26 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                var firstLockObject = target.Acquire(CancellationToken.None);
+                IDisposable firstLockObject = null;
+                Task<IDisposable> secondLockObjectTask = null;
 
-                Task.Delay(50).Wait();
+                try
+                {
+                    firstLockObject = target.Acquire(CancellationToken.None);
 
-                var secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire(CancellationToken.None));
+                    Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                Assert.False(secondLockObjectTask.Wait(100));
+                    secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire(CancellationToken.None),
+                        TaskCreationOptions.LongRunning);
+
+                    Assert.False(secondLockObjectTask.Wait(100));
+                }
+                finally
+                {
+                    // Clean up any outstanding locks or tasks
+                    firstLockObject?.Dispose();
+                    secondLockObjectTask?.Result?.Dispose();
+                }
             }
 
             [Fact]
@@ -116,19 +143,33 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                var firstLockObject = target.Acquire(CancellationToken.None);
+                IDisposable firstLockObject = null;
+                Task<IDisposable> secondLockObjectTask = null;
 
-                Task.Delay(50).Wait();
+                try
+                {
+                    firstLockObject = target.Acquire(CancellationToken.None);
 
-                var secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire(CancellationToken.None));
+                    Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                Task.Delay(100).Wait();
+                    secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire(CancellationToken.None),
+                        TaskCreationOptions.LongRunning);
 
-                Assert.False(secondLockObjectTask.IsCompleted);
+                    Thread.Sleep(TimeSpan.FromMilliseconds(100));
 
-                firstLockObject.Dispose();
+                    Assert.False(secondLockObjectTask.IsCompleted);
 
-                Assert.True(secondLockObjectTask.Wait(50));
+                    firstLockObject.Dispose();
+                    firstLockObject = null;
+
+                    Assert.True(secondLockObjectTask.Wait(50));
+                }
+                finally
+                {
+                    // Clean up any outstanding locks or tasks
+                    firstLockObject?.Dispose();
+                    secondLockObjectTask?.Result?.Dispose();
+                }
             }
 
             [Fact]
@@ -136,40 +177,56 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                var firstLockObject = target.Acquire(CancellationToken.None);
+                IDisposable firstLockObject = null;
+                Task<IDisposable> secondLockObjectTask = null;
 
-                Task.Delay(50).Wait();
+                try
+                {
+                    firstLockObject = target.Acquire(CancellationToken.None);
 
-                var cancellationTokenSource = new CancellationTokenSource();
-                var secondLockObjectTask = Task.Factory.StartNew(
-                    () => target.Acquire(cancellationTokenSource.Token));
+                    Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                Task.Delay(50).Wait();
+                    var cancellationTokenSource = new CancellationTokenSource();
+                    secondLockObjectTask = Task.Factory.StartNew(
+                        () => target.Acquire(cancellationTokenSource.Token), TaskCreationOptions.LongRunning);
 
-                Assert.False(secondLockObjectTask.Wait(50));
+                    Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                cancellationTokenSource.Cancel();
+                    Assert.False(secondLockObjectTask.Wait(50));
 
-                var aggregateException = Assert.Throws<AggregateException>(() => secondLockObjectTask.Wait(50));
-                Assert.Equal(typeof(TaskCanceledException),
-                    aggregateException.Flatten().InnerExceptions.Single().GetType());
+                    cancellationTokenSource.Cancel();
+
+                    var aggregateException = Assert.Throws<AggregateException>(() => secondLockObjectTask.Wait(50));
+                    Assert.Equal(typeof(TaskCanceledException),
+                        aggregateException.Flatten().InnerExceptions.Single().GetType());
+                    secondLockObjectTask = null;
+                }
+                finally
+                {
+                    // Clean up any outstanding locks or tasks
+                    firstLockObject?.Dispose();
+                    secondLockObjectTask?.Result?.Dispose();
+                }
             }
         }
 
         public class AcquireAsync
         {
             [Fact]
-            public void ReturnsCompletedTaskToFirstCaller()
+            public async Task ReturnsCompletedTaskToFirstCaller()
             {
                 var target = new AsyncLock();
 
                 var lockObjectTask = target.AcquireAsync();
 
                 Assert.True(lockObjectTask.IsCompleted);
+
+                // Clean up any outstanding locks or tasks
+                (await lockObjectTask.ConfigureAwait(false)).Dispose();
             }
 
             [Fact]
-            public void ReturnsSameCompletedTaskToSecondCallerIfFirstCallerHasAlreadyDisposedLockObject()
+            public async Task ReturnsSameCompletedTaskToSecondCallerIfFirstCallerHasAlreadyDisposedLockObject()
             {
                 var target = new AsyncLock();
 
@@ -177,11 +234,14 @@ namespace UnitTests.CodeTiger.Threading
 
                 Assert.True(firstLockObjectTask.IsCompleted);
 
-                firstLockObjectTask.Result.Dispose();
+                (await firstLockObjectTask.ConfigureAwait(false)).Dispose();
 
                 var secondLockObjectTask = target.AcquireAsync();
 
                 Assert.Same(firstLockObjectTask, secondLockObjectTask);
+
+                // Clean up any outstanding locks or tasks
+                (await secondLockObjectTask.ConfigureAwait(false)).Dispose();
             }
 
             [Fact]
@@ -191,14 +251,16 @@ namespace UnitTests.CodeTiger.Threading
 
                 var firstLockObjectTask = target.AcquireAsync();
 
-                await Task.Delay(50);
+                await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
 
                 var secondLockObjectTask = target.AcquireAsync();
 
                 Assert.NotSame(firstLockObjectTask, secondLockObjectTask);
                 Assert.False(secondLockObjectTask.IsCompleted);
 
-                firstLockObjectTask.Result.Dispose();
+                // Clean up any outstanding locks or tasks
+                (await firstLockObjectTask.ConfigureAwait(false)).Dispose();
+                (await secondLockObjectTask.ConfigureAwait(false)).Dispose();
             }
 
             [Fact]
@@ -208,35 +270,37 @@ namespace UnitTests.CodeTiger.Threading
 
                 var firstLockObjectTask = target.AcquireAsync();
 
-                await Task.Delay(50);
+                await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
 
                 var secondLockObjectTask = target.AcquireAsync();
-
                 Assert.NotSame(firstLockObjectTask, secondLockObjectTask);
+
+                await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
                 Assert.False(secondLockObjectTask.IsCompleted);
 
-                (await firstLockObjectTask).Dispose();
-
-                await Task.Delay(50);
-
-                Assert.True(secondLockObjectTask.IsCompleted);
+                // Clean up any outstanding locks or tasks
+                (await firstLockObjectTask.ConfigureAwait(false)).Dispose();
+                (await secondLockObjectTask.ConfigureAwait(false)).Dispose();
             }
         }
 
         public class AcquireAsync_CancellationToken
         {
             [Fact]
-            public void ReturnsCompletedTaskToFirstCaller()
+            public async Task ReturnsCompletedTaskToFirstCaller()
             {
                 var target = new AsyncLock();
 
                 var lockObjectTask = target.AcquireAsync(CancellationToken.None);
 
                 Assert.True(lockObjectTask.IsCompleted);
+
+                // Clean up any outstanding locks or tasks
+                (await lockObjectTask.ConfigureAwait(false)).Dispose();
             }
 
             [Fact]
-            public void ReturnsSameCompletedTaskToSecondCallerIfFirstCallerHasAlreadyDisposedLockObject()
+            public async Task ReturnsSameCompletedTaskToSecondCallerIfFirstCallerHasAlreadyDisposedLockObject()
             {
                 var target = new AsyncLock();
 
@@ -244,11 +308,14 @@ namespace UnitTests.CodeTiger.Threading
 
                 Assert.True(firstLockObjectTask.IsCompleted);
 
-                firstLockObjectTask.Result.Dispose();
+                (await firstLockObjectTask.ConfigureAwait(false)).Dispose();
 
                 var secondLockObjectTask = target.AcquireAsync(CancellationToken.None);
 
                 Assert.Same(firstLockObjectTask, secondLockObjectTask);
+
+                // Clean up any outstanding locks or tasks
+                (await secondLockObjectTask.ConfigureAwait(false)).Dispose();
             }
 
             [Fact]
@@ -258,14 +325,16 @@ namespace UnitTests.CodeTiger.Threading
 
                 var firstLockObjectTask = target.AcquireAsync(CancellationToken.None);
 
-                await Task.Delay(50);
+                await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
 
                 var secondLockObjectTask = target.AcquireAsync(CancellationToken.None);
 
                 Assert.NotSame(firstLockObjectTask, secondLockObjectTask);
                 Assert.False(secondLockObjectTask.IsCompleted);
 
-                firstLockObjectTask.Result.Dispose();
+                // Clean up any outstanding locks or tasks
+                (await firstLockObjectTask.ConfigureAwait(false)).Dispose();
+                (await secondLockObjectTask.ConfigureAwait(false)).Dispose();
             }
 
             [Fact]
@@ -275,40 +344,44 @@ namespace UnitTests.CodeTiger.Threading
 
                 var firstLockObjectTask = target.AcquireAsync(CancellationToken.None);
 
-                await Task.Delay(50);
+                await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
 
                 var secondLockObjectTask = target.AcquireAsync(CancellationToken.None);
-
                 Assert.NotSame(firstLockObjectTask, secondLockObjectTask);
+
+                await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
                 Assert.False(secondLockObjectTask.IsCompleted);
 
-                (await firstLockObjectTask).Dispose();
-
-                await Task.Delay(50);
-
-                Assert.True(secondLockObjectTask.IsCompleted);
+                // Clean up any outstanding locks or tasks
+                (await firstLockObjectTask.ConfigureAwait(false)).Dispose();
+                (await secondLockObjectTask.ConfigureAwait(false)).Dispose();
             }
 
             [Fact]
-            public void ReturnsUncompletedTaskToSecondCallerThatCancelsWhenCancellationTokenIsSet()
+            public async Task ReturnsUncompletedTaskToSecondCallerThatCancelsWhenCancellationTokenIsSet()
             {
                 var target = new AsyncLock();
 
                 var firstLockObjectTask = target.AcquireAsync(CancellationToken.None);
 
-                Task.Delay(50).GetAwaiter().GetResult();
+                await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
 
                 var cancellationTokenSource = new CancellationTokenSource();
                 var secondLockObjectTask = target.AcquireAsync(cancellationTokenSource.Token);
 
-                Task.Delay(50).GetAwaiter().GetResult();
+                await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
 
                 Assert.NotSame(firstLockObjectTask, secondLockObjectTask);
                 Assert.False(secondLockObjectTask.Wait(50));
 
                 cancellationTokenSource.Cancel();
 
-                Assert.Throws<TaskCanceledException>(() => secondLockObjectTask.GetAwaiter().GetResult());
+                await Assert.ThrowsAsync<TaskCanceledException>(
+                    async () => await secondLockObjectTask.ConfigureAwait(false))
+                    .ConfigureAwait(false);
+
+                // Clean up any outstanding locks or tasks
+                (await firstLockObjectTask.ConfigureAwait(false)).Dispose();
             }
         }
     }

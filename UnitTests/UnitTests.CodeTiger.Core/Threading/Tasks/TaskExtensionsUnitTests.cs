@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CodeTiger.Threading.Tasks;
 using Xunit;
-using TaskExtensions = CodeTiger.Threading.Tasks.TaskExtensions;
 
 namespace UnitTests.CodeTiger.Threading.Tasks
 {
@@ -40,35 +39,42 @@ namespace UnitTests.CodeTiger.Threading.Tasks
                 var taskWithTimeout = task.WithTimeout(0);
 
                 Assert.NotSame(task, taskWithTimeout);
+
+                // Wait for outstanding tasks to complete
+                task.Wait();
             }
 
             [Fact]
-            public async Task ReturnsTaskWhichThrowsTimeoutExceptionWhenTimeoutIsLessThanOriginalTaskDuration()
+            public void ReturnsTaskWhichThrowsTimeoutExceptionWhenTimeoutIsLessThanOriginalTaskDuration()
             {
                 var task = Task.Delay(200);
                 var taskWithTimeout = task.WithTimeout(100);
 
-                await Assert.ThrowsAsync<TimeoutException>(() => taskWithTimeout);
+                var aggregateException = Assert.Throws<AggregateException>(() => taskWithTimeout.Wait());
+                Assert.IsType<TimeoutException>(aggregateException.Flatten().InnerExceptions.Single());
+
+                // Wait for outstanding tasks to complete
+                task.Wait();
             }
 
             [Fact]
             public void ReturnsTaskWhichCompletesNormallyWhenTimeoutIsGreaterThanTaskCompletionTime()
             {
-                var task = Task.Delay(100);
+                var task = Task.Delay(50);
                 var taskWithTimeout = task.WithTimeout(200);
 
-                Assert.True(taskWithTimeout.Wait(150));
+                task.Wait();
             }
 
             [Fact]
             public void ReturnsTaskWhichThrowsTaskCanceledExceptionWhenOriginalTaskIsCanceled()
             {
                 var taskSource = new TaskCompletionSource<bool>();
-                var taskWithTimeout = taskSource.Task.WithTimeout(500);
+                var taskWithTimeout = taskSource.Task.WithTimeout(200);
 
                 taskSource.SetCanceled();
 
-                var aggregateException = Assert.Throws<AggregateException>(() => taskWithTimeout.Wait(50));
+                var aggregateException = Assert.Throws<AggregateException>(() => taskWithTimeout.Wait());
                 Assert.Equal(typeof(TaskCanceledException),
                     aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
@@ -99,35 +105,45 @@ namespace UnitTests.CodeTiger.Threading.Tasks
                 var taskWithTimeout = task.WithTimeout(TimeSpan.Zero);
 
                 Assert.NotSame(task, taskWithTimeout);
+
+                // Wait for outstanding tasks to complete
+                task.Wait();
             }
 
             [Fact]
-            public async Task ReturnsTaskWhichThrowsTimeoutExceptionWhenTimeoutIsLessThanOriginalTaskDuration()
+            public void ReturnsTaskWhichThrowsTimeoutExceptionWhenTimeoutIsLessThanOriginalTaskDuration()
             {
                 var task = Task.Delay(200);
                 var taskWithTimeout = task.WithTimeout(TimeSpan.FromMilliseconds(100));
 
-                await Assert.ThrowsAsync<TimeoutException>(() => taskWithTimeout);
+                var actual = Assert.Throws<AggregateException>(() => taskWithTimeout.Wait());
+                Assert.IsType(typeof(TimeoutException), actual.Flatten().InnerExceptions.Single());
+
+                // Wait for outstanding tasks to complete
+                task.Wait();
             }
 
             [Fact]
             public void ReturnsTaskWhichCompletesNormallyWhenTimeoutIsGreaterThanTaskCompletionTime()
             {
-                var task = Task.Delay(100);
+                var task = Task.Delay(50);
                 var taskWithTimeout = task.WithTimeout(TimeSpan.FromMilliseconds(200));
 
-                Assert.True(taskWithTimeout.Wait(150));
+                taskWithTimeout.Wait();
+
+                // Wait for outstanding tasks to complete
+                task.Wait();
             }
 
             [Fact]
             public void ReturnsTaskWhichThrowsTaskCanceledExceptionWhenOriginalTaskIsCanceled()
             {
                 var taskSource = new TaskCompletionSource<bool>();
-                var taskWithTimeout = taskSource.Task.WithTimeout(TimeSpan.FromMilliseconds(500));
+                var taskWithTimeout = taskSource.Task.WithTimeout(TimeSpan.FromMilliseconds(200));
 
                 taskSource.SetCanceled();
 
-                var aggregateException = Assert.Throws<AggregateException>(() => taskWithTimeout.Wait(50));
+                var aggregateException = Assert.Throws<AggregateException>(() => taskWithTimeout.Wait());
                 Assert.Equal(typeof(TaskCanceledException),
                     aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
@@ -141,103 +157,88 @@ namespace UnitTests.CodeTiger.Threading.Tasks
                 Task task = null;
 
                 Assert.Throws<ArgumentNullException>(
-                    () => TaskExtensions.Wait(task, Timeout.InfiniteTimeSpan, CancellationToken.None));
+                    () => task.Wait(Timeout.InfiniteTimeSpan, CancellationToken.None));
             }
 
             [Fact]
             public void ReturnsImmediatelyWhenTaskIsCompleted()
             {
                 var task = Task.FromResult(true);
+                
+                var actual = task.Wait(Timeout.InfiniteTimeSpan, CancellationToken.None);
 
-                var target = Task.Run(
-                    () => TaskExtensions.Wait(task, Timeout.InfiniteTimeSpan, CancellationToken.None));
-
-                Task.Delay(1).Wait();
-
-                Assert.True(target.IsCompleted);
-                Assert.True(target.Result);
+                Assert.True(actual);
             }
 
             [Fact]
             public void ReturnsWhenTaskCompletesWhenTaskCompletesBeforeTimeout()
             {
                 var task = Task.Delay(50);
+                
+                var actual = task.Wait(TimeSpan.FromMilliseconds(200), CancellationToken.None);
 
-                var target = Task.Run(
-                    () => TaskExtensions.Wait(task, TimeSpan.FromMilliseconds(100), CancellationToken.None));
-
-                Task.Delay(80).Wait();
-
-                Assert.True(target.IsCompleted);
-                Assert.True(target.Result);
+                Assert.True(actual);
             }
 
             [Fact]
             public void ThrowsOperationCanceledExceptionImmediatelyWhenCancellationTokenIsInitiallySet()
             {
-                var cancellationTokenSource = new CancellationTokenSource();
-
-                var task = Task.Delay(250);
-
-                var target = Task.Run(
-                    () => TaskExtensions.Wait(task, Timeout.InfiniteTimeSpan, cancellationTokenSource.Token));
-
-                Task.Delay(150).Wait();
-
-                Assert.False(target.IsCompleted);
-
-                cancellationTokenSource.Cancel();
-
-                Task.Delay(1).Wait();
-
-                Assert.True(target.IsCompleted);
-                var aggregateException = Assert.Throws<AggregateException>(() => target.Wait());
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException.Flatten().InnerExceptions.Single().GetType());
+                var task = Task.Delay(100);
+                
+                Assert.Throws<OperationCanceledException>(
+                    () => task.Wait(Timeout.InfiniteTimeSpan, new CancellationToken(true)));
             }
 
             [Fact]
             public void ThrowsOperationCanceledExceptionWhenCancellationTokenIsSet()
             {
-                var task = Task.Delay(50);
+                var cancellationTokenSource = new CancellationTokenSource();
 
-                var target = Task.Run(
-                    () => TaskExtensions.Wait(task, Timeout.InfiniteTimeSpan, new CancellationToken(true)));
+                var task = Task.Delay(250);
+                
+                var target = Task.Factory.StartNew(
+                    () => task.Wait(Timeout.InfiniteTimeSpan, cancellationTokenSource.Token),
+                    TaskCreationOptions.LongRunning);
 
-                Task.Delay(1).Wait();
+                Thread.Sleep(TimeSpan.FromMilliseconds(150));
 
-                Assert.True(target.IsCompleted);
+                Assert.False(target.IsCompleted);
+
+                cancellationTokenSource.Cancel();
+                
                 var aggregateException = Assert.Throws<AggregateException>(() => target.Wait());
+
                 Assert.Equal(typeof(OperationCanceledException),
                     aggregateException.Flatten().InnerExceptions.Single().GetType());
+
+                // Wait for outstanding tasks to complete
+                task.Wait();
             }
 
             [Fact]
             public void ReturnsFalseImmediatelyWhenTimeoutIsZero()
             {
-                var task = Task.Delay(50);
+                var task = Task.Delay(100);
+                
+                bool actual = task.Wait(TimeSpan.Zero, CancellationToken.None);
 
-                var target = Task.Run(
-                    () => TaskExtensions.Wait(task, TimeSpan.Zero, CancellationToken.None));
+                Assert.False(actual);
 
-                Task.Delay(1).Wait();
-
-                Assert.True(target.IsCompleted);
-                Assert.False(target.Result);
+                // Wait for outstanding tasks to complete
+                task.Wait();
             }
 
             [Fact]
             public void ReturnsFalseWhenTimeoutExpires()
             {
-                var task = Task.Delay(50);
+                var task = Task.Delay(100);
+                
+                bool actual = task.Wait(TimeSpan.FromMilliseconds(25), CancellationToken.None);
 
-                var target = Task.Run(
-                    () => TaskExtensions.Wait(task, TimeSpan.FromMilliseconds(30), CancellationToken.None));
+                Assert.False(actual);
 
-                Task.Delay(40).Wait();
-
-                Assert.True(target.IsCompleted);
-                Assert.False(target.Result);
+                // Wait for outstanding tasks to complete
+                task.Wait();
             }
         }
     }
