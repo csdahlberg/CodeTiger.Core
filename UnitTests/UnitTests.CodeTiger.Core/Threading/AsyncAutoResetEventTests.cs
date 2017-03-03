@@ -75,12 +75,12 @@ namespace UnitTests.CodeTiger.Threading
                 // Add a small delay to make sure the second task calls WaitOne first
                 Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(250)));
-                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(250)));
+                Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(500)));
+                Assert.False(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
 
                 target.Set();
 
-                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(50)));
+                Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(500)));
             }
         }
 
@@ -117,7 +117,7 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncAutoResetEvent(true);
 
-                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(250),
+                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(500),
                     TaskCreationOptions.LongRunning);
 
                 // Add a small delay to make sure the first task calls WaitOne first
@@ -138,7 +138,7 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncAutoResetEvent(false);
                 target.Set();
 
-                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(250),
+                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(500),
                     TaskCreationOptions.LongRunning);
 
                 // Add a small delay to make sure the first task calls WaitOne first
@@ -160,7 +160,7 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncAutoResetEvent(false);
 
-                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(250),
+                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(500),
                     TaskCreationOptions.LongRunning);
 
                 // Add a small delay to make sure the first task calls WaitOne first
@@ -188,7 +188,7 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncAutoResetEvent(true);
                 target.Set();
 
-                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(250),
+                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(500),
                     TaskCreationOptions.LongRunning);
 
                 // Add a small delay to make sure the first task calls WaitOne first
@@ -209,19 +209,19 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncAutoResetEvent(true);
 
-                var successfulWaitTask1 = Task.Factory.StartNew(() => target.WaitOne(250),
+                var successfulWaitTask1 = Task.Factory.StartNew(() => target.WaitOne(500),
                     TaskCreationOptions.LongRunning);
 
                 // Add a small delay to make sure the first task calls WaitOne first
                 Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                var successfulWaitTask2 = Task.Factory.StartNew(() => target.WaitOne(250),
+                var successfulWaitTask2 = Task.Factory.StartNew(() => target.WaitOne(500),
                     TaskCreationOptions.LongRunning);
 
                 // Add a small delay to make sure the second task calls WaitOne first
                 Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                var unsuccessfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(250),
+                var unsuccessfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(500),
                     TaskCreationOptions.LongRunning);
 
                 Assert.True(successfulWaitTask1.Wait(TimeSpan.FromMilliseconds(50)));
@@ -276,7 +276,7 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncAutoResetEvent(true);
 
-                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(500)),
                     TaskCreationOptions.LongRunning);
 
                 // Add a small delay to make sure the first task calls WaitOne first
@@ -300,7 +300,7 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncAutoResetEvent(false);
                 target.Set();
 
-                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(500)),
                     TaskCreationOptions.LongRunning);
 
                 // Add a small delay to make sure the first task calls WaitOne first
@@ -322,7 +322,7 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncAutoResetEvent(false);
 
-                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(500)),
                     TaskCreationOptions.LongRunning);
 
                 // Add a small delay to make sure the first task calls WaitOne first
@@ -351,7 +351,7 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncAutoResetEvent(true);
                 target.Set();
 
-                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(500)),
                     TaskCreationOptions.LongRunning);
 
                 // Add a small delay to make sure the first task calls WaitOne first
@@ -373,13 +373,13 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncAutoResetEvent(true);
 
-                var successfulWaitTask1 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                var successfulWaitTask1 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(500)),
                     TaskCreationOptions.LongRunning);
 
                 // Add a small delay to make sure the first task calls WaitOne first
                 Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                var successfulWaitTask2 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                var successfulWaitTask2 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(500)),
                     TaskCreationOptions.LongRunning);
 
                 // Add a small delay to make sure the second task calls WaitOne first

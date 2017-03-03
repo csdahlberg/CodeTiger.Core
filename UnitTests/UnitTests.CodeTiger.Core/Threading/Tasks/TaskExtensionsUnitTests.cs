@@ -48,7 +48,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             public void ReturnsTaskWhichThrowsTimeoutExceptionWhenTimeoutIsLessThanOriginalTaskDuration()
             {
                 var task = Task.Delay(200);
-                var taskWithTimeout = task.WithTimeout(100);
+                var taskWithTimeout = task.WithTimeout(50);
 
                 var aggregateException = Assert.Throws<AggregateException>(() => taskWithTimeout.Wait());
                 Assert.IsType<TimeoutException>(aggregateException.Flatten().InnerExceptions.Single());
@@ -114,7 +114,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             public void ReturnsTaskWhichThrowsTimeoutExceptionWhenTimeoutIsLessThanOriginalTaskDuration()
             {
                 var task = Task.Delay(200);
-                var taskWithTimeout = task.WithTimeout(TimeSpan.FromMilliseconds(100));
+                var taskWithTimeout = task.WithTimeout(TimeSpan.FromMilliseconds(50));
 
                 var actual = Assert.Throws<AggregateException>(() => taskWithTimeout.Wait());
                 Assert.IsType(typeof(TimeoutException), actual.Flatten().InnerExceptions.Single());
@@ -187,6 +187,9 @@ namespace UnitTests.CodeTiger.Threading.Tasks
                 
                 Assert.Throws<OperationCanceledException>(
                     () => task.Wait(Timeout.InfiniteTimeSpan, new CancellationToken(true)));
+
+                // Wait for outstanding tasks to complete
+                task.Wait();
             }
 
             [Fact]
@@ -207,7 +210,6 @@ namespace UnitTests.CodeTiger.Threading.Tasks
                 cancellationTokenSource.Cancel();
                 
                 var aggregateException = Assert.Throws<AggregateException>(() => target.Wait());
-
                 Assert.Equal(typeof(OperationCanceledException),
                     aggregateException.Flatten().InnerExceptions.Single().GetType());
 
