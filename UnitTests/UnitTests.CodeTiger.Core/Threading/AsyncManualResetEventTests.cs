@@ -819,7 +819,7 @@ namespace UnitTests.CodeTiger.Threading
                 await Task.Delay(200).ConfigureAwait(false);
                 Assert.False(waitTask.IsCompleted);
 
-                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
+                Assert.False(await waitTask.ConfigureAwait(false));
             }
 
             [Fact]
@@ -833,7 +833,7 @@ namespace UnitTests.CodeTiger.Threading
                 await Task.Delay(200).ConfigureAwait(false);
                 Assert.False(waitTask.IsCompleted);
 
-                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
+                Assert.False(await waitTask.ConfigureAwait(false));
             }
 
             [Fact]
@@ -845,7 +845,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(250);
                 var waitTask3 = target.WaitOneAsync(250);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -862,7 +862,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(250);
                 var waitTask3 = target.WaitOneAsync(250);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -885,7 +885,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 target.Set();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -902,7 +902,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(250);
                 var waitTask3 = target.WaitOneAsync(250);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -923,7 +923,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 Assert.False(waitTask.IsCompleted);
 
-                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
+                Assert.False(await waitTask.ConfigureAwait(false));
             }
 
             [Fact]
@@ -937,7 +937,7 @@ namespace UnitTests.CodeTiger.Threading
                 await Task.Delay(200).ConfigureAwait(false);
                 Assert.False(waitTask.IsCompleted);
                 
-                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
+                Assert.False(await waitTask.ConfigureAwait(false));
             }
 
             [Fact]
@@ -949,7 +949,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
                 var waitTask3 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -966,7 +966,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
                 var waitTask3 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -989,7 +989,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 target.Set();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -1006,7 +1006,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
                 var waitTask3 = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -1029,8 +1029,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1042,7 +1041,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1055,7 +1054,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1069,7 +1068,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 target.Set();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1082,7 +1081,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
             }
         }
 
@@ -1099,7 +1098,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 Assert.False(waitTask.IsCompleted);
 
-                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
+                Assert.False(await waitTask.ConfigureAwait(false));
             }
 
             [Fact]
@@ -1120,12 +1119,9 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1.WithTimeout(50))
-                    .ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2.WithTimeout(50))
-                    .ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1).ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2).ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1144,7 +1140,7 @@ namespace UnitTests.CodeTiger.Threading
                 Assert.False(waitTask2.IsCompleted);
                 Assert.False(waitTask3.IsCompleted);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(100).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.False(await waitTask1.ConfigureAwait(false));
                 Assert.False(await waitTask2.ConfigureAwait(false));
@@ -1170,12 +1166,9 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1.WithTimeout(50))
-                    .ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2.WithTimeout(50))
-                    .ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1).ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2).ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1187,7 +1180,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.Infinite, CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(Timeout.Infinite, CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -1204,7 +1197,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.Infinite, CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(Timeout.Infinite, CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -1222,7 +1215,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 target.Set();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -1239,7 +1232,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.Infinite, CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(Timeout.Infinite, CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -1260,7 +1253,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 Assert.False(waitTask.IsCompleted);
 
-                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
+                Assert.False(await waitTask.ConfigureAwait(false));
             }
 
             [Fact]
@@ -1281,12 +1274,9 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1.WithTimeout(50))
-                    .ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2.WithTimeout(50))
-                    .ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1).ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2).ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1305,7 +1295,7 @@ namespace UnitTests.CodeTiger.Threading
                 Assert.False(waitTask2.IsCompleted);
                 Assert.False(waitTask3.IsCompleted);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(100).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.False(await waitTask1.ConfigureAwait(false));
                 Assert.False(await waitTask2.ConfigureAwait(false));
@@ -1331,12 +1321,9 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1.WithTimeout(50))
-                    .ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2.WithTimeout(50))
-                    .ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1).ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2).ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1348,7 +1335,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -1365,7 +1352,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -1383,7 +1370,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 target.Set();
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));
@@ -1400,7 +1387,7 @@ namespace UnitTests.CodeTiger.Threading
                 var waitTask2 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
                 var waitTask3 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
 
-                await Task.WhenAll(waitTask1, waitTask2, waitTask3).WithTimeout(50).ConfigureAwait(false);
+                await Task.WhenAll(waitTask1, waitTask2, waitTask3).ConfigureAwait(false);
 
                 Assert.True(await waitTask1.ConfigureAwait(false));
                 Assert.True(await waitTask2.ConfigureAwait(false));

@@ -72,7 +72,7 @@ namespace UnitTests.CodeTiger.Threading
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
                     secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire(),
-                    TaskCreationOptions.LongRunning);
+                        TaskCreationOptions.LongRunning);
 
                     Thread.Sleep(TimeSpan.FromMilliseconds(100));
 
@@ -372,13 +372,11 @@ namespace UnitTests.CodeTiger.Threading
                 await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
 
                 Assert.NotSame(firstLockObjectTask, secondLockObjectTask);
-                Assert.False(secondLockObjectTask.Wait(50));
+                Assert.False(secondLockObjectTask.IsCompleted);
 
                 cancellationTokenSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(
-                    async () => await secondLockObjectTask.ConfigureAwait(false))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => secondLockObjectTask).ConfigureAwait(false);
 
                 // Clean up any outstanding locks or tasks
                 (await firstLockObjectTask.ConfigureAwait(false)).Dispose();

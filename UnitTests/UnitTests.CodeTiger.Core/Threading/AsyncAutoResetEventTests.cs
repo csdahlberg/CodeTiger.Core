@@ -1061,9 +1061,7 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncAutoResetEvent(true);
                 target.Set();
 
-                var successfulWaitTask = target.WaitOneAsync();
-
-                await successfulWaitTask.WithTimeout(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
+                await target.WaitOneAsync().ConfigureAwait(false);
             }
 
             [Fact]
@@ -1239,7 +1237,7 @@ namespace UnitTests.CodeTiger.Threading
                 await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
                 Assert.False(unsuccessfulWaitTask.IsCompleted);
 
-                Assert.False(await unsuccessfulWaitTask.WithTimeout(100).ConfigureAwait(false));
+                Assert.False(await unsuccessfulWaitTask.ConfigureAwait(false));
             }
         }
 
@@ -1255,7 +1253,7 @@ namespace UnitTests.CodeTiger.Threading
                 await Task.Delay(TimeSpan.FromMilliseconds(200)).ConfigureAwait(false);
                 Assert.False(waitTask.IsCompleted);
 
-                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
+                Assert.False(await waitTask.ConfigureAwait(false));
             }
 
             [Fact]
@@ -1389,7 +1387,7 @@ namespace UnitTests.CodeTiger.Threading
                 await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
                 Assert.False(unsuccessfulWaitTask.IsCompleted);
 
-                Assert.False(await unsuccessfulWaitTask.WithTimeout(100).ConfigureAwait(false));
+                Assert.False(await unsuccessfulWaitTask.ConfigureAwait(false));
             }
         }
 
@@ -1408,8 +1406,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1432,8 +1429,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1457,8 +1453,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1487,8 +1482,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1512,8 +1506,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1549,8 +1542,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
         }
 
@@ -1566,7 +1558,7 @@ namespace UnitTests.CodeTiger.Threading
                 await Task.Delay(200).ConfigureAwait(false);
                 Assert.False(waitTask.IsCompleted);
 
-                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
+                Assert.False(await waitTask.ConfigureAwait(false));
             }
 
             [Fact]
@@ -1582,7 +1574,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask.WithTimeout(50));
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1610,8 +1602,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1634,8 +1625,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1659,8 +1649,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1689,8 +1678,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1714,8 +1702,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1751,8 +1738,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
         }
 
@@ -1768,7 +1754,7 @@ namespace UnitTests.CodeTiger.Threading
                 await Task.Delay(200).ConfigureAwait(false);
                 Assert.False(waitTask.IsCompleted);
 
-                Assert.False(await waitTask.WithTimeout(100).ConfigureAwait(false));
+                Assert.False(await waitTask.ConfigureAwait(false));
             }
 
             [Fact]
@@ -1784,8 +1770,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1813,8 +1798,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1837,8 +1821,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1862,8 +1845,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1892,8 +1874,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1917,8 +1898,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
 
             [Fact]
@@ -1954,8 +1934,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask.WithTimeout(50))
-                    .ConfigureAwait(false);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
             }
         }
     }
