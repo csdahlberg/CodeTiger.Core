@@ -63,7 +63,10 @@ namespace CodeTiger.Threading.Tasks
                         timeoutCancelTokenSource.Cancel();
 
                         return task;
-                    }, TaskContinuationOptions.ExecuteSynchronously)
+                    },
+                CancellationToken.None,
+                TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.DenyChildAttach,
+                TaskScheduler.Default)
                 .Unwrap();
         }
 
@@ -111,9 +114,9 @@ namespace CodeTiger.Threading.Tasks
 
             var timeoutCancelTokenSource = new CancellationTokenSource();
             var timeoutTask = Task.Delay(timeout, timeoutCancelTokenSource.Token);
-
-            return Task.WhenAny(task, timeoutTask)
-                .ContinueWith(completedTask =>
+            
+            return Task.Factory.ContinueWhenAny(new[] { task, timeoutTask },
+                completedTask =>
                     {
                         if (completedTask == timeoutTask)
                         {
@@ -123,7 +126,10 @@ namespace CodeTiger.Threading.Tasks
                         timeoutCancelTokenSource.Cancel();
 
                         return task;
-                    }, TaskContinuationOptions.ExecuteSynchronously)
+                    },
+                CancellationToken.None,
+                TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.DenyChildAttach,
+                TaskScheduler.Default)
                 .Unwrap();
         }
 
