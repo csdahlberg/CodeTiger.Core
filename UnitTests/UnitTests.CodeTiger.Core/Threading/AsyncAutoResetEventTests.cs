@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CodeTiger.Threading;
-using CodeTiger.Threading.Tasks;
 using Xunit;
 
 namespace UnitTests.CodeTiger.Threading
