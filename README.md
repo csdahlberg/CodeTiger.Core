@@ -10,12 +10,12 @@ Documentation can be found at [http://www.codetiger.net/Documentation/CodeTigerL
 * Clone the sources: `git clone https://github.com/csdahlberg/CodeTiger.Core.git`
 
 ### Building
-## Building CodeTiger.Core in Visual Studio 2015 or newer
-To get started on **Visual Studio 2015**:
+## Building CodeTiger.Core in Visual Studio 2017 or newer
+To get started on **Visual Studio 2017**:
 
-1. [Install Visual Studio 2015](http://www.visualstudio.com/en-us/downloads/visual-studio-2015-downloads-vs).
+1. [Install Visual Studio 2017](https://www.visualstudio.com/downloads/).
 2. Clone the source code (see above).
-3. Open CodeTiger.Core.sln solution in Visual Studio 2015.
+3. Open CodeTiger.Core.sln solution in Visual Studio 2017.
 
 ## How to Engage, Contribute and Provide Feedback
 Before you contribute, please read through the contributing guide.
