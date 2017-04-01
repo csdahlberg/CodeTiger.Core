@@ -16,7 +16,7 @@
     <IncludeSymbols>True</IncludeSymbols>
     <IncludeSource>True</IncludeSource>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\CodeTigerLib.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\CodeTiger.Core.snk</AssemblyOriginatorKeyFile>
     <NoWarn />
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <RootNamespace>CodeTiger</RootNamespace>
