@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.1</TargetFramework>
+    <TargetFrameworks>netstandard1.0;netstandard1.1;portable-net45+win8+wpa81+wp8</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>0.0.1-unofficial</Version>
     <Authors>Chris Dahlberg</Authors>
@@ -24,13 +24,31 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Build\Debug\</OutputPath>
-    <DocumentationFile>..\Build\Debug\netstandard1.1\CodeTiger.Core.xml</DocumentationFile>
+    <DocumentationFile>..\Build\Debug\$(TargetFramework)\CodeTiger.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\Build\Release\</OutputPath>
-    <DocumentationFile>..\Build\Release\netstandard1.1\CodeTiger.Core.xml</DocumentationFile>
+    <DocumentationFile>..\Build\Release\$(TargetFramework)\CodeTiger.Core.xml</DocumentationFile>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8'">
+    <TargetFrameworkIdentifier>.NETPortable</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
+    <NugetTargetMoniker>.NETPortable,Version=v0.0,Profile=Profile259</NugetTargetMoniker>
+    <LanguageTargets>$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets</LanguageTargets>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.0'">
+    <Compile Remove="Threading\AsyncAutoResetEvent.cs" /> <!-- Excluded because ConcurrentQueue isn't available -->
+    <Compile Remove="Threading\AsyncLock.cs" /> <!-- Excluded because ConcurrentQueue isn't available -->
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8'">
+    <Compile Remove="Threading\AsyncAutoResetEvent.cs" /> <!-- Excluded because ConcurrentQueue isn't available -->
+    <Compile Remove="Threading\AsyncLock.cs" /> <!-- Excluded because ConcurrentQueue isn't available -->
+  </ItemGroup>
 
 </Project>
