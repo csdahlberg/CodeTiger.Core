@@ -3,7 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.0;netstandard1.1;portable-net45+win8+wpa81+wp8</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>0.0.1-unofficial</Version>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <VersionSuffix>unofficial</VersionSuffix>
+    <FileVersion>0.0.1.0</FileVersion>
     <Authors>Chris Dahlberg</Authors>
     <Company>Chris Dahlberg</Company>
     <Description>A .NET library that provides a variety of reusable functionality, including packed integers (PackedInt16, PackedInt32, and PackedInt64), guard methods, various extension methods, and classes related to the Task Parallel Library (AsyncLazy, AsyncLock, AsyncAutoResetEvent, and AsyncManualResetEvent).</Description>

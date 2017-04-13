@@ -7,7 +7,9 @@
     <Product>CodeTiger.Core</Product>
     <Authors>Chris Dahlberg</Authors>
     <Company>Chris Dahlberg</Company>
-    <Version>0.0.1-unofficial</Version>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <VersionSuffix>unofficial</VersionSuffix>
+    <FileVersion>0.0.1.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
