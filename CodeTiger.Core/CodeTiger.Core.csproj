@@ -43,6 +43,8 @@
     <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
     <NugetTargetMoniker>.NETPortable,Version=v0.0,Profile=Profile259</NugetTargetMoniker>
     <LanguageTargets>$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets</LanguageTargets>
+    <!-- Setting IncludeProjectPriFile to false is a workaround for https://github.com/NuGet/Home/issues/5021 -->
+    <IncludeProjectPriFile>false</IncludeProjectPriFile>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.0'">
