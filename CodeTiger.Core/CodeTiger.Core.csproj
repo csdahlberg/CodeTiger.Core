@@ -20,6 +20,8 @@
     <NoWarn />
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <RootNamespace>CodeTiger</RootNamespace>
+    <DebugType>full</DebugType>
+    <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
