@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 
-namespace CodeTiger
+namespace CodeTiger.Reflection
 {
     /// <summary>
     /// Contains extension methods for the <see cref="TypeInfo"/> class.

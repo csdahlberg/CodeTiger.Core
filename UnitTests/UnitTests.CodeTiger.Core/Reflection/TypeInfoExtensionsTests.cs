@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using CodeTiger;
+using CodeTiger.Reflection;
 using Xunit;
 
-namespace UnitTests.CodeTiger
+namespace UnitTests.CodeTiger.Reflection
 {
     /// <summary>
     /// Contains unit tests for the <see cref="TypeExtensions"/> class.
