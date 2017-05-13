@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;netstandard1.1;portable-net45+win8+wpa81+wp8</TargetFrameworks>
+    <TargetFrameworks>netstandard1.1;netstandard1.0;portable-net45+win8+wpa81+wp8</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <VersionPrefix>0.0.1</VersionPrefix>
     <VersionSuffix>unofficial</VersionSuffix>
@@ -49,13 +49,15 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.0'">
-    <Compile Remove="Threading\AsyncAutoResetEvent.cs" /> <!-- Excluded because ConcurrentQueue isn't available -->
-    <Compile Remove="Threading\AsyncLock.cs" /> <!-- Excluded because ConcurrentQueue isn't available -->
+    <!-- The following files are excluded because ConcurrentQueue isn't available -->
+    <Compile Remove="Threading\AsyncAutoResetEvent.cs" />
+    <Compile Remove="Threading\AsyncLock.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8'">
-    <Compile Remove="Threading\AsyncAutoResetEvent.cs" /> <!-- Excluded because ConcurrentQueue isn't available -->
-    <Compile Remove="Threading\AsyncLock.cs" /> <!-- Excluded because ConcurrentQueue isn't available -->
+    <!-- The following files are excluded because ConcurrentQueue isn't available -->
+    <Compile Remove="Threading\AsyncAutoResetEvent.cs" />
+    <Compile Remove="Threading\AsyncLock.cs" />
   </ItemGroup>
 
 </Project>
