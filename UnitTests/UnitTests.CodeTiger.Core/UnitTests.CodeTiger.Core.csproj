@@ -11,6 +11,8 @@
     <VersionPrefix>0.0.1</VersionPrefix>
     <VersionSuffix>unofficial</VersionSuffix>
     <FileVersion>0.0.1.0</FileVersion>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\CodeTiger.Core.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
