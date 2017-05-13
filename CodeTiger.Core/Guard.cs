@@ -83,12 +83,33 @@ namespace CodeTiger
         /// </summary>
         /// <param name="name">The name of the argument.</param>
         /// <param name="condition"><c>true</c> if the argument is valid, <c>false</c> otherwise.</param>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="condition"/> is false.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="condition"/> is <c>false</c>.
+        /// </exception>
         public static void ArgumentIsValid(string name, bool condition)
         {
             if (!condition)
             {
                 throw new ArgumentException("Value does not fall within the expected range.", name);
+            }
+        }
+
+        /// <summary>
+        /// Ensures that an object has not been disposed, throwing an exception if it has been disposed.
+        /// </summary>
+        /// <param name="disposableObject">The object that may have been disposed.</param>
+        /// <param name="hasObjectBeenDisposed">Indicates whether the object has been disposed.</param>
+        /// <exception cref="ObjectDisposedException">Thrown when <paramref name="hasObjectBeenDisposed"/> is
+        /// <c>true</c>.</exception>
+        public static void ObjectHasNotBeenDisposed<T>(T disposableObject, bool hasObjectBeenDisposed)
+            where T : IDisposable
+        {
+            if (hasObjectBeenDisposed)
+            {
+                // Try to get the actual type of the object, but fall back to to compile-time generic type argument
+                // if the object is null.
+                string objectTypeName = disposableObject?.GetType().FullName ?? typeof(T).FullName;
+
+                throw new ObjectDisposedException(objectTypeName);
             }
         }
 
