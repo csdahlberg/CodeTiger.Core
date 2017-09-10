@@ -162,8 +162,8 @@ namespace CodeTiger
         /// </summary>
         /// <param name="newLowerValue">The <see cref="int"/> value to use as the lower 32 bits of the new
         /// <see cref="PackedInt64"/> value.</param>
-        /// <returns>A new <see cref="PackedInt64"/> value equivalent to this instance with its lower 32 bits set to
-        /// <paramref name="newLowerValue"/>.</returns>
+        /// <returns>A new <see cref="PackedInt64"/> value equivalent to this instance with its lower 32 bits set
+        /// to <paramref name="newLowerValue"/>.</returns>
         public PackedInt64 WithLowerInt32(int newLowerValue)
         {
             return new PackedInt64((_value & Bitmask.Int64Upper32) | ((long)newLowerValue & Bitmask.Int64Lower32));
@@ -175,8 +175,8 @@ namespace CodeTiger
         /// </summary>
         /// <param name="newUpperValue">The <see cref="int"/> value to use as the upper 32 bits of the new
         /// <see cref="PackedInt64"/> value.</param>
-        /// <returns>A new <see cref="PackedInt64"/> value equivalent to this instance with its upper 32 bits set to
-        /// <paramref name="newUpperValue"/>.</returns>
+        /// <returns>A new <see cref="PackedInt64"/> value equivalent to this instance with its upper 32 bits set
+        /// to <paramref name="newUpperValue"/>.</returns>
         public PackedInt64 WithUpperInt32(int newUpperValue)
         {
             return new PackedInt64(((long)newUpperValue << 32) | (_value & Bitmask.Int64Lower32));

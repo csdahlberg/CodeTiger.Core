@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,6 +23,8 @@ namespace CodeTiger.Threading.Tasks
         /// <paramref name="task"/> has already completed.</returns>
         /// <exception cref="TimeoutException">Thrown when <paramref name="task"/> takes longer than the specified
         /// number of milliseconds to complete.</exception>
+        [SuppressMessage("CodeTiger.Naming", "CT1727:Methods returning a Task should be suffixed with 'Async'.",
+            Justification = "This method works directly with tasks, so the Async suffix is unnecessary.")]
         public static Task WithTimeout(this Task task, int timeoutMilliseconds)
         {
             return WithTimeout(task, TimeSpan.FromMilliseconds(timeoutMilliseconds));
@@ -40,6 +43,8 @@ namespace CodeTiger.Threading.Tasks
         /// <paramref name="task"/> has already completed.</returns>
         /// <exception cref="TimeoutException">Thrown when <paramref name="task"/> takes longer than the specified
         /// amount of time to complete.</exception>
+        [SuppressMessage("CodeTiger.Naming", "CT1727:Methods returning a Task should be suffixed with 'Async'.",
+            Justification = "This method works directly with tasks, so the Async suffix is unnecessary.")]
         public static Task WithTimeout(this Task task, TimeSpan timeout)
         {
             Guard.ArgumentIsNotNull(nameof(task), task);
@@ -84,6 +89,8 @@ namespace CodeTiger.Threading.Tasks
         /// <see cref="Timeout.Infinite"/> or <paramref name="task"/> has already completed.</returns>
         /// <exception cref="TimeoutException">Thrown when <paramref name="task"/> takes longer than the specified
         /// number of milliseconds to complete.</exception>
+        [SuppressMessage("CodeTiger.Naming", "CT1727:Methods returning a Task should be suffixed with 'Async'.",
+            Justification = "This method works directly with tasks, so the Async suffix is unnecessary.")]
         public static Task<TResult> WithTimeout<TResult>(this Task<TResult> task, int timeoutMilliseconds)
         {
             return WithTimeout(task, TimeSpan.FromMilliseconds(timeoutMilliseconds));
@@ -103,6 +110,8 @@ namespace CodeTiger.Threading.Tasks
         /// <see cref="Timeout.InfiniteTimeSpan"/> or <paramref name="task"/> has already completed.</returns>
         /// <exception cref="TimeoutException">Thrown when <paramref name="task"/> takes longer than the specified
         /// amount of time to complete.</exception>
+        [SuppressMessage("CodeTiger.Naming", "CT1727:Methods returning a Task should be suffixed with 'Async'.",
+            Justification = "This method works directly with tasks, so the Async suffix is unnecessary.")]
         public static Task<TResult> WithTimeout<TResult>(this Task<TResult> task, TimeSpan timeout)
         {
             Guard.ArgumentIsNotNull(nameof(task), task);

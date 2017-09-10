@@ -117,7 +117,8 @@ namespace CodeTiger
         /// Ensures that an operation is valid, throwing an exception if it is not valid.
         /// </summary>
         /// <param name="condition"><c>true</c> if the operation is valid, <c>false</c> otherwise.</param>
-        /// <exception cref="InvalidOperationException">Thrown when <paramref name="condition"/> is false.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when <paramref name="condition"/> is false.
+        /// </exception>
         public static void OperationIsValid(bool condition)
         {
             if (!condition)

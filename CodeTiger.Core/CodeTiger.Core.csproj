@@ -60,4 +60,10 @@
     <Compile Remove="Threading\AsyncLock.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="CodeTiger.CodeAnalysis" Version="0.8.0">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
 </Project>

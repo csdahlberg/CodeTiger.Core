@@ -92,7 +92,8 @@ namespace CodeTiger
         /// <param name="value">The value of the argument.</param>
         /// <param name="minimumValue">The minimum allowable value of <paramref name="value"/>.</param>
         /// <param name="maximumValue">The maximum allowable value of <paramref name="value"/>.</param>
-        public static void ArgumentIsWithinRange(string name, double value, double minimumValue, double maximumValue)
+        public static void ArgumentIsWithinRange(string name, double value, double minimumValue,
+            double maximumValue)
         {
             if (value < minimumValue || value > maximumValue)
             {
@@ -108,7 +109,8 @@ namespace CodeTiger
         /// <param name="value">The value of the argument.</param>
         /// <param name="minimumValue">The minimum allowable value of <paramref name="value"/>.</param>
         /// <param name="maximumValue">The maximum allowable value of <paramref name="value"/>.</param>
-        public static void ArgumentIsWithinRange(string name, decimal value, decimal minimumValue, decimal maximumValue)
+        public static void ArgumentIsWithinRange(string name, decimal value, decimal minimumValue,
+            decimal maximumValue)
         {
             if (value < minimumValue || value > maximumValue)
             {
