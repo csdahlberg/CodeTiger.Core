@@ -258,7 +258,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
 
             [Theory]
@@ -316,7 +316,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
-                Assert.Equal(1, actual.Count());
+                Assert.Single(actual);
                 Assert.Equal((numberOfElements - 1) * 2, actual.ElementAt(0));
             }
 
@@ -333,7 +333,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
         }
 
@@ -369,7 +369,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
 
             [Theory]
@@ -427,7 +427,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
-                Assert.Equal(1, actual.Count());
+                Assert.Single(actual);
                 Assert.Equal((numberOfElements - 1) * 2, actual.ElementAt(0));
             }
 
@@ -444,7 +444,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
         }
 
@@ -480,7 +480,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
 
             [Theory]
@@ -496,7 +496,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
 
             [Theory]
@@ -512,7 +512,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
 
             [Theory]
@@ -590,7 +590,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
 
             [Theory]
@@ -606,7 +606,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
 
             [Theory]
@@ -622,7 +622,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
 
             [Theory]
@@ -700,7 +700,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
 
             [Theory]
@@ -716,7 +716,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
 
             [Theory]
@@ -815,7 +815,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
 
             [Theory]
@@ -831,7 +831,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
-                Assert.Equal(0, actual.Count());
+                Assert.Empty(actual);
             }
 
             [Theory]

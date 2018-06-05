@@ -175,7 +175,7 @@ namespace UnitTests.CodeTiger
 
                 var actual = Guard.ObjectHasNotBeenDisposed(argumentValue, false);
 
-                Assert.Same(argumentValue, actual);
+                Assert.Equal(argumentValue, actual);
             }
 
             private class DisposableClass : IDisposable

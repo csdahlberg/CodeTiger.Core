@@ -100,7 +100,7 @@ namespace UnitTests.CodeTiger.Reflection
                     .Where(x => x.DeclaringType == typeof(ClassWithLambdaInMethod))
                     .ToList();
 
-                Assert.Equal(1, targets.Count);
+                Assert.Single(targets);
                 Assert.True(targets.All(x => x.IsCompilerGenerated()));
             }
 
@@ -111,7 +111,7 @@ namespace UnitTests.CodeTiger.Reflection
                     .Where(x => x.DeclaringType == typeof(ClassWithExpressionBodiedProperty))
                     .ToList();
 
-                Assert.Equal(1, targets.Count);
+                Assert.Single(targets);
                 Assert.True(targets.All(x => x.IsCompilerGenerated()));
             }
 

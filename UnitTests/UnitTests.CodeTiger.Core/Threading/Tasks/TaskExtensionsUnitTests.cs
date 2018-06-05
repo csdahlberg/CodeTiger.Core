@@ -117,7 +117,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
                 var taskWithTimeout = task.WithTimeout(TimeSpan.FromMilliseconds(50));
 
                 var actual = Assert.Throws<AggregateException>(() => taskWithTimeout.Wait());
-                Assert.IsType(typeof(TimeoutException), actual.Flatten().InnerExceptions.Single());
+                Assert.IsType<TimeoutException>(actual.Flatten().InnerExceptions.Single());
 
                 // Wait for outstanding tasks to complete
                 task.Wait();

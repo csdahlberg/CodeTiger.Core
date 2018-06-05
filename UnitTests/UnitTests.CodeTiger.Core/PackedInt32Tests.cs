@@ -10,7 +10,7 @@ namespace UnitTests.CodeTiger
         public class LowerInt16
         {
             [Theory]
-            [MemberData("GetInt16ValuesForEdgeCases")]
+            [MemberData(nameof(GetInt16ValuesForEdgeCases))]
             public void GetterReturnsLowerInt16PassedInToConstructor(short lowerValue, short upperValue)
             {
                 var target = new PackedInt32(lowerValue, upperValue);
@@ -38,7 +38,7 @@ namespace UnitTests.CodeTiger
         public class UpperInt16
         {
             [Theory]
-            [MemberData("GetInt16ValuesForEdgeCases")]
+            [MemberData(nameof(GetInt16ValuesForEdgeCases))]
             public void GetterReturnsUpperInt16PassedInToConstructor(short lowerValue, short upperValue)
             {
                 var target = new PackedInt32(lowerValue, upperValue);
@@ -66,7 +66,7 @@ namespace UnitTests.CodeTiger
         public class GetInt16Values
         {
             [Theory]
-            [MemberData("GetInt16ValuesForEdgeCases")]
+            [MemberData(nameof(GetInt16ValuesForEdgeCases))]
             public void GetterReturnsArrayWithValuesPassedInToConstructor(short lowerValue, short upperValue)
             {
                 var target = new PackedInt32(lowerValue, upperValue);
@@ -97,7 +97,7 @@ namespace UnitTests.CodeTiger
         public class GetByteValues
         {
             [Theory]
-            [MemberData("GetByteValuesForEdgeCases")]
+            [MemberData(nameof(GetByteValuesForEdgeCases))]
             public void GetterReturnsArrayWithValuesPassedInToConstructor(byte value0, byte value1, byte value2,
                 byte value3)
             {

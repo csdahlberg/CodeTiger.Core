@@ -11,7 +11,7 @@ namespace UnitTests.CodeTiger
         public class LowerInt32
         {
             [Theory]
-            [MemberData("GetInt32ValuesForEdgeCases")]
+            [MemberData(nameof(GetInt32ValuesForEdgeCases))]
             public void GetterReturnsLowerInt32PassedInToConstructor(int lowerValue, int upperValue)
             {
                 var target = new PackedInt64(lowerValue, upperValue);
@@ -39,7 +39,7 @@ namespace UnitTests.CodeTiger
         public class UpperInt32
         {
             [Theory]
-            [MemberData("GetInt32ValuesForEdgeCases")]
+            [MemberData(nameof(GetInt32ValuesForEdgeCases))]
             public void GetterReturnsUpperInt32PassedInToConstructor(int lowerValue, int upperValue)
             {
                 var target = new PackedInt64(lowerValue, upperValue);
@@ -67,7 +67,7 @@ namespace UnitTests.CodeTiger
         public class GetInt32Values
         {
             [Theory]
-            [MemberData("GetInt32ValuesForEdgeCases")]
+            [MemberData(nameof(GetInt32ValuesForEdgeCases))]
             public void GetterReturnsArrayWithValuesPassedInToConstructor(int lowerValue, int upperValue)
             {
                 var target = new PackedInt64(lowerValue, upperValue);
@@ -98,7 +98,7 @@ namespace UnitTests.CodeTiger
         public class GetInt16Values
         {
             [Theory]
-            [MemberData("GetInt16ValuesForEdgeCases")]
+            [MemberData(nameof(GetInt16ValuesForEdgeCases))]
             public void GetterReturnsArrayWithValuesPassedInToConstructor(short value0, short value1, short value2,
                 short value3)
             {
@@ -141,7 +141,7 @@ namespace UnitTests.CodeTiger
         public class GetByteValues
         {
             [Theory]
-            [MemberData("GetByteValuesForEdgeCases")]
+            [MemberData(nameof(GetByteValuesForEdgeCases))]
             [SuppressMessage("CodeTiger.Design", "CT1003:Methods should not exceed seven parameters.",
                 Justification = "This test requires more than seven generated arguments.")]
             public void GetterReturnsArrayWithValuesPassedInToConstructor(byte value0, byte value1, byte value2,

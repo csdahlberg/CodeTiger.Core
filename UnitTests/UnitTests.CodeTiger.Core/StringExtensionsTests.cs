@@ -11,7 +11,7 @@ namespace UnitTests.CodeTiger
             [Fact]
             public void ThrowsArgumentNullExceptionForNullString()
             {
-                Assert.Throws(typeof(ArgumentNullException), () => ((string)null).SplitAt(0));
+                Assert.Throws<ArgumentNullException>(() => ((string)null).SplitAt(0));
             }
 
             [Theory]
@@ -29,7 +29,7 @@ namespace UnitTests.CodeTiger
             [InlineData("xy", int.MaxValue)]
             public void ThrowsArgumentOutOfRangeExceptionForInvalidOffsets(string original, int offset)
             {
-                Assert.Throws(typeof(ArgumentOutOfRangeException), () => original.SplitAt(offset));
+                Assert.Throws<ArgumentOutOfRangeException>(() => original.SplitAt(offset));
             }
 
             [Theory]

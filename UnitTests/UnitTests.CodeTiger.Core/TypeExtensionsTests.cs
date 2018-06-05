@@ -101,7 +101,7 @@ namespace UnitTests.CodeTiger
                     .Select(x => x.AsType())
                     .ToList();
 
-                Assert.Equal(1, targets.Count);
+                Assert.Single(targets);
                 Assert.True(targets.All(x => x.IsCompilerGenerated()));
             }
 
@@ -113,7 +113,7 @@ namespace UnitTests.CodeTiger
                     .Select(x => x.AsType())
                     .ToList();
 
-                Assert.Equal(1, targets.Count);
+                Assert.Single(targets);
                 Assert.True(targets.All(x => x.IsCompilerGenerated()));
             }
 
