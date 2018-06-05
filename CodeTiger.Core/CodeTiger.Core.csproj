@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.1;netstandard1.0;portable-net45+win8+wpa81+wp8</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <VersionPrefix>0.0.1</VersionPrefix>
     <VersionSuffix>unofficial</VersionSuffix>
@@ -30,6 +30,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Build\Debug\</OutputPath>
     <DocumentationFile>..\Build\Debug\$(TargetFramework)\CodeTiger.Core.xml</DocumentationFile>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -37,28 +38,6 @@
     <DocumentationFile>..\Build\Release\$(TargetFramework)\CodeTiger.Core.xml</DocumentationFile>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8'">
-    <TargetFrameworkIdentifier>.NETPortable</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
-    <NugetTargetMoniker>.NETPortable,Version=v0.0,Profile=Profile259</NugetTargetMoniker>
-    <LanguageTargets>$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets</LanguageTargets>
-    <!-- Setting IncludeProjectPriFile to false is a workaround for https://github.com/NuGet/Home/issues/5021 -->
-    <IncludeProjectPriFile>false</IncludeProjectPriFile>
-  </PropertyGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.0'">
-    <!-- The following files are excluded because ConcurrentQueue isn't available -->
-    <Compile Remove="Threading\AsyncAutoResetEvent.cs" />
-    <Compile Remove="Threading\AsyncLock.cs" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8'">
-    <!-- The following files are excluded because ConcurrentQueue isn't available -->
-    <Compile Remove="Threading\AsyncAutoResetEvent.cs" />
-    <Compile Remove="Threading\AsyncLock.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CodeTiger.CodeAnalysis" Version="0.8.0">
