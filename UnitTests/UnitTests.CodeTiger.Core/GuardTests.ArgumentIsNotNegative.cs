@@ -26,7 +26,9 @@ namespace UnitTests.CodeTiger
             [InlineData(short.MaxValue)]
             public void DoesNotThrowExceptionWhenArgumentIsNotNegative(short argumentValue)
             {
-                Guard.ArgumentIsNotNegative("DummyArgumentName", argumentValue);
+                short actual = Guard.ArgumentIsNotNegative("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -49,7 +51,9 @@ namespace UnitTests.CodeTiger
             [InlineData(int.MaxValue)]
             public void DoesNotThrowExceptionWhenArgumentIsNotNegative(int argumentValue)
             {
-                Guard.ArgumentIsNotNegative("DummyArgumentName", argumentValue);
+                int actual = Guard.ArgumentIsNotNegative("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -72,7 +76,9 @@ namespace UnitTests.CodeTiger
             [InlineData(long.MaxValue)]
             public void DoesNotThrowExceptionWhenArgumentIsNotNegative(long argumentValue)
             {
-                Guard.ArgumentIsNotNegative("DummyArgumentName", argumentValue);
+                long actual = Guard.ArgumentIsNotNegative("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -99,7 +105,9 @@ namespace UnitTests.CodeTiger
             [InlineData(float.PositiveInfinity)]
             public void DoesNotThrowExceptionWhenArgumentIsNotNegative(float argumentValue)
             {
-                Guard.ArgumentIsNotNegative("DummyArgumentName", argumentValue);
+                float actual = Guard.ArgumentIsNotNegative("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -126,14 +134,16 @@ namespace UnitTests.CodeTiger
             [InlineData(double.PositiveInfinity)]
             public void DoesNotThrowExceptionWhenArgumentIsNotNegative(double argumentValue)
             {
-                Guard.ArgumentIsNotNegative("DummyArgumentName", argumentValue);
+                double actual = Guard.ArgumentIsNotNegative("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
         public class ArgumentIsNotNegative_String_Decimal
         {
             [Theory]
-            [MemberData("GetNegativeDecimalValuesForEdgeCases")]
+            [MemberData(nameof(GetNegativeDecimalValuesForEdgeCases))]
             public void ThrowsArgumentOutOfRangeExceptionWhenArgumentIsNegative(decimal argumentValue)
             {
                 Assert.Throws<ArgumentOutOfRangeException>(
@@ -141,10 +151,12 @@ namespace UnitTests.CodeTiger
             }
 
             [Theory]
-            [MemberData("GetNonNegativeDecimalValuesForEdgeCases")]
+            [MemberData(nameof(GetNonNegativeDecimalValuesForEdgeCases))]
             public void DoesNotThrowExceptionWhenArgumentIsNotNegative(decimal argumentValue)
             {
-                Guard.ArgumentIsNotNegative("DummyArgumentName", argumentValue);
+                decimal actual = Guard.ArgumentIsNotNegative("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
 
             public static IEnumerable<object[]> GetNegativeDecimalValuesForEdgeCases()
@@ -152,7 +164,7 @@ namespace UnitTests.CodeTiger
                 return new object[][]
                 {
                     new object[] { decimal.MinValue },
-                    new object[] { (decimal)-79228162514264337593543950334m },
+                    new object[] { -79228162514264337593543950334m },
                     new object[] { decimal.MinusOne },
                 };
             }
@@ -163,7 +175,7 @@ namespace UnitTests.CodeTiger
                 {
                     new object[] { decimal.Zero },
                     new object[] { decimal.One },
-                    new object[] { (decimal)79228162514264337593543950334m },
+                    new object[] { 79228162514264337593543950334m },
                     new object[] { decimal.MaxValue },
                 };
             }

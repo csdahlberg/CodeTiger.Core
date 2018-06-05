@@ -13,14 +13,17 @@ namespace CodeTiger
         /// <typeparam name="T">The type of the argument.</typeparam>
         /// <param name="name">The name of the argument.</param>
         /// <param name="value">The value of the argument.</param>
+        /// <returns><paramref name="value"/> if it is not null.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="value"/> is null.</exception>
-        public static void ArgumentIsNotNull<T>(string name, [ValidatedNotNull] T value)
+        public static T ArgumentIsNotNull<T>(string name, [ValidatedNotNull] T value)
             where T : class
         {
             if (value == null)
             {
                 throw new ArgumentNullException(name);
             }
+
+            return value;
         }
 
         /// <summary>
@@ -28,9 +31,10 @@ namespace CodeTiger
         /// </summary>
         /// <param name="name">The name of the argument.</param>
         /// <param name="value">The value of the argument.</param>
+        /// <returns><paramref name="value"/> if it is not null or empty.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="value"/> is null.</exception>
         /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is empty.</exception>
-        public static void ArgumentIsNotNullOrEmpty(string name, [ValidatedNotNull] string value)
+        public static string ArgumentIsNotNullOrEmpty(string name, [ValidatedNotNull] string value)
         {
             if (value == null)
             {
@@ -42,35 +46,38 @@ namespace CodeTiger
                 throw new ArgumentException(
                     $"Value cannot be empty.{Environment.NewLine}Parameter name: {name}", name);
             }
+
+            return value;
         }
 
         /// <summary>
-        /// Ensures that a string argument is not null or empty, throwing an exception if it is either.
+        /// Ensures that a string argument is not null, empty, or whitespace, throwing an exception if it is.
         /// </summary>
         /// <param name="name">The name of the argument.</param>
         /// <param name="value">The value of the argument.</param>
+        /// <returns><paramref name="value"/> if it is not null, empty, or whitespace.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="value"/> is null.</exception>
         /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is empty or contains only
         /// whitespace characters.</exception>
-        public static void ArgumentIsNotNullOrWhiteSpace(string name, [ValidatedNotNull] string value)
+        public static string ArgumentIsNotNullOrWhiteSpace(string name, [ValidatedNotNull] string value)
         {
             if (value == null)
             {
                 throw new ArgumentNullException(name);
+            }
+
+            if (value.Length == 0)
+            {
+                throw new ArgumentException(
+                    $"Value cannot be empty.{Environment.NewLine}Parameter name: {name}", name);
             }
 
             for (int i = 0; i < value.Length; i++)
             {
                 if (!char.IsWhiteSpace(value[i]))
                 {
-                    return;
+                    return value;
                 }
-            }
-
-            if (value.Length == 0)
-            {
-                throw new ArgumentException(
-                    $"Value cannot be empty.{Environment.NewLine}Parameter name: {name}", name);
             }
 
             throw new ArgumentException(
@@ -94,13 +101,34 @@ namespace CodeTiger
         }
 
         /// <summary>
+        /// Ensures that an argument is valid, throwing an exception if it is not valid.
+        /// </summary>
+        /// <param name="name">The name of the argument.</param>
+        /// <param name="condition"><c>true</c> if the argument is valid, <c>false</c> otherwise.</param>
+        /// <param name="value">The value of the argument.</param>
+        /// <returns><paramref name="value"/> if <paramref name="condition"/> is <c>true</c>.</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="condition"/> is <c>false</c>.
+        /// </exception>
+        public static T ArgumentIsValid<T>(string name, bool condition, [ValidatedNotNull] T value)
+        {
+            if (!condition)
+            {
+                throw new ArgumentException("Value does not fall within the expected range.", name);
+            }
+
+            return value;
+        }
+
+        /// <summary>
         /// Ensures that an object has not been disposed, throwing an exception if it has been disposed.
         /// </summary>
         /// <param name="disposableObject">The object that may have been disposed.</param>
         /// <param name="hasObjectBeenDisposed">Indicates whether the object has been disposed.</param>
+        /// <returns><paramref name="disposableObject"/> if <paramref name="hasObjectBeenDisposed"/> is
+        /// <c>true</c>.</returns>
         /// <exception cref="ObjectDisposedException">Thrown when <paramref name="hasObjectBeenDisposed"/> is
         /// <c>true</c>.</exception>
-        public static void ObjectHasNotBeenDisposed<T>(T disposableObject, bool hasObjectBeenDisposed)
+        public static T ObjectHasNotBeenDisposed<T>(T disposableObject, bool hasObjectBeenDisposed)
             where T : IDisposable
         {
             if (hasObjectBeenDisposed)
@@ -111,6 +139,8 @@ namespace CodeTiger
 
                 throw new ObjectDisposedException(objectTypeName);
             }
+
+            return disposableObject;
         }
 
         /// <summary>

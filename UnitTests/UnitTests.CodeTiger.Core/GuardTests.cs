@@ -21,7 +21,11 @@ namespace UnitTests.CodeTiger
             [Fact]
             public void DoesNotThrowExceptionWhenObjectArgumentIsNotNull()
             {
-                Guard.ArgumentIsNotNull<object>("DummyArgumentName", new object());
+                object argumentValue = new object();
+
+                object actual = Guard.ArgumentIsNotNull<object>("DummyArgumentName", argumentValue);
+
+                Assert.Same(argumentValue, actual);
             }
         }
 
@@ -51,7 +55,9 @@ namespace UnitTests.CodeTiger
             [InlineData("Testing")]
             public void DoesNotThrowExceptionWhenArgumentIsNotNullOrEmpty(string argumentValue)
             {
-                Guard.ArgumentIsNotNullOrEmpty("DummyArgumentName", argumentValue);
+                string actual = Guard.ArgumentIsNotNullOrEmpty("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -88,7 +94,9 @@ namespace UnitTests.CodeTiger
             [InlineData("Testing")]
             public void DoesNotThrowExceptionWhenArgumentIsNotNullOrWhiteSpace(string argumentValue)
             {
-                Guard.ArgumentIsNotNullOrWhiteSpace("DummyArgumentName", argumentValue);
+                string actual = Guard.ArgumentIsNotNullOrWhiteSpace("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -153,13 +161,21 @@ namespace UnitTests.CodeTiger
             [Fact]
             public void DoesNotThrowExceptionForDisposableClassWhenHasObjectBeenDisposedIsFalse()
             {
-                Guard.ObjectHasNotBeenDisposed(new DisposableClass(), false);
+                var argumentValue = new DisposableClass();
+
+                var actual = Guard.ObjectHasNotBeenDisposed(argumentValue, false);
+
+                Assert.Same(argumentValue, actual);
             }
 
             [Fact]
             public void DoesNotThrowExceptionForDisposableStructWhenHasObjectBeenDisposedIsFalse()
             {
-                Guard.ObjectHasNotBeenDisposed(new DisposableStruct(), false);
+                var argumentValue = new DisposableStruct();
+
+                var actual = Guard.ObjectHasNotBeenDisposed(argumentValue, false);
+
+                Assert.Same(argumentValue, actual);
             }
 
             private class DisposableClass : IDisposable

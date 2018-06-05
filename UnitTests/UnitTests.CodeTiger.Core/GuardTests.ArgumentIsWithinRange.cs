@@ -39,8 +39,10 @@ namespace UnitTests.CodeTiger
             public void DoesNotThrowExceptionWhenArgumentIsWithinRange(byte argumentValue,
                 byte minimumValue, byte maximumValue)
             {
-                Guard.ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue,
-                        maximumValue);
+                byte actual = Guard
+                    .ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue, maximumValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -80,8 +82,10 @@ namespace UnitTests.CodeTiger
             public void DoesNotThrowExceptionWhenArgumentIsWithinRange(short argumentValue,
                 short minimumValue, short maximumValue)
             {
-                Guard.ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue,
-                        maximumValue);
+                short actual = Guard
+                    .ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue, maximumValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -121,8 +125,10 @@ namespace UnitTests.CodeTiger
             public void DoesNotThrowExceptionWhenArgumentIsWithinRange(int argumentValue,
                 int minimumValue, int maximumValue)
             {
-                Guard.ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue,
-                        maximumValue);
+                int actual = Guard
+                    .ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue, maximumValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -162,8 +168,10 @@ namespace UnitTests.CodeTiger
             public void DoesNotThrowExceptionWhenArgumentIsWithinRange(long argumentValue,
                 long minimumValue, long maximumValue)
             {
-                Guard.ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue,
-                        maximumValue);
+                long actual = Guard
+                    .ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue, maximumValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -203,8 +211,10 @@ namespace UnitTests.CodeTiger
             public void DoesNotThrowExceptionWhenArgumentIsWithinRange(float argumentValue,
                 float minimumValue, float maximumValue)
             {
-                Guard.ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue,
-                        maximumValue);
+                float actual = Guard
+                    .ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue, maximumValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -244,15 +254,17 @@ namespace UnitTests.CodeTiger
             public void DoesNotThrowExceptionWhenArgumentIsWithinRange(double argumentValue,
                 double minimumValue, double maximumValue)
             {
-                Guard.ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue,
-                        maximumValue);
+                double actual = Guard
+                    .ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue, maximumValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
         public class ArgumentIsWithinRange_String_Decimal_Decimal_Decimal
         {
             [Theory]
-            [MemberData("GetDecimalValuesForOutOfRangeEdgeCases")]
+            [MemberData(nameof(GetDecimalValuesForOutOfRangeEdgeCases))]
             public void ThrowsArgumentOutOfRangeExceptionWhenArgumentIsOutsideOfRange(decimal argumentValue,
                 decimal minimumValue, decimal maximumValue)
             {
@@ -262,12 +274,14 @@ namespace UnitTests.CodeTiger
             }
 
             [Theory]
-            [MemberData("GetDecimalValuesForWithinRangeEdgeCases")]
+            [MemberData(nameof(GetDecimalValuesForWithinRangeEdgeCases))]
             public void DoesNotThrowExceptionWhenArgumentIsWithinRange(decimal argumentValue,
                 decimal minimumValue, decimal maximumValue)
             {
-                Guard.ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue,
-                        maximumValue);
+                decimal actual = Guard
+                    .ArgumentIsWithinRange("DummyArgumentName", argumentValue, minimumValue, maximumValue);
+
+                Assert.Equal(argumentValue, actual);
             }
 
             public static IEnumerable<object[]> GetDecimalValuesForOutOfRangeEdgeCases()
@@ -358,6 +372,28 @@ namespace UnitTests.CodeTiger
             public void DoesNotThrowExceptionWhenConditionIsTrue()
             {
                 Guard.ArgumentIsWithinRange("DummyArgumentName", true);
+            }
+        }
+
+        public class ArgumentIsWithinRange_String_T_Boolean
+        {
+            [Theory]
+            [InlineData((byte)1)]
+            [InlineData(1)]
+            [InlineData("testing")]
+            public void ThrowsArgumentOutOfRangeExceptionWhenConditionIsFalse<T>(T value)
+            {
+                Assert.Throws<ArgumentOutOfRangeException>("DummyArgumentName",
+                    () => Guard.ArgumentIsWithinRange("DummyArgumentName", value, false));
+            }
+
+            [Theory]
+            [InlineData((byte)1)]
+            [InlineData(1)]
+            [InlineData("testing")]
+            public void DoesNotThrowExceptionWhenConditionIsTrue<T>(T value)
+            {
+                Guard.ArgumentIsWithinRange("DummyArgumentName", value, true);
             }
         }
     }

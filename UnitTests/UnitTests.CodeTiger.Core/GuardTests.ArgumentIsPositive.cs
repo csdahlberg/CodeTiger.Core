@@ -26,7 +26,9 @@ namespace UnitTests.CodeTiger
             [InlineData(short.MaxValue)]
             public void DoesNotThrowExceptionWhenArgumentIsPositive(short argumentValue)
             {
-                Guard.ArgumentIsPositive("DummyArgumentName", argumentValue);
+                short actual = Guard.ArgumentIsPositive("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -49,7 +51,9 @@ namespace UnitTests.CodeTiger
             [InlineData(int.MaxValue)]
             public void DoesNotThrowExceptionWhenArgumentIsPositive(int argumentValue)
             {
-                Guard.ArgumentIsPositive("DummyArgumentName", argumentValue);
+                int actual = Guard.ArgumentIsPositive("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -72,7 +76,9 @@ namespace UnitTests.CodeTiger
             [InlineData(long.MaxValue)]
             public void DoesNotThrowExceptionWhenArgumentIsPositive(long argumentValue)
             {
-                Guard.ArgumentIsPositive("DummyArgumentName", argumentValue);
+                long actual = Guard.ArgumentIsPositive("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -99,7 +105,9 @@ namespace UnitTests.CodeTiger
             [InlineData(float.PositiveInfinity)]
             public void DoesNotThrowExceptionWhenArgumentIsPositive(float argumentValue)
             {
-                Guard.ArgumentIsPositive("DummyArgumentName", argumentValue);
+                float actual = Guard.ArgumentIsPositive("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
@@ -126,14 +134,16 @@ namespace UnitTests.CodeTiger
             [InlineData(double.PositiveInfinity)]
             public void DoesNotThrowExceptionWhenArgumentIsPositive(double argumentValue)
             {
-                Guard.ArgumentIsPositive("DummyArgumentName", argumentValue);
+                double actual = Guard.ArgumentIsPositive("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
         }
 
         public class ArgumentIsPositive_String_Decimal
         {
             [Theory]
-            [MemberData("GetNonPositiveDecimalValuesForEdgeCases")]
+            [MemberData(nameof(GetNonPositiveDecimalValuesForEdgeCases))]
             public void ThrowsArgumentOutOfRangeExceptionWhenArgumentIsNotPositive(decimal argumentValue)
             {
                 Assert.Throws<ArgumentOutOfRangeException>(
@@ -141,10 +151,12 @@ namespace UnitTests.CodeTiger
             }
 
             [Theory]
-            [MemberData("GetPositiveDecimalValuesForEdgeCases")]
+            [MemberData(nameof(GetPositiveDecimalValuesForEdgeCases))]
             public void DoesNotThrowExceptionWhenArgumentIsPositive(decimal argumentValue)
             {
-                Guard.ArgumentIsPositive("DummyArgumentName", argumentValue);
+                decimal actual = Guard.ArgumentIsPositive("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
             }
 
             public static IEnumerable<object[]> GetNonPositiveDecimalValuesForEdgeCases()
