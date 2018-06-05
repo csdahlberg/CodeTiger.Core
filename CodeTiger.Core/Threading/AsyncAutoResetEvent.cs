@@ -164,8 +164,7 @@ namespace CodeTiger.Threading
 
         private bool TrySignalPendingWaitTask()
         {
-            TaskCompletionSource<bool> queuedTask;
-            while (_pendingWaitTaskSources.TryDequeue(out queuedTask))
+            while (_pendingWaitTaskSources.TryDequeue(out var queuedTask))
             {
                 // If TrySetResult returns false, it was already set by a timeout task.
                 if (queuedTask.TrySetResult(true))
