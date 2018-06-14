@@ -21,7 +21,7 @@ namespace CodeTiger
         {
             Guard.ArgumentIsNotNull(nameof(type), type);
 
-            return type.GetTypeInfo().IsCompilerGenerated();
+            return TypeInfoExtensions.IsCompilerGenerated(type.GetTypeInfo());
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace CodeTiger
         {
             Guard.ArgumentIsNotNull(nameof(type), type);
 
-            return type.GetTypeInfo().IsStatic();
+            return TypeInfoExtensions.IsStatic(type.GetTypeInfo());
         }
     }
 }
