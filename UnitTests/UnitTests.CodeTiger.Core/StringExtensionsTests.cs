@@ -50,5 +50,60 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(expected2, actual[1]);
             }
         }
+
+        public class Contains_String_StringComparison
+        {
+            [Fact]
+            public void ThrowsArgumentNullExceptionForNullSourceString()
+            {
+                Assert.Throws<ArgumentNullException>(
+                    () => ((string)null).Contains("foo", StringComparison.Ordinal));
+            }
+
+            [Fact]
+            public void ThrowsArgumentNullExceptionForNullValueString()
+            {
+                Assert.Throws<ArgumentNullException>(() => "".Contains(null, StringComparison.Ordinal));
+            }
+
+            [Theory]
+            [InlineData("", "")]
+            [InlineData("Test", "")]
+            public void ReturnsTrueWhenValueIsEmptyString(string source, string value)
+            {
+                Assert.True(source.Contains(value, StringComparison.Ordinal));
+                Assert.True(source.Contains(value, StringComparison.OrdinalIgnoreCase));
+            }
+
+            [Theory]
+            [InlineData("Test", "Test")]
+            [InlineData("This is a test", "This is ")]
+            [InlineData("This is a test", " is a")]
+            [InlineData("This is a test", "a test")]
+            public void ReturnsTrueWhenSourceContainsValueWithSameCasing(string source, string value)
+            {
+                Assert.True(source.Contains(value, StringComparison.Ordinal));
+                Assert.True(source.Contains(value, StringComparison.OrdinalIgnoreCase));
+            }
+
+            [Theory]
+            [InlineData("Test", "test")]
+            [InlineData("test", "Test")]
+            [InlineData("This is a test", "this is ")]
+            [InlineData("This is a test", " IS a")]
+            [InlineData("This is a test", "a TEST")]
+            public void ReturnsTrueWhenSourceContainsValueWithDifferentCasing(string source, string value)
+            {
+                Assert.True(source.Contains(value, StringComparison.OrdinalIgnoreCase));
+            }
+
+            [Theory]
+            [InlineData("", "a test")]
+            [InlineData("Test", "a test")]
+            public void ReturnsFalseWhenSourceDoesNotContainValue(string source, string value)
+            {
+                Assert.False(source.Contains(value, StringComparison.OrdinalIgnoreCase));
+            }
+        }
     }
 }

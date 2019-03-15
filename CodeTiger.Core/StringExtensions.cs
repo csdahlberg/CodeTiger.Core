@@ -1,4 +1,6 @@
-﻿namespace CodeTiger
+﻿using System;
+
+namespace CodeTiger
 {
     /// <summary>
     /// Contains extension methods for the <see cref="string"/> class.
@@ -22,6 +24,24 @@
                     original.Substring(0, splitLocation),
                     original.Substring(splitLocation)
                 };
+        }
+
+        /// <summary>
+        /// Determines whether a specified substring occurs within this string when using the specified comparison
+        /// option.
+        /// </summary>
+        /// <param name="source">The original string.</param>
+        /// <param name="value">The string to seek.</param>
+        /// <param name="comparisonType">One of the enumeration values that determines how this string and value
+        /// are compared.</param>
+        /// <returns><c>true</c> if <paramref name="value"/> occurs within <paramref name="source"/>, or if
+        /// <paramref name="value"/> is the empty string; otherwise, <c>false</c>.</returns>
+        public static bool Contains(this string source, string value, StringComparison comparisonType)
+        {
+            Guard.ArgumentIsNotNull(nameof(source), source);
+            Guard.ArgumentIsNotNull(nameof(value), value);
+
+            return source.IndexOf(value, comparisonType) >= 0;
         }
     }
 }
