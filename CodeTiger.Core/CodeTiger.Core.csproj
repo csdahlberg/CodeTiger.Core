@@ -11,7 +11,7 @@
     <Description>A .NET library that provides a variety of reusable functionality, including packed integers (PackedInt16, PackedInt32, and PackedInt64), guard methods, various extension methods, and classes related to the Task Parallel Library (AsyncLazy, AsyncLock, AsyncAutoResetEvent, and AsyncManualResetEvent).</Description>
     <Copyright>Copyright © 2015 Chris Dahlberg</Copyright>
     <PackageProjectUrl>https://github.com/csdahlberg/CodeTiger.Core</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/csdahlberg/CodeTiger.Core/wiki/License</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageIconUrl>http://www.codetiger.net/images/tigerpaw32.png</PackageIconUrl>
     <PackageTags>TPL Task Parallel Library Async Await Lazy AsyncLazy Lock AsyncLock AsyncAutoResetEvent AsyncManualResetEvent Packed PackedInt16 PackedInt32 PackedInt64 Guard AnyNot None SkipUntil TakeUntil WhereNot</PackageTags>
@@ -43,6 +43,13 @@
     <PackageReference Include="CodeTiger.CodeAnalysis" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
