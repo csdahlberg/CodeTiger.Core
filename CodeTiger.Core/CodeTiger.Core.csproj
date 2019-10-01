@@ -13,7 +13,7 @@
     <PackageProjectUrl>https://github.com/csdahlberg/CodeTiger.Core</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <PackageIconUrl>http://www.codetiger.net/images/tigerpaw32.png</PackageIconUrl>
+    <PackageIcon>CodeTiger.png</PackageIcon>
     <PackageTags>TPL Task Parallel Library Async Await Lazy AsyncLazy Lock AsyncLock AsyncAutoResetEvent AsyncManualResetEvent Packed PackedInt16 PackedInt32 PackedInt64 Guard AnyNot None SkipUntil TakeUntil WhereNot</PackageTags>
     <PackageReleaseNotes>This is an unofficial build that should not be distributed.</PackageReleaseNotes>
     <IncludeSymbols>True</IncludeSymbols>
@@ -47,6 +47,13 @@
 
   <ItemGroup>
     <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\CodeTiger.png" Link="CodeTiger.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
