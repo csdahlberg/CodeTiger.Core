@@ -2,6 +2,7 @@
 
   <PropertyGroup>    
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <IsPackable>False</IsPackable>
     <NoWarn>1701</NoWarn>
     <RootNamespace>UnitTests.CodeTiger</RootNamespace>
