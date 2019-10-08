@@ -26,6 +26,8 @@
     <DebugType>full</DebugType>
     <DebugSymbols>True</DebugSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <RepositoryUrl>https://github.com/csdahlberg/CodeTiger.Core.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
