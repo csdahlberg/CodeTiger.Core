@@ -25,6 +25,7 @@
     <RootNamespace>CodeTiger</RootNamespace>
     <DebugType>full</DebugType>
     <DebugSymbols>True</DebugSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
