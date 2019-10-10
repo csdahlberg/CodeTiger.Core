@@ -5,7 +5,7 @@ using Xunit;
 
 namespace UnitTests.CodeTiger
 {
-    public partial class GuardTests
+    public static partial class GuardTests
     {
         public class ArgumentIsPositive_String_Int16
         {

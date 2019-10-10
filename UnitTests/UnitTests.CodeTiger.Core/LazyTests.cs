@@ -4,7 +4,7 @@ using Xunit;
 
 namespace UnitTests.CodeTiger
 {
-    public class LazyTests
+    public static class LazyTests
     {
         public class Create1
         {

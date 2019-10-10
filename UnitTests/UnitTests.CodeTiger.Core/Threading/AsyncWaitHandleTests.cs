@@ -6,7 +6,7 @@ using Xunit;
 
 namespace UnitTests.CodeTiger.Threading
 {
-    public class AsyncWaitHandleTests
+    public static class AsyncWaitHandleTests
     {
         public class Constructor
         {

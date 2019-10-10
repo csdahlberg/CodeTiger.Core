@@ -11,7 +11,7 @@ namespace UnitTests.CodeTiger.Threading
     /// <summary>
     /// Contains unit tests for the <see cref="AsyncManualResetEvent"/> class.
     /// </summary>
-    public class AsyncManualResetEventTests
+    public static class AsyncManualResetEventTests
     {
         public class WaitOne
         {

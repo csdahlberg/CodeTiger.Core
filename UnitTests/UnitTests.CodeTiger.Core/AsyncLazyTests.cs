@@ -8,7 +8,7 @@ namespace UnitTests.CodeTiger
     /// <summary>
     /// Contains unit tests for the <see cref="AsyncLazy"/> class.
     /// </summary>
-    public class AsyncLazyTests
+    public static class AsyncLazyTests
     {
         public class Create1
         {

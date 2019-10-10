@@ -10,7 +10,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
     /// <summary>
     /// Contains unit tests for the <see cref="TaskExtensions"/> class.
     /// </summary>
-    public class TaskExtensionsUnitTests
+    public static class TaskExtensionsUnitTests
     {
         private static readonly Task _completedTask = Task.FromResult(84);
 

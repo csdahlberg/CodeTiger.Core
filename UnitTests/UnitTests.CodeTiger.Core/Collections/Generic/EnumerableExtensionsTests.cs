@@ -6,7 +6,7 @@ using Xunit;
 
 namespace UnitTests.CodeTiger.Collections.Generic
 {
-    public class EnumerableExtensionsTests
+    public static class EnumerableExtensionsTests
     {
         public class AnyNot_IEnumerableOfTSource_FuncOfTSourceAndBoolean
         {

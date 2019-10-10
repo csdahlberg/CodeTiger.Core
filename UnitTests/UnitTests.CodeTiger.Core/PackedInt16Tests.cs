@@ -5,7 +5,7 @@ using Xunit;
 
 namespace UnitTests.CodeTiger
 {
-    public class PackedInt16Tests
+    public static class PackedInt16Tests
     {
         public class LowerByte
         {

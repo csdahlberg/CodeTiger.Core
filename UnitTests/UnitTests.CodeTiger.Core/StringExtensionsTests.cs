@@ -4,7 +4,7 @@ using Xunit;
 
 namespace UnitTests.CodeTiger
 {
-    public class StringExtensionsTests
+    public static class StringExtensionsTests
     {
         public class SplitAt_Int32
         {

@@ -10,7 +10,7 @@ namespace UnitTests.CodeTiger.Threading
     /// <summary>
     /// Contains unit tests for the <see cref="AsyncLock"/> class.
     /// </summary>
-    public class AsyncLockTests
+    public static class AsyncLockTests
     {
         public class Acquire
         {

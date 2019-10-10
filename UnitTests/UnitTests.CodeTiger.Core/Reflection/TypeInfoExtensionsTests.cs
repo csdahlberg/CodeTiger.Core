@@ -10,7 +10,7 @@ namespace UnitTests.CodeTiger.Reflection
     /// <summary>
     /// Contains unit tests for the <see cref="TypeExtensions"/> class.
     /// </summary>
-    public class TypeInfoExtensionsTests
+    public static class TypeInfoExtensionsTests
     {
         public class IsCompilerGenerated_TypeInfo
         {
