@@ -9,31 +9,20 @@ namespace CodeTiger
     /// </summary>
     public struct PackedInt32
     {
-        private readonly int _value;
-
         /// <summary>
         /// Gets the underlying <see cref="int"/> value.
         /// </summary>
-        public int Value
-        {
-            get { return _value; }
-        }
+        public int Value { get; }
 
         /// <summary>
         /// Gets the <see cref="short"/> value from the lower 16 bits of this 32-bit value.
         /// </summary>
-        public short LowerInt16
-        {
-            get { return unchecked((short)(_value & Bitmask.Int32Lower16)); }
-        }
+        public short LowerInt16 => unchecked((short)(Value & Bitmask.Int32Lower16));
 
         /// <summary>
         /// Gets the <see cref="short"/> value from the upper 16 bits of this 32-bit value.
         /// </summary>
-        public short UpperInt16
-        {
-            get { return (short)(_value >> 16); }
-        }
+        public short UpperInt16 => (short)(Value >> 16);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt32"/> structure to a specified packed value.
@@ -41,7 +30,7 @@ namespace CodeTiger
         /// <param name="value">The packed <see cref="int"/> value.</param>
         public PackedInt32(int value)
         {
-            _value = value;
+            Value = value;
         }
 
         /// <summary>
@@ -52,7 +41,7 @@ namespace CodeTiger
         /// <param name="upperValue">The <see cref="short"/> value to be stored in the upper 16 bits.</param>
         public PackedInt32(short lowerValue, short upperValue)
         {
-            _value = (upperValue << 16) | ((int)lowerValue & Bitmask.Int32Lower16);
+            Value = (upperValue << 16) | ((int)lowerValue & Bitmask.Int32Lower16);
         }
 
         /// <summary>
@@ -65,7 +54,7 @@ namespace CodeTiger
             Guard.ArgumentIsNotNull(nameof(values), values);
             Guard.ArgumentIsValid(nameof(values), values.Length == 2);
 
-            _value = (values[1] << 16) | ((int)values[0] & Bitmask.Int32Lower16);
+            Value = (values[1] << 16) | ((int)values[0] & Bitmask.Int32Lower16);
         }
 
         /// <summary>
@@ -78,7 +67,7 @@ namespace CodeTiger
             Guard.ArgumentIsNotNull(nameof(values), values);
             Guard.ArgumentIsValid(nameof(values), values.Length == 4);
 
-            _value = (values[3] << 24)
+            Value = (values[3] << 24)
                 | (values[2] << 16)
                 | (values[1] << 8)
                 | values[0];
@@ -91,7 +80,7 @@ namespace CodeTiger
         public short[] GetInt16Values()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.
-            int value = _value;
+            int value = Value;
 
             return unchecked(new[] { (short)value, (short)(value >> 16) });
         }
@@ -103,7 +92,7 @@ namespace CodeTiger
         public byte[] GetByteValues()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.
-            int value = _value;
+            int value = Value;
 
             return new[]
             {
@@ -125,7 +114,7 @@ namespace CodeTiger
         public PackedInt32 WithLowerInt16(short newLowerValue)
         {
             return new PackedInt32(
-                unchecked((_value & Bitmask.Int32Upper16) | ((int)newLowerValue & Bitmask.Int32Lower16)));
+                unchecked((Value & Bitmask.Int32Upper16) | ((int)newLowerValue & Bitmask.Int32Lower16)));
         }
 
         /// <summary>
@@ -138,7 +127,7 @@ namespace CodeTiger
         /// to <paramref name="newUpperValue"/>.</returns>
         public PackedInt32 WithUpperInt16(short newUpperValue)
         {
-            return new PackedInt32(((int)newUpperValue << 16) | (_value & Bitmask.Int32Lower16));
+            return new PackedInt32(((int)newUpperValue << 16) | (Value & Bitmask.Int32Lower16));
         }
 
         /// <summary>
@@ -147,7 +136,7 @@ namespace CodeTiger
         /// <returns>An <see cref="int"/> value equivalent to this <see cref="PackedInt32"/> value.</returns>
         public int ToInt32()
         {
-            return _value;
+            return Value;
         }
 
         /// <summary>
@@ -158,7 +147,7 @@ namespace CodeTiger
         /// </returns>
         public override string ToString()
         {
-            return _value.ToString(NumberFormatInfo.CurrentInfo);
+            return Value.ToString(NumberFormatInfo.CurrentInfo);
         }
 
         /// <summary>
@@ -170,7 +159,7 @@ namespace CodeTiger
         /// <paramref name="format"/>.</returns>
         public string ToString(string format)
         {
-            return _value.ToString(format, NumberFormatInfo.CurrentInfo);
+            return Value.ToString(format, NumberFormatInfo.CurrentInfo);
         }
 
         /// <summary>
@@ -183,7 +172,7 @@ namespace CodeTiger
         /// <paramref name="provider"/>.</returns>
         public string ToString(IFormatProvider provider)
         {
-            return _value.ToString(provider);
+            return Value.ToString(provider);
         }
 
         /// <summary>
@@ -197,7 +186,7 @@ namespace CodeTiger
         /// <paramref name="format"/> and <paramref name="provider"/>.</returns>
         public string ToString(string format, IFormatProvider provider)
         {
-            return _value.ToString(format, provider);
+            return Value.ToString(format, provider);
         }
 
         /// <summary>
@@ -229,7 +218,7 @@ namespace CodeTiger
         /// <returns>A hash code for this value.</returns>
         public override int GetHashCode()
         {
-            return _value.GetHashCode();
+            return Value.GetHashCode();
         }
 
         /// <summary>
@@ -273,7 +262,7 @@ namespace CodeTiger
         /// <returns>The converted value.</returns>
         public static implicit operator int(PackedInt32 value)
         {
-            return value._value;
+            return value.Value;
         }
     }
 }

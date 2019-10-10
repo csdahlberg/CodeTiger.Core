@@ -9,31 +9,20 @@ namespace CodeTiger
     /// </summary>
     public struct PackedInt64
     {
-        private readonly long _value;
-
         /// <summary>
         /// Gets the underlying <see cref="long"/> value.
         /// </summary>
-        public long Value
-        {
-            get { return _value; }
-        }
+        public long Value { get; }
 
         /// <summary>
         /// Gets the <see cref="int"/> value from the lower 32 bits of this 64-bit value.
         /// </summary>
-        public int LowerInt32
-        {
-            get { return unchecked((int)(_value & Bitmask.Int64Lower32)); }
-        }
+        public int LowerInt32 => unchecked((int)(Value & Bitmask.Int64Lower32));
 
         /// <summary>
         /// Gets the <see cref="int"/> value from the upper 32 bits of this 64-bit value.
         /// </summary>
-        public int UpperInt32
-        {
-            get { return (int)(_value >> 32); }
-        }
+        public int UpperInt32 => (int)(Value >> 32);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt64"/> structure to a specified packed value.
@@ -41,7 +30,7 @@ namespace CodeTiger
         /// <param name="value">The packed <see cref="long"/> value.</param>
         public PackedInt64(long value)
         {
-            _value = value;
+            Value = value;
         }
 
         /// <summary>
@@ -52,7 +41,7 @@ namespace CodeTiger
         /// <param name="upperValue">The <see cref="int"/> value to be stored in the upper 32 bits.</param>
         public PackedInt64(int lowerValue, int upperValue)
         {
-            _value = ((long)upperValue << 32) | ((long)lowerValue & Bitmask.Int64Lower32);
+            Value = ((long)upperValue << 32) | ((long)lowerValue & Bitmask.Int64Lower32);
         }
 
         /// <summary>
@@ -65,7 +54,7 @@ namespace CodeTiger
             Guard.ArgumentIsNotNull(nameof(values), values);
             Guard.ArgumentIsValid(nameof(values), values.Length == 2);
 
-            _value = ((long)values[1] << 32) | ((long)values[0] & Bitmask.Int64Lower32);
+            Value = ((long)values[1] << 32) | ((long)values[0] & Bitmask.Int64Lower32);
         }
 
         /// <summary>
@@ -78,7 +67,7 @@ namespace CodeTiger
             Guard.ArgumentIsNotNull(nameof(values), values);
             Guard.ArgumentIsValid(nameof(values), values.Length == 4);
 
-            _value = ((long)values[3] << 48)
+            Value = ((long)values[3] << 48)
                 | (((long)values[2] << 32) & Bitmask.Int64Bits32To47)
                 | (((long)values[1] << 16) & Bitmask.Int64Bits16To31)
                 | ((long)values[0] & Bitmask.Int64Bits0To15);
@@ -94,7 +83,7 @@ namespace CodeTiger
             Guard.ArgumentIsNotNull(nameof(values), values);
             Guard.ArgumentIsValid(nameof(values), values.Length == 8);
 
-            _value = ((long)values[7] << 56)
+            Value = ((long)values[7] << 56)
                 | ((long)values[6] << 48)
                 | ((long)values[5] << 40)
                 | ((long)values[4] << 32)
@@ -111,7 +100,7 @@ namespace CodeTiger
         public int[] GetInt32Values()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.
-            long value = _value;
+            long value = Value;
 
             return unchecked(new[] { (int)value, (int)(value >> 32) });
         }
@@ -123,7 +112,7 @@ namespace CodeTiger
         public short[] GetInt16Values()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.
-            long value = _value;
+            long value = Value;
 
             return new[]
             {
@@ -141,7 +130,7 @@ namespace CodeTiger
         public byte[] GetByteValues()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.
-            long value = _value;
+            long value = Value;
 
             return unchecked(new[]
             {
@@ -166,7 +155,7 @@ namespace CodeTiger
         /// to <paramref name="newLowerValue"/>.</returns>
         public PackedInt64 WithLowerInt32(int newLowerValue)
         {
-            return new PackedInt64((_value & Bitmask.Int64Upper32) | ((long)newLowerValue & Bitmask.Int64Lower32));
+            return new PackedInt64((Value & Bitmask.Int64Upper32) | ((long)newLowerValue & Bitmask.Int64Lower32));
         }
 
         /// <summary>
@@ -179,7 +168,7 @@ namespace CodeTiger
         /// to <paramref name="newUpperValue"/>.</returns>
         public PackedInt64 WithUpperInt32(int newUpperValue)
         {
-            return new PackedInt64(((long)newUpperValue << 32) | (_value & Bitmask.Int64Lower32));
+            return new PackedInt64(((long)newUpperValue << 32) | (Value & Bitmask.Int64Lower32));
         }
 
         /// <summary>
@@ -188,7 +177,7 @@ namespace CodeTiger
         /// <returns>An <see cref="long"/> value equivalent to this <see cref="PackedInt64"/> value.</returns>
         public long ToInt64()
         {
-            return _value;
+            return Value;
         }
 
         /// <summary>
@@ -199,7 +188,7 @@ namespace CodeTiger
         /// </returns>
         public override string ToString()
         {
-            return _value.ToString(NumberFormatInfo.CurrentInfo);
+            return Value.ToString(NumberFormatInfo.CurrentInfo);
         }
 
         /// <summary>
@@ -211,7 +200,7 @@ namespace CodeTiger
         /// <paramref name="format"/>.</returns>
         public string ToString(string format)
         {
-            return _value.ToString(format, NumberFormatInfo.CurrentInfo);
+            return Value.ToString(format, NumberFormatInfo.CurrentInfo);
         }
 
         /// <summary>
@@ -224,7 +213,7 @@ namespace CodeTiger
         /// <paramref name="provider"/>.</returns>
         public string ToString(IFormatProvider provider)
         {
-            return _value.ToString(provider);
+            return Value.ToString(provider);
         }
 
         /// <summary>
@@ -238,7 +227,7 @@ namespace CodeTiger
         /// <paramref name="format"/> and <paramref name="provider"/>.</returns>
         public string ToString(string format, IFormatProvider provider)
         {
-            return _value.ToString(format, provider);
+            return Value.ToString(format, provider);
         }
 
         /// <summary>
@@ -270,7 +259,7 @@ namespace CodeTiger
         /// <returns>A hash code for this value.</returns>
         public override int GetHashCode()
         {
-            return _value.GetHashCode();
+            return Value.GetHashCode();
         }
 
         /// <summary>
@@ -314,7 +303,7 @@ namespace CodeTiger
         /// <returns>The converted value.</returns>
         public static implicit operator long (PackedInt64 value)
         {
-            return value._value;
+            return value.Value;
         }
     }
 }

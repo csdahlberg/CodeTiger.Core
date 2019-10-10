@@ -8,31 +8,20 @@ namespace CodeTiger
     /// </summary>
     public struct PackedInt16
     {
-        private readonly short _value;
-
         /// <summary>
         /// Gets the underlying <see cref="short"/> value.
         /// </summary>
-        public short Value
-        {
-            get { return _value; }
-        }
+        public short Value { get; }
 
         /// <summary>
         /// Gets the <see cref="byte"/> value from the lower 8 bits of this 16-bit value.
         /// </summary>
-        public byte LowerByte
-        {
-            get { return (byte)(_value & Bitmask.Int16Lower8); }
-        }
+        public byte LowerByte => (byte)(Value & Bitmask.Int16Lower8);
 
         /// <summary>
         /// Gets the <see cref="byte"/> value from the upper 8 bits of this 16-bit value.
         /// </summary>
-        public byte UpperByte
-        {
-            get { return unchecked((byte)(_value >> 8)); }
-        }
+        public byte UpperByte => unchecked((byte)(Value >> 8));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedInt16"/> structure to a specified packed value.
@@ -40,7 +29,7 @@ namespace CodeTiger
         /// <param name="value">The packed <see cref="short"/> value.</param>
         public PackedInt16(short value)
         {
-            _value = value;
+            Value = value;
         }
 
         /// <summary>
@@ -51,7 +40,7 @@ namespace CodeTiger
         /// <param name="upperValue">The <see cref="byte"/> value to be stored in the upper 8 bits.</param>
         public PackedInt16(byte lowerValue, byte upperValue)
         {
-            _value = unchecked((short)((upperValue << 8) | lowerValue));
+            Value = unchecked((short)((upperValue << 8) | lowerValue));
         }
 
         /// <summary>
@@ -64,7 +53,7 @@ namespace CodeTiger
             Guard.ArgumentIsNotNull(nameof(values), values);
             Guard.ArgumentIsValid(nameof(values), values.Length == 2);
 
-            _value = unchecked((short)(((short)values[1] << 8) | values[0]));
+            Value = unchecked((short)(((short)values[1] << 8) | values[0]));
         }
 
         /// <summary>
@@ -74,7 +63,7 @@ namespace CodeTiger
         public byte[] GetByteValues()
         {
             // Make a local copy of _value to avoid threading issues due to multiple reads.
-            short value = _value;
+            short value = Value;
 
             return unchecked(new[] { (byte)value, (byte)(value >> 8) });
         }
@@ -89,7 +78,7 @@ namespace CodeTiger
         /// <paramref name="newLowerValue"/>.</returns>
         public PackedInt16 WithLowerByte(byte newLowerValue)
         {
-            return new PackedInt16((short)((_value & Bitmask.Int16Upper8) | newLowerValue));
+            return new PackedInt16((short)((Value & Bitmask.Int16Upper8) | newLowerValue));
         }
 
         /// <summary>
@@ -102,7 +91,7 @@ namespace CodeTiger
         /// <paramref name="newUpperValue"/>.</returns>
         public PackedInt16 WithUpperByte(byte newUpperValue)
         {
-            return new PackedInt16(unchecked((short)((newUpperValue << 8) | (_value & Bitmask.Int16Lower8))));
+            return new PackedInt16(unchecked((short)((newUpperValue << 8) | (Value & Bitmask.Int16Lower8))));
         }
 
         /// <summary>
@@ -111,7 +100,7 @@ namespace CodeTiger
         /// <returns>An <see cref="short"/> value equivalent to this <see cref="PackedInt16"/> value.</returns>
         public short ToInt16()
         {
-            return _value;
+            return Value;
         }
 
         /// <summary>
@@ -122,7 +111,7 @@ namespace CodeTiger
         /// </returns>
         public override string ToString()
         {
-            return _value.ToString(NumberFormatInfo.CurrentInfo);
+            return Value.ToString(NumberFormatInfo.CurrentInfo);
         }
 
         /// <summary>
@@ -134,7 +123,7 @@ namespace CodeTiger
         /// <paramref name="format"/>.</returns>
         public string ToString(string format)
         {
-            return _value.ToString(format, NumberFormatInfo.CurrentInfo);
+            return Value.ToString(format, NumberFormatInfo.CurrentInfo);
         }
 
         /// <summary>
@@ -147,7 +136,7 @@ namespace CodeTiger
         /// <paramref name="provider"/>.</returns>
         public string ToString(IFormatProvider provider)
         {
-            return _value.ToString(provider);
+            return Value.ToString(provider);
         }
 
         /// <summary>
@@ -161,7 +150,7 @@ namespace CodeTiger
         /// <paramref name="format"/> and <paramref name="provider"/>.</returns>
         public string ToString(string format, IFormatProvider provider)
         {
-            return _value.ToString(format, provider);
+            return Value.ToString(format, provider);
         }
 
         /// <summary>
@@ -193,7 +182,7 @@ namespace CodeTiger
         /// <returns>A hash code for this value.</returns>
         public override int GetHashCode()
         {
-            return _value.GetHashCode();
+            return Value.GetHashCode();
         }
 
         /// <summary>
@@ -237,7 +226,7 @@ namespace CodeTiger
         /// <returns>The converted value.</returns>
         public static implicit operator short(PackedInt16 value)
         {
-            return value._value;
+            return value.Value;
         }
     }
 }

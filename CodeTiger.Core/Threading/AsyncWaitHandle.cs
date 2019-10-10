@@ -11,16 +11,11 @@ namespace CodeTiger.Threading
     /// </summary>
     public abstract class AsyncWaitHandle
     {
-        private static readonly TaskCompletionSource<bool> _completedWaitTaskSource = CreateCompletedSource();
-
         /// <summary>
         /// Gets the <see cref="TaskCompletionSource{Boolean}"/> to use when a wait operation completes
         /// immediately.
         /// </summary>
-        protected static TaskCompletionSource<bool> CompletedWaitTaskSource
-        {
-            get { return _completedWaitTaskSource; }
-        }
+        protected static TaskCompletionSource<bool> CompletedWaitTaskSource { get; } = CreateCompletedSource();
 
         /// <summary>
         /// Blocks the calling thread until this event is signaled.
