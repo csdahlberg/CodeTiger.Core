@@ -63,6 +63,9 @@ namespace UnitTests.CodeTiger.Threading.Tasks
                 var task = Task.Delay(50);
                 var taskWithTimeout = task.WithTimeout(200);
 
+                taskWithTimeout.Wait();
+
+                // Wait for outstanding tasks to complete
                 task.Wait();
             }
 

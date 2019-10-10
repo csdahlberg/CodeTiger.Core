@@ -54,21 +54,29 @@ namespace CodeTiger.Threading.Tasks
                 return task;
             }
 
+#pragma warning disable CA2000 // Dispose objects before losing scope
+#pragma warning disable IDE0067 // Dispose objects before losing scope
             var timeoutCancelTokenSource = new CancellationTokenSource();
+#pragma warning restore IDE0067 // Dispose objects before losing scope
+#pragma warning restore CA2000 // Dispose objects before losing scope
+
             var timeoutTask = Task.Delay(timeout, timeoutCancelTokenSource.Token);
 
             return Task.Factory.ContinueWhenAny(new[] { task, timeoutTask },
                 completedTask =>
+                {
+                    if (!ReferenceEquals(completedTask, timeoutTask))
                     {
-                        if (completedTask == timeoutTask)
-                        {
-                            throw new TimeoutException();
-                        }
-
                         timeoutCancelTokenSource.Cancel();
+                        timeoutCancelTokenSource.Dispose();
 
                         return task;
-                    },
+                    }
+
+                    timeoutCancelTokenSource.Dispose();
+
+                    throw new TimeoutException();
+                },
                 CancellationToken.None,
                 TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.DenyChildAttach,
                 TaskScheduler.Default)
@@ -121,20 +129,28 @@ namespace CodeTiger.Threading.Tasks
                 return task;
             }
 
+#pragma warning disable CA2000 // Dispose objects before losing scope
+#pragma warning disable IDE0067 // Dispose objects before losing scope
             var timeoutCancelTokenSource = new CancellationTokenSource();
+#pragma warning restore IDE0067 // Dispose objects before losing scope
+#pragma warning restore CA2000 // Dispose objects before losing scope
+
             var timeoutTask = Task.Delay(timeout, timeoutCancelTokenSource.Token);
             
             return Task.Factory.ContinueWhenAny(new[] { task, timeoutTask },
                 completedTask =>
                     {
-                        if (completedTask == timeoutTask)
+                        if (!ReferenceEquals(completedTask, timeoutTask))
                         {
-                            throw new TimeoutException();
+                            timeoutCancelTokenSource.Cancel();
+                            timeoutCancelTokenSource.Dispose();
+
+                            return task;
                         }
 
-                        timeoutCancelTokenSource.Cancel();
+                        timeoutCancelTokenSource.Dispose();
 
-                        return task;
+                        throw new TimeoutException();
                     },
                 CancellationToken.None,
                 TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.DenyChildAttach,
