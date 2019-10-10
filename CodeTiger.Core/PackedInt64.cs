@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace CodeTiger
@@ -7,7 +6,7 @@ namespace CodeTiger
     /// <summary>
     /// Represents a 64-bit signed integer value composed of smaller integer values.
     /// </summary>
-    public struct PackedInt64
+    public struct PackedInt64 : IEquatable<PackedInt64>
     {
         /// <summary>
         /// Gets the underlying <see cref="long"/> value.

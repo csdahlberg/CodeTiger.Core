@@ -6,7 +6,7 @@ namespace CodeTiger
     /// <summary>
     /// Represents a 16-bit signed integer value composed of smaller integer values.
     /// </summary>
-    public struct PackedInt16
+    public struct PackedInt16 : IEquatable<PackedInt16>
     {
         /// <summary>
         /// Gets the underlying <see cref="short"/> value.
