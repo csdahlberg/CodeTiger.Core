@@ -168,7 +168,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             {
                 var task = Task.FromResult(true);
                 
-                var actual = task.Wait(Timeout.InfiniteTimeSpan, CancellationToken.None);
+                bool actual = task.Wait(Timeout.InfiniteTimeSpan, CancellationToken.None);
 
                 Assert.True(actual);
             }
@@ -178,7 +178,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             {
                 var task = Task.Delay(50);
                 
-                var actual = task.Wait(TimeSpan.FromMilliseconds(200), CancellationToken.None);
+                bool actual = task.Wait(TimeSpan.FromMilliseconds(200), CancellationToken.None);
 
                 Assert.True(actual);
             }
