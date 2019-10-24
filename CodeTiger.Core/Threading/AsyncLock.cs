@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
+using CodeTiger.Resources;
 
 namespace CodeTiger.Threading
 {
@@ -147,8 +148,7 @@ namespace CodeTiger.Threading
                 {
                     if (Interlocked.CompareExchange(ref _acquiredCount, 0, 1) != 1)
                     {
-                        throw new InvalidOperationException(
-                            "The lock is not currently acquired, so it cannot be released.");
+                        throw new InvalidOperationException(Strings.LockNotAcquiredSoCannotBeReleasedMessage);
                     }
                 }
             }

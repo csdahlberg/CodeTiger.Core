@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using CodeTiger.Resources;
 
 namespace CodeTiger
 {
@@ -44,7 +46,9 @@ namespace CodeTiger
             if (value.Length == 0)
             {
                 throw new ArgumentException(
-                    $"Value cannot be empty.{Environment.NewLine}Parameter name: {name}", name);
+                    string.Format(CultureInfo.CurrentCulture, Strings.ArgumentCannotBeEmptyMessageFormat,
+                        Environment.NewLine, name),
+                    name);
             }
 
             return value;
@@ -69,7 +73,9 @@ namespace CodeTiger
             if (value.Length == 0)
             {
                 throw new ArgumentException(
-                    $"Value cannot be empty.{Environment.NewLine}Parameter name: {name}", name);
+                    string.Format(CultureInfo.CurrentCulture, Strings.ArgumentCannotBeEmptyMessageFormat,
+                        Environment.NewLine, name),
+                    name);
             }
 
             for (int i = 0; i < value.Length; i++)
@@ -81,7 +87,8 @@ namespace CodeTiger
             }
 
             throw new ArgumentException(
-                $"Value cannot consist only of whitespace characters.{Environment.NewLine}Parameter name: {name}",
+                string.Format(CultureInfo.CurrentCulture, Strings.ArgumentCannotBeOnlyWhitespaceMessageFormat,
+                    Environment.NewLine, name),
                 name);
         }
 
@@ -96,7 +103,7 @@ namespace CodeTiger
         {
             if (!condition)
             {
-                throw new ArgumentException("Value does not fall within the expected range.", name);
+                throw new ArgumentException(Strings.ArgumentOutOfRangeMessage, name);
             }
         }
 
@@ -113,7 +120,7 @@ namespace CodeTiger
         {
             if (!condition)
             {
-                throw new ArgumentException("Value does not fall within the expected range.", name);
+                throw new ArgumentException(Strings.ArgumentOutOfRangeMessage, name);
             }
 
             return value;
