@@ -136,17 +136,19 @@ namespace CodeTiger.Threading
 
         private void ReleaseLock()
         {
-            if (!TrySignalPendingWaitTask())
+            if (TrySignalPendingWaitTask())
             {
-                lock (_pendingWaitTaskSources)
+                return;
+            }
+
+            lock (_pendingWaitTaskSources)
+            {
+                if (!TrySignalPendingWaitTask())
                 {
-                    if (!TrySignalPendingWaitTask())
+                    if (Interlocked.CompareExchange(ref _acquiredCount, 0, 1) != 1)
                     {
-                        if (Interlocked.CompareExchange(ref _acquiredCount, 0, 1) != 1)
-                        {
-                            throw new InvalidOperationException(
-                                "The lock is not currently acquired, so it cannot be released.");
-                        }
+                        throw new InvalidOperationException(
+                            "The lock is not currently acquired, so it cannot be released.");
                     }
                 }
             }
