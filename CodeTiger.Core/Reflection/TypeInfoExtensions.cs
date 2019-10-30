@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace CodeTiger.Reflection
 {
@@ -21,7 +23,8 @@ namespace CodeTiger.Reflection
             Guard.ArgumentIsNotNull(nameof(typeInfo), typeInfo);
 
             return typeInfo.CustomAttributes
-                .Any(x => string.Equals(x.AttributeType.Name, "CompilerGeneratedAttribute"));
+                .Any(x => string.Equals(x.AttributeType.Name, nameof(CompilerGeneratedAttribute),
+                    StringComparison.Ordinal));
         }
 
         /// <summary>
