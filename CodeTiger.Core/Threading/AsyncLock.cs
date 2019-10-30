@@ -131,7 +131,9 @@ namespace CodeTiger.Threading
 
                         return task;
                     },
-                    TaskContinuationOptions.ExecuteSynchronously)
+                    CancellationToken.None,
+                    TaskContinuationOptions.ExecuteSynchronously,
+                    TaskScheduler.Current)
                 .Unwrap();
         }
 

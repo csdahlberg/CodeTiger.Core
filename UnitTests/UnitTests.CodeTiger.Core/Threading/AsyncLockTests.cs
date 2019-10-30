@@ -45,7 +45,9 @@ namespace UnitTests.CodeTiger.Threading
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
                     secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire(),
-                        TaskCreationOptions.LongRunning);
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
 
                     Assert.False(secondLockObjectTask.Wait(100));
                 }
@@ -72,7 +74,9 @@ namespace UnitTests.CodeTiger.Threading
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
                     secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire(),
-                        TaskCreationOptions.LongRunning);
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
 
                     Thread.Sleep(TimeSpan.FromMilliseconds(100));
 
@@ -126,7 +130,9 @@ namespace UnitTests.CodeTiger.Threading
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
                     secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire(CancellationToken.None),
-                        TaskCreationOptions.LongRunning);
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
 
                     Assert.False(secondLockObjectTask.Wait(100));
                 }
@@ -153,7 +159,9 @@ namespace UnitTests.CodeTiger.Threading
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
                     secondLockObjectTask = Task.Factory.StartNew(() => target.Acquire(CancellationToken.None),
-                        TaskCreationOptions.LongRunning);
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
 
                     Thread.Sleep(TimeSpan.FromMilliseconds(100));
 
@@ -188,7 +196,10 @@ namespace UnitTests.CodeTiger.Threading
 
                     var cancellationTokenSource = new CancellationTokenSource();
                     secondLockObjectTask = Task.Factory.StartNew(
-                        () => target.Acquire(cancellationTokenSource.Token), TaskCreationOptions.LongRunning);
+                        () => target.Acquire(cancellationTokenSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
 
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 

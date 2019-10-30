@@ -204,7 +204,9 @@ namespace UnitTests.CodeTiger.Threading.Tasks
                 
                 var target = Task.Factory.StartNew(
                     () => task.Wait(Timeout.InfiniteTimeSpan, cancellationTokenSource.Token),
-                    TaskCreationOptions.LongRunning);
+                    CancellationToken.None,
+                    TaskCreationOptions.LongRunning,
+                    TaskScheduler.Default);
 
                 Thread.Sleep(TimeSpan.FromMilliseconds(150));
 
