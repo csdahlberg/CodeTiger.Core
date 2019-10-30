@@ -14,7 +14,8 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
                 List<int> target = null;
-                Func<int, bool> predicate = element => true;
+
+                static bool predicate(int element) => true;
 
                 Assert.Throws<ArgumentNullException>("source",
                     () => EnumerableExtensions.AnyNot(target, predicate));
@@ -36,7 +37,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ReturnsFalseWhenSourceContainsNoElements(bool predicateResult)
             {
                 var target = new List<int>();
-                Func<int, bool> predicate = element => predicateResult;
+                bool predicate(int element) => predicateResult;
 
                 Assert.False(EnumerableExtensions.AnyNot(target, predicate));
             }
@@ -50,7 +51,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => true;
+                static bool predicate(int element) => true;
 
                 Assert.False(EnumerableExtensions.AnyNot(target, predicate));
             }
@@ -64,7 +65,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => element == 0;
+                static bool predicate(int element) => element == 0;
 
                 Assert.True(EnumerableExtensions.AnyNot(target, predicate));
             }
@@ -78,7 +79,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => element == (numberOfElements - 1) * 2;
+                bool predicate(int element) => element == (numberOfElements - 1) * 2;
 
                 Assert.True(EnumerableExtensions.AnyNot(target, predicate));
             }
@@ -90,7 +91,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ReturnsTrueWhenSourceContainsElementsAndPredicateAlwaysReturnsFalse(int numberOfElements)
             {
                 var target = new List<int>();
-                Func<int, bool> predicate = element => false;
+                static bool predicate(int element) => false;
 
                 for (int i = 0; i < numberOfElements; i++)
                 {
@@ -139,7 +140,8 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
                 List<int> target = null;
-                Func<int, bool> predicate = element => true;
+
+                static bool predicate(int element) => true;
 
                 Assert.Throws<ArgumentNullException>("source",
                     () => EnumerableExtensions.None(target, predicate));
@@ -161,7 +163,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ReturnsTrueWhenSourceContainsNoElements(bool predicateResult)
             {
                 var target = new List<int>();
-                Func<int, bool> predicate = element => predicateResult;
+                bool predicate(int element) => predicateResult;
 
                 Assert.True(EnumerableExtensions.None(target, predicate));
             }
@@ -175,7 +177,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => true;
+                static bool predicate(int element) => true;
 
                 Assert.False(EnumerableExtensions.None(target, predicate));
             }
@@ -189,7 +191,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => element == 0;
+                static bool predicate(int element) => element == 0;
 
                 Assert.False(EnumerableExtensions.None(target, predicate));
             }
@@ -203,7 +205,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => element == (numberOfElements - 1) * 2;
+                bool predicate(int element) => element == (numberOfElements - 1) * 2;
 
                 Assert.False(EnumerableExtensions.None(target, predicate));
             }
@@ -215,7 +217,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ReturnsTrueWhenSourceContainsElementsAndPredicateAlwaysReturnsFalse(int numberOfElements)
             {
                 var target = new List<int>();
-                Func<int, bool> predicate = element => false;
+                static bool predicate(int element) => false;
 
                 for (int i = 0; i < numberOfElements; i++)
                 {
@@ -232,7 +234,8 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
                 List<int> target = null;
-                Func<int, bool> predicate = element => true;
+
+                static bool predicate(int element) => true;
 
                 Assert.Throws<ArgumentNullException>("source",
                     () => EnumerableExtensions.SkipUntil(target, predicate));
@@ -254,7 +257,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ReturnsEmptySequenceWhenSourceContainsNoElements(bool predicateResult)
             {
                 var target = new List<int>();
-                Func<int, bool> predicate = element => predicateResult;
+                bool predicate(int element) => predicateResult;
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
@@ -270,7 +273,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => true;
+                static bool predicate(int element) => true;
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
@@ -291,7 +294,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => element == 0;
+                static bool predicate(int element) => element == 0;
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
@@ -312,7 +315,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => element == (numberOfElements - 1) * 2;
+                bool predicate(int element) => element == (numberOfElements - 1) * 2;
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
@@ -329,7 +332,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => false;
+                static bool predicate(int element) => false;
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
@@ -343,7 +346,8 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
                 List<int> target = null;
-                Func<int, int, bool> predicate = (element, index) => true;
+
+                static bool predicate(int element, int index) => true;
 
                 Assert.Throws<ArgumentNullException>("source",
                     () => EnumerableExtensions.SkipUntil(target, predicate));
@@ -365,7 +369,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ReturnsEmptySequenceWhenSourceContainsNoElements(bool predicateResult)
             {
                 var target = new List<int>();
-                Func<int, int, bool> predicate = (element, index) => predicateResult;
+                bool predicate(int element, int index) => predicateResult;
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
@@ -381,7 +385,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, int, bool> predicate = (element, index) => true;
+                static bool predicate(int element, int index) => true;
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
@@ -402,7 +406,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, int, bool> predicate = (element, index) => index == 0;
+                static bool predicate(int element, int index) => index == 0;
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
@@ -423,7 +427,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, int, bool> predicate = (element, index) => index == numberOfElements - 1;
+                bool predicate(int element, int index) => index == numberOfElements - 1;
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
@@ -440,7 +444,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, int, bool> predicate = (element, index) => false;
+                static bool predicate(int element, int index) => false;
 
                 var actual = EnumerableExtensions.SkipUntil(target, predicate);
 
@@ -454,7 +458,8 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
                 List<int> target = null;
-                Func<int, bool> predicate = element => true;
+
+                static bool predicate(int element) => true;
 
                 Assert.Throws<ArgumentNullException>("source",
                     () => EnumerableExtensions.TakeUntil(target, predicate));
@@ -476,7 +481,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ReturnsEmptySequenceWhenSourceContainsNoElements(bool predicateResult)
             {
                 var target = new List<int>();
-                Func<int, bool> predicate = element => predicateResult;
+                bool predicate(int element) => predicateResult;
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
@@ -492,7 +497,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => true;
+                static bool predicate(int element) => true;
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
@@ -508,7 +513,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => element == 0;
+                static bool predicate(int element) => element == 0;
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
@@ -524,7 +529,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => element == (numberOfElements - 1) * 2;
+                bool predicate(int element) => element == (numberOfElements - 1) * 2;
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
@@ -545,7 +550,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => false;
+                static bool predicate(int element) => false;
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
@@ -564,7 +569,8 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
                 List<int> target = null;
-                Func<int, int, bool> predicate = (element, index) => true;
+
+                static bool predicate(int element, int index) => true;
 
                 Assert.Throws<ArgumentNullException>("source",
                     () => EnumerableExtensions.TakeUntil(target, predicate));
@@ -586,7 +592,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ReturnsEmptySequenceWhenSourceContainsNoElements(bool predicateResult)
             {
                 var target = new List<int>();
-                Func<int, int, bool> predicate = (element, index) => predicateResult;
+                bool predicate(int element, int index) => predicateResult;
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
@@ -602,7 +608,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, int, bool> predicate = (element, index) => true;
+                static bool predicate(int element, int index) => true;
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
@@ -618,7 +624,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, int, bool> predicate = (element, index) => index == 0;
+                static bool predicate(int element, int index) => index == 0;
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
@@ -634,7 +640,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, int, bool> predicate = (element, index) => index == numberOfElements - 1;
+                bool predicate(int element, int index) => index == numberOfElements - 1;
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
@@ -655,7 +661,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, int, bool> predicate = (element, index) => false;
+                static bool predicate(int element, int index) => false;
 
                 var actual = EnumerableExtensions.TakeUntil(target, predicate);
 
@@ -674,7 +680,8 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
                 List<int> target = null;
-                Func<int, bool> predicate = element => true;
+
+                static bool predicate(int element) => true;
 
                 Assert.Throws<ArgumentNullException>("source",
                     () => EnumerableExtensions.WhereNot(target, predicate));
@@ -696,7 +703,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ReturnsEmptySequenceWhenSourceContainsNoElements(bool predicateResult)
             {
                 var target = new List<int>();
-                Func<int, bool> predicate = element => predicateResult;
+                bool predicate(int element) => predicateResult;
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
@@ -712,7 +719,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => true;
+                static bool predicate(int element) => true;
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
@@ -728,7 +735,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => element == 0;
+                static bool predicate(int element) => element == 0;
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
@@ -749,7 +756,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => element == (numberOfElements - 1) * 2;
+                bool predicate(int element) => element == (numberOfElements - 1) * 2;
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
@@ -770,7 +777,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, bool> predicate = element => false;
+                static bool predicate(int element) => false;
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
@@ -789,7 +796,8 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
                 List<int> target = null;
-                Func<int, int, bool> predicate = (element, index) => true;
+
+                static bool predicate(int element, int index) => true;
 
                 Assert.Throws<ArgumentNullException>("source",
                     () => EnumerableExtensions.WhereNot(target, predicate));
@@ -811,7 +819,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ReturnsEmptySequenceWhenSourceContainsNoElements(bool predicateResult)
             {
                 var target = new List<int>();
-                Func<int, int, bool> predicate = (element, index) => predicateResult;
+                bool predicate(int element, int index) => predicateResult;
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
@@ -827,7 +835,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, int, bool> predicate = (element, index) => true;
+                static bool predicate(int element, int index) => true;
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
@@ -843,7 +851,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, int, bool> predicate = (element, index) => index == 0;
+                static bool predicate(int element, int index) => index == 0;
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
@@ -864,7 +872,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, int, bool> predicate = (element, index) => index == numberOfElements - 1;
+                bool predicate(int element, int index) => index == numberOfElements - 1;
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
@@ -885,7 +893,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
 
-                Func<int, int, bool> predicate = (element, index) => false;
+                static bool predicate(int element, int index) => false;
 
                 var actual = EnumerableExtensions.WhereNot(target, predicate);
 
