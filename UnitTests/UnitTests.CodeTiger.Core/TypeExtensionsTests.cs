@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -128,11 +129,15 @@ namespace UnitTests.CodeTiger
                 Unknown,
             }
 
+            [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes",
+                Justification = "This class is used for reflection-based unit testing.")]
             private class ClassWithNoAttributes
             {
                 public string Name { get; set; }
             }
 
+            [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes",
+                Justification = "This class is used for reflection-based unit testing.")]
             private class ClassWithLambdaInMethod
             {
                 public Func<int> GetFunc()
@@ -142,6 +147,8 @@ namespace UnitTests.CodeTiger
                 }
             }
 
+            [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes",
+                Justification = "This class is used for reflection-based unit testing.")]
             private class ClassWithExpressionBodiedProperty
             {
                 public string Name { get; set; }
@@ -149,6 +156,8 @@ namespace UnitTests.CodeTiger
             }
 
             [DataContract]
+            [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes",
+                Justification = "This class is used for reflection-based unit testing.")]
             private class ClassWithNonCompilerGeneratedAttributes
             {
                 public string Name { get; set; }
@@ -246,10 +255,14 @@ namespace UnitTests.CodeTiger
                 Assert.True(typeof(StaticClass).IsStatic());
             }
 
+            [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes",
+                Justification = "This class is used for reflection-based unit testing.")]
             private static class StaticClass
             {
             }
 
+            [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes",
+                Justification = "This class is used for reflection-based unit testing.")]
             private class NonStaticClass
             {
             }
