@@ -194,23 +194,26 @@ namespace UnitTests.CodeTiger.Threading
 
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                    var cancellationTokenSource = new CancellationTokenSource();
-                    secondLockObjectTask = Task.Factory.StartNew(
-                        () => target.Acquire(cancellationTokenSource.Token),
-                        CancellationToken.None,
-                        TaskCreationOptions.LongRunning,
-                        TaskScheduler.Default);
+                    using (var cancellationTokenSource = new CancellationTokenSource())
+                    {
+                        secondLockObjectTask = Task.Factory.StartNew(
+                            () => target.Acquire(cancellationTokenSource.Token),
+                            CancellationToken.None,
+                            TaskCreationOptions.LongRunning,
+                            TaskScheduler.Default);
 
-                    Thread.Sleep(TimeSpan.FromMilliseconds(50));
+                        Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                    Assert.False(secondLockObjectTask.Wait(50));
+                        Assert.False(secondLockObjectTask.Wait(50));
 
-                    cancellationTokenSource.Cancel();
+                        cancellationTokenSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => secondLockObjectTask.Wait(50));
-                    Assert.Equal(typeof(TaskCanceledException),
-                        aggregateException.Flatten().InnerExceptions.Single().GetType());
-                    secondLockObjectTask = null;
+                        var aggregateException = Assert.Throws<AggregateException>(
+                            () => secondLockObjectTask.Wait(50));
+                        Assert.Equal(typeof(TaskCanceledException),
+                            aggregateException.Flatten().InnerExceptions.Single().GetType());
+                        secondLockObjectTask = null;
+                    }
                 }
                 finally
                 {
@@ -377,20 +380,23 @@ namespace UnitTests.CodeTiger.Threading
 
                 await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
 
-                var cancellationTokenSource = new CancellationTokenSource();
-                var secondLockObjectTask = target.AcquireAsync(cancellationTokenSource.Token);
+                using (var cancellationTokenSource = new CancellationTokenSource())
+                {
+                    var secondLockObjectTask = target.AcquireAsync(cancellationTokenSource.Token);
 
-                await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
+                    await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
 
-                Assert.NotSame(firstLockObjectTask, secondLockObjectTask);
-                Assert.False(secondLockObjectTask.IsCompleted);
+                    Assert.NotSame(firstLockObjectTask, secondLockObjectTask);
+                    Assert.False(secondLockObjectTask.IsCompleted);
 
-                cancellationTokenSource.Cancel();
+                    cancellationTokenSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => secondLockObjectTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => secondLockObjectTask)
+                        .ConfigureAwait(false);
 
-                // Clean up any outstanding locks or tasks
-                (await firstLockObjectTask.ConfigureAwait(false)).Dispose();
+                    // Clean up any outstanding locks or tasks
+                    (await firstLockObjectTask.ConfigureAwait(false)).Dispose();
+                }
             }
         }
     }

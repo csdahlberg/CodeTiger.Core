@@ -413,19 +413,22 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var cancelSource = new CancellationTokenSource();
-                var waitTask = Task.Factory.StartNew(() => target.WaitOne(cancelSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
+                using (var cancelSource = new CancellationTokenSource())
+                {
+                    var waitTask = Task.Factory.StartNew(() => target.WaitOne(cancelSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
 
-                Assert.False(waitTask.Wait(200));
+                    Assert.False(waitTask.Wait(200));
 
-                cancelSource.Cancel();
+                    cancelSource.Cancel();
 
-                var aggregateException = Assert.Throws<AggregateException>(() => waitTask.Wait(50));
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException = Assert.Throws<AggregateException>(() => waitTask.Wait(50));
+
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException.Flatten().InnerExceptions.Single().GetType());
+                }
             }
 
             [Fact]
@@ -537,33 +540,35 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var cancelSource = new CancellationTokenSource();
-                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
-                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
-                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
+                using (var cancelSource = new CancellationTokenSource())
+                {
+                    var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
+                    var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
+                    var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
 
-                Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 250));
+                    Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 250));
 
-                cancelSource.Cancel();
+                    cancelSource.Cancel();
 
-                var aggregateException1 = Assert.Throws<AggregateException>(() => waitTask1.Wait(50));
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException1.Flatten().InnerExceptions.Single().GetType());
-                var aggregateException2 = Assert.Throws<AggregateException>(() => waitTask2.Wait(50));
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException2.Flatten().InnerExceptions.Single().GetType());
-                var aggregateException3 = Assert.Throws<AggregateException>(() => waitTask3.Wait(50));
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException3.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException1 = Assert.Throws<AggregateException>(() => waitTask1.Wait(50));
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException1.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException2 = Assert.Throws<AggregateException>(() => waitTask2.Wait(50));
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException2.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException3 = Assert.Throws<AggregateException>(() => waitTask3.Wait(50));
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException3.Flatten().InnerExceptions.Single().GetType());
+                }
             }
 
             [Fact]
@@ -604,33 +609,35 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Reset();
 
-                var cancelSource = new CancellationTokenSource();
-                var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
-                var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
-                var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
+                using (var cancelSource = new CancellationTokenSource())
+                {
+                    var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
+                    var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
+                    var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
 
-                Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 250));
+                    Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 250));
 
-                cancelSource.Cancel();
+                    cancelSource.Cancel();
 
-                var aggregateException1 = Assert.Throws<AggregateException>(() => waitTask1.Wait(50));
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException1.Flatten().InnerExceptions.Single().GetType());
-                var aggregateException2 = Assert.Throws<AggregateException>(() => waitTask2.Wait(50));
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException2.Flatten().InnerExceptions.Single().GetType());
-                var aggregateException3 = Assert.Throws<AggregateException>(() => waitTask3.Wait(50));
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException3.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException1 = Assert.Throws<AggregateException>(() => waitTask1.Wait(50));
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException1.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException2 = Assert.Throws<AggregateException>(() => waitTask2.Wait(50));
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException2.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException3 = Assert.Throws<AggregateException>(() => waitTask3.Wait(50));
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException3.Flatten().InnerExceptions.Single().GetType());
+                }
             }
 
             [Fact]
@@ -773,36 +780,38 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var cancelSource = new CancellationTokenSource();
-                var waitTask1 = Task.Factory.StartNew(
-                    () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
-                var waitTask2 = Task.Factory.StartNew(
-                    () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
-                var waitTask3 = Task.Factory.StartNew(
-                    () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
+                using (var cancelSource = new CancellationTokenSource())
+                {
+                    var waitTask1 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
+                    var waitTask2 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
+                    var waitTask3 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
 
-                Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 250));
+                    Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 250));
 
-                cancelSource.Cancel();
+                    cancelSource.Cancel();
 
-                var aggregateException1 = Assert.Throws<AggregateException>(() => waitTask1.Wait(50));
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException1.Flatten().InnerExceptions.Single().GetType());
-                var aggregateException2 = Assert.Throws<AggregateException>(() => waitTask2.Wait(50));
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException2.Flatten().InnerExceptions.Single().GetType());
-                var aggregateException3 = Assert.Throws<AggregateException>(() => waitTask3.Wait(50));
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException3.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException1 = Assert.Throws<AggregateException>(() => waitTask1.Wait(50));
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException1.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException2 = Assert.Throws<AggregateException>(() => waitTask2.Wait(50));
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException2.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException3 = Assert.Throws<AggregateException>(() => waitTask3.Wait(50));
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException3.Flatten().InnerExceptions.Single().GetType());
+                }
             }
 
             [Fact]
@@ -846,36 +855,38 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Reset();
 
-                var cancelSource = new CancellationTokenSource();
-                var waitTask1 = Task.Factory.StartNew(
-                    () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
-                var waitTask2 = Task.Factory.StartNew(
-                    () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
-                var waitTask3 = Task.Factory.StartNew(
-                    () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
+                using (var cancelSource = new CancellationTokenSource())
+                {
+                    var waitTask1 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
+                    var waitTask2 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
+                    var waitTask3 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.InfiniteTimeSpan, cancelSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
 
-                Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 250));
+                    Assert.Equal(-1, Task.WaitAny(new[] { waitTask1, waitTask2, waitTask3 }, 250));
 
-                cancelSource.Cancel();
+                    cancelSource.Cancel();
 
-                var aggregateException1 = Assert.Throws<AggregateException>(() => waitTask1.Wait(50));
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException1.Flatten().InnerExceptions.Single().GetType());
-                var aggregateException2 = Assert.Throws<AggregateException>(() => waitTask2.Wait(50));
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException2.Flatten().InnerExceptions.Single().GetType());
-                var aggregateException3 = Assert.Throws<AggregateException>(() => waitTask3.Wait(50));
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException3.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException1 = Assert.Throws<AggregateException>(() => waitTask1.Wait(50));
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException1.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException2 = Assert.Throws<AggregateException>(() => waitTask2.Wait(50));
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException2.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException3 = Assert.Throws<AggregateException>(() => waitTask3.Wait(50));
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException3.Flatten().InnerExceptions.Single().GetType());
+                }
             }
 
             [Fact]
@@ -1278,15 +1289,17 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var cancelSource = new CancellationTokenSource();
-                var waitTask = target.WaitOneAsync(cancelSource.Token);
+                using (var cancelSource = new CancellationTokenSource())
+                {
+                    var waitTask = target.WaitOneAsync(cancelSource.Token);
 
-                await Task.Delay(200).ConfigureAwait(false);
-                Assert.False(waitTask.IsCompleted);
+                    await Task.Delay(200).ConfigureAwait(false);
+                    Assert.False(waitTask.IsCompleted);
 
-                cancelSource.Cancel();
+                    cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask).ConfigureAwait(false);
+                }
             }
 
             [Fact]
@@ -1363,22 +1376,24 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var cancelSource = new CancellationTokenSource();
-                var waitTask1 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
-                var waitTask2 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
-                var waitTask3 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
+                using (var cancelSource = new CancellationTokenSource())
+                {
+                    var waitTask1 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
+                    var waitTask2 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
+                    var waitTask3 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
-                await Task.Delay(200).ConfigureAwait(false);
+                    await Task.Delay(200).ConfigureAwait(false);
 
-                Assert.False(waitTask1.IsCompleted);
-                Assert.False(waitTask2.IsCompleted);
-                Assert.False(waitTask3.IsCompleted);
+                    Assert.False(waitTask1.IsCompleted);
+                    Assert.False(waitTask2.IsCompleted);
+                    Assert.False(waitTask3.IsCompleted);
 
-                cancelSource.Cancel();
+                    cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1).ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2).ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3).ConfigureAwait(false);
+                }
             }
 
             [Fact]
@@ -1414,22 +1429,24 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Reset();
 
-                var cancelSource = new CancellationTokenSource();
-                var waitTask1 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
-                var waitTask2 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
-                var waitTask3 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
+                using (var cancelSource = new CancellationTokenSource())
+                {
+                    var waitTask1 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
+                    var waitTask2 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
+                    var waitTask3 = target.WaitOneAsync(Timeout.Infinite, cancelSource.Token);
 
-                await Task.Delay(200).ConfigureAwait(false);
+                    await Task.Delay(200).ConfigureAwait(false);
 
-                Assert.False(waitTask1.IsCompleted);
-                Assert.False(waitTask2.IsCompleted);
-                Assert.False(waitTask3.IsCompleted);
+                    Assert.False(waitTask1.IsCompleted);
+                    Assert.False(waitTask2.IsCompleted);
+                    Assert.False(waitTask3.IsCompleted);
 
-                cancelSource.Cancel();
+                    cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1).ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2).ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3).ConfigureAwait(false);
+                }
             }
 
             [Fact]
@@ -1522,22 +1539,24 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncManualResetEvent(false);
 
-                var cancelSource = new CancellationTokenSource();
-                var waitTask1 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
-                var waitTask2 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
-                var waitTask3 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
+                using (var cancelSource = new CancellationTokenSource())
+                {
+                    var waitTask1 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
+                    var waitTask2 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
+                    var waitTask3 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
-                await Task.Delay(200).ConfigureAwait(false);
+                    await Task.Delay(200).ConfigureAwait(false);
 
-                Assert.False(waitTask1.IsCompleted);
-                Assert.False(waitTask2.IsCompleted);
-                Assert.False(waitTask3.IsCompleted);
+                    Assert.False(waitTask1.IsCompleted);
+                    Assert.False(waitTask2.IsCompleted);
+                    Assert.False(waitTask3.IsCompleted);
 
-                cancelSource.Cancel();
+                    cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1).ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2).ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3).ConfigureAwait(false);
+                }
             }
 
             [Fact]
@@ -1573,22 +1592,24 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncManualResetEvent(true);
                 target.Reset();
 
-                var cancelSource = new CancellationTokenSource();
-                var waitTask1 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
-                var waitTask2 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
-                var waitTask3 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
+                using (var cancelSource = new CancellationTokenSource())
+                {
+                    var waitTask1 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
+                    var waitTask2 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
+                    var waitTask3 = target.WaitOneAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
 
-                await Task.Delay(200).ConfigureAwait(false);
+                    await Task.Delay(200).ConfigureAwait(false);
 
-                Assert.False(waitTask1.IsCompleted);
-                Assert.False(waitTask2.IsCompleted);
-                Assert.False(waitTask3.IsCompleted);
+                    Assert.False(waitTask1.IsCompleted);
+                    Assert.False(waitTask2.IsCompleted);
+                    Assert.False(waitTask3.IsCompleted);
 
-                cancelSource.Cancel();
+                    cancelSource.Cancel();
 
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1).ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2).ConfigureAwait(false);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask1).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask2).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => waitTask3).ConfigureAwait(false);
+                }
             }
 
             [Fact]

@@ -81,11 +81,14 @@ namespace UnitTests.CodeTiger.Threading
 
                 tcs.SetResult(false);
 
-                var cts = new CancellationTokenSource();
-                target.WaitOne(cts.Token);
+                using (var cts = new CancellationTokenSource())
+                {
+                    target.WaitOne(cts.Token);
+
+                    Assert.Equal(cts.Token, target.MostRecentCancellationToken);
+                }
 
                 Assert.Equal(1, target.WaitTaskRetrievalCount);
-                Assert.Equal(cts.Token, target.MostRecentCancellationToken);
             }
         }
 
@@ -99,11 +102,14 @@ namespace UnitTests.CodeTiger.Threading
 
                 tcs.SetResult(false);
 
-                var cts = new CancellationTokenSource();
-                target.WaitOne(0, cts.Token);
+                using (var cts = new CancellationTokenSource())
+                {
+                    target.WaitOne(0, cts.Token);
+
+                    Assert.Equal(cts.Token, target.MostRecentCancellationToken);
+                }
 
                 Assert.Equal(1, target.WaitTaskRetrievalCount);
-                Assert.Equal(cts.Token, target.MostRecentCancellationToken);
             }
         }
 
@@ -117,11 +123,14 @@ namespace UnitTests.CodeTiger.Threading
 
                 tcs.SetResult(false);
 
-                var cts = new CancellationTokenSource();
-                target.WaitOne(TimeSpan.Zero, cts.Token);
+                using (var cts = new CancellationTokenSource())
+                {
+                    target.WaitOne(TimeSpan.Zero, cts.Token);
+
+                    Assert.Equal(cts.Token, target.MostRecentCancellationToken);
+                }
 
                 Assert.Equal(1, target.WaitTaskRetrievalCount);
-                Assert.Equal(cts.Token, target.MostRecentCancellationToken);
             }
         }
 
@@ -186,11 +195,14 @@ namespace UnitTests.CodeTiger.Threading
 
                 tcs.SetResult(false);
 
-                var cts = new CancellationTokenSource();
-                await target.WaitOneAsync(cts.Token).ConfigureAwait(false);
+                using (var cts = new CancellationTokenSource())
+                {
+                    await target.WaitOneAsync(cts.Token).ConfigureAwait(false);
+
+                    Assert.Equal(cts.Token, target.MostRecentCancellationToken);
+                }
 
                 Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
-                Assert.Equal(cts.Token, target.MostRecentCancellationToken);
             }
         }
 
@@ -204,11 +216,14 @@ namespace UnitTests.CodeTiger.Threading
 
                 tcs.SetResult(false);
 
-                var cts = new CancellationTokenSource();
-                await target.WaitOneAsync(0, cts.Token).ConfigureAwait(false);
+                using (var cts = new CancellationTokenSource())
+                {
+                    await target.WaitOneAsync(0, cts.Token).ConfigureAwait(false);
+
+                    Assert.Equal(cts.Token, target.MostRecentCancellationToken);
+                }
 
                 Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
-                Assert.Equal(cts.Token, target.MostRecentCancellationToken);
             }
         }
 
@@ -222,11 +237,14 @@ namespace UnitTests.CodeTiger.Threading
 
                 tcs.SetResult(false);
 
-                var cts = new CancellationTokenSource();
-                await target.WaitOneAsync(TimeSpan.Zero, cts.Token).ConfigureAwait(false);
+                using (var cts = new CancellationTokenSource())
+                {
+                    await target.WaitOneAsync(TimeSpan.Zero, cts.Token).ConfigureAwait(false);
+
+                    Assert.Equal(cts.Token, target.MostRecentCancellationToken);
+                }
 
                 Assert.Equal(1, target.WaitTaskAsyncRetrievalCount);
-                Assert.Equal(cts.Token, target.MostRecentCancellationToken);
             }
         }
 

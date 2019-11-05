@@ -198,28 +198,29 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             [Fact]
             public void ThrowsOperationCanceledExceptionWhenCancellationTokenIsSet()
             {
-                var cancellationTokenSource = new CancellationTokenSource();
-
-                var task = Task.Delay(250);
+                using (var cancellationTokenSource = new CancellationTokenSource())
+                {
+                    var task = Task.Delay(250);
                 
-                var target = Task.Factory.StartNew(
-                    () => task.Wait(Timeout.InfiniteTimeSpan, cancellationTokenSource.Token),
-                    CancellationToken.None,
-                    TaskCreationOptions.LongRunning,
-                    TaskScheduler.Default);
+                    var target = Task.Factory.StartNew(
+                        () => task.Wait(Timeout.InfiniteTimeSpan, cancellationTokenSource.Token),
+                        CancellationToken.None,
+                        TaskCreationOptions.LongRunning,
+                        TaskScheduler.Default);
 
-                Thread.Sleep(TimeSpan.FromMilliseconds(150));
+                    Thread.Sleep(TimeSpan.FromMilliseconds(150));
 
-                Assert.False(target.IsCompleted);
+                    Assert.False(target.IsCompleted);
 
-                cancellationTokenSource.Cancel();
+                    cancellationTokenSource.Cancel();
                 
-                var aggregateException = Assert.Throws<AggregateException>(() => target.Wait());
-                Assert.Equal(typeof(OperationCanceledException),
-                    aggregateException.Flatten().InnerExceptions.Single().GetType());
+                    var aggregateException = Assert.Throws<AggregateException>(() => target.Wait());
+                    Assert.Equal(typeof(OperationCanceledException),
+                        aggregateException.Flatten().InnerExceptions.Single().GetType());
 
-                // Wait for outstanding tasks to complete
-                task.Wait();
+                    // Wait for outstanding tasks to complete
+                    task.Wait();
+                }
             }
 
             [Fact]

@@ -161,21 +161,23 @@ namespace UnitTests.CodeTiger
             [Fact]
             public void DoesNotThrowExceptionForDisposableClassWhenHasObjectBeenDisposedIsFalse()
             {
-                var argumentValue = new DisposableClass();
+                using (var argumentValue = new DisposableClass())
+                {
+                    var actual = Guard.ObjectHasNotBeenDisposed(argumentValue, false);
 
-                var actual = Guard.ObjectHasNotBeenDisposed(argumentValue, false);
-
-                Assert.Same(argumentValue, actual);
+                    Assert.Same(argumentValue, actual);
+                }
             }
 
             [Fact]
             public void DoesNotThrowExceptionForDisposableStructWhenHasObjectBeenDisposedIsFalse()
             {
-                var argumentValue = new DisposableStruct();
+                using (var argumentValue = new DisposableStruct())
+                {
+                    var actual = Guard.ObjectHasNotBeenDisposed(argumentValue, false);
 
-                var actual = Guard.ObjectHasNotBeenDisposed(argumentValue, false);
-
-                Assert.Equal(argumentValue, actual);
+                    Assert.Equal(argumentValue, actual);
+                }
             }
 
             private class DisposableClass : IDisposable
