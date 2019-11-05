@@ -262,6 +262,17 @@ namespace CodeTiger
         }
 
         /// <summary>
+        /// Creates a <see cref="PackedInt64"/> value from a given <see cref="long"/> value.
+        /// </summary>
+        /// <param name="value">The <see cref="long"/> value to create a <see cref="PackedInt64"/> value from.
+        /// </param>
+        /// <returns>A <see cref="PackedInt64"/> value equivalent to <paramref name="value"/>.</returns>
+        public static PackedInt64 FromInt64(long value)
+        {
+            return new PackedInt64(value);
+        }
+
+        /// <summary>
         /// Determines whether two <see cref="PackedInt64"/> values are equal.
         /// </summary>
         /// <param name="first">The first <see cref="PackedInt64"/> value to compare.</param>

@@ -221,6 +221,17 @@ namespace CodeTiger
         }
 
         /// <summary>
+        /// Creates a <see cref="PackedInt32"/> value from a given <see cref="int"/> value.
+        /// </summary>
+        /// <param name="value">The <see cref="int"/> value to create a <see cref="PackedInt32"/> value from.
+        /// </param>
+        /// <returns>A <see cref="PackedInt32"/> value equivalent to <paramref name="value"/>.</returns>
+        public static PackedInt32 FromInt32(int value)
+        {
+            return new PackedInt32(value);
+        }
+
+        /// <summary>
         /// Determines whether two <see cref="PackedInt32"/> values are equal.
         /// </summary>
         /// <param name="first">The first <see cref="PackedInt32"/> value to compare.</param>

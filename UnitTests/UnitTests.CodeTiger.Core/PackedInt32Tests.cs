@@ -429,5 +429,43 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(value, actual);
             }
         }
+
+        public class FromInt32
+        {
+            [Theory]
+            [InlineData(int.MinValue)]
+            [InlineData((int)-2147483647)]
+            [InlineData((int)-1)]
+            [InlineData((int)0)]
+            [InlineData((int)1)]
+            [InlineData((int)2147483646)]
+            [InlineData(int.MaxValue)]
+            public void CreatesPackedInt32WithSameValue(int value)
+            {
+                var target = PackedInt32.FromInt32(value);
+
+                Assert.Equal(value, target.Value);
+            }
+        }
+
+        public class ToInt32
+        {
+            [Theory]
+            [InlineData(int.MinValue)]
+            [InlineData((int)-2147483647)]
+            [InlineData((int)-1)]
+            [InlineData((int)0)]
+            [InlineData((int)1)]
+            [InlineData((int)2147483646)]
+            [InlineData(int.MaxValue)]
+            public void CreatesInt32WithSameValue(int value)
+            {
+                var packedInt32 = new PackedInt32(value);
+
+                int actual = packedInt32.ToInt32();
+
+                Assert.Equal(value, actual);
+            }
+        }
     }
 }

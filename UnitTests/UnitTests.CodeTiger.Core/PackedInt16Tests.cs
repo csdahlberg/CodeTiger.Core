@@ -292,5 +292,43 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(value, actual);
             }
         }
+
+        public class FromInt16
+        {
+            [Theory]
+            [InlineData(short.MinValue)]
+            [InlineData((short)-32767)]
+            [InlineData((short)-1)]
+            [InlineData((short)0)]
+            [InlineData((short)1)]
+            [InlineData((short)32766)]
+            [InlineData(short.MaxValue)]
+            public void CreatesPackedInt16WithSameValue(short value)
+            {
+                var target = PackedInt16.FromInt16(value);
+
+                Assert.Equal(value, target.Value);
+            }
+        }
+
+        public class ToInt16
+        {
+            [Theory]
+            [InlineData(short.MinValue)]
+            [InlineData((short)-32767)]
+            [InlineData((short)-1)]
+            [InlineData((short)0)]
+            [InlineData((short)1)]
+            [InlineData((short)32766)]
+            [InlineData(short.MaxValue)]
+            public void CreatesInt16WithSameValue(short value)
+            {
+                var packedInt16 = new PackedInt16(value);
+
+                short actual = packedInt16.ToInt16();
+
+                Assert.Equal(value, actual);
+            }
+        }
     }
 }

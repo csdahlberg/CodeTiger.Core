@@ -186,6 +186,17 @@ namespace CodeTiger
         }
 
         /// <summary>
+        /// Creates a <see cref="PackedInt16"/> value from a given <see cref="short"/> value.
+        /// </summary>
+        /// <param name="value">The <see cref="short"/> value to create a <see cref="PackedInt16"/> value from.
+        /// </param>
+        /// <returns>A <see cref="PackedInt16"/> value equivalent to <paramref name="value"/>.</returns>
+        public static PackedInt16 FromInt16(short value)
+        {
+            return new PackedInt16(value);
+        }
+
+        /// <summary>
         /// Determines whether two <see cref="PackedInt16"/> values are equal.
         /// </summary>
         /// <param name="first">The first <see cref="PackedInt16"/> value to compare.</param>
