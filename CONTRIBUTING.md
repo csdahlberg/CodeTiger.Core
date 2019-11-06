@@ -32,9 +32,7 @@ To be accepted, a pull request must:
     * e.g. "Fixed a deadlock when AsyncLazy<T> is used from non-async code", "Added unit tests for Guard.ArgumentIsNotNull", etc.
 * Build without any warnings
 * Roughly follow existing coding style
-* Include adequate tests 
+* Have all unit test passing
     * At least one test should fail in the absence of your non-test code changes. If your PR does not match this criteria, please specify why
     * Tests should include reasonable permutations of the target fix/change
-    * Include baseline changes with your change
-    * All changed code must have 100% code coverage
 * Not introduce any new dependencies
