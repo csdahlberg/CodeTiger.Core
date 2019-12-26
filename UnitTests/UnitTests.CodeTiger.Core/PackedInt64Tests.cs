@@ -267,7 +267,7 @@ namespace UnitTests.CodeTiger
             [Fact]
             public void ThrowsArgumentNullExceptionWhenValueIsNull()
             {
-                Assert.Throws<ArgumentNullException>(() => new PackedInt64((int[])null));
+                Assert.Throws<ArgumentNullException>(() => new PackedInt64((int[])null!));
             }
 
             [Theory]
@@ -307,7 +307,7 @@ namespace UnitTests.CodeTiger
             [Fact]
             public void ThrowsArgumentNullExceptionWhenValueIsNull()
             {
-                Assert.Throws<ArgumentNullException>(() => new PackedInt64((short[])null));
+                Assert.Throws<ArgumentNullException>(() => new PackedInt64((short[])null!));
             }
 
             [Theory]
@@ -361,7 +361,7 @@ namespace UnitTests.CodeTiger
             [Fact]
             public void ThrowsArgumentNullExceptionWhenValueIsNull()
             {
-                Assert.Throws<ArgumentNullException>(() => new PackedInt64((byte[])null));
+                Assert.Throws<ArgumentNullException>(() => new PackedInt64((byte[])null!));
             }
 
             [Theory]

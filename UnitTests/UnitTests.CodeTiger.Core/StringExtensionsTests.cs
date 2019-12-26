@@ -11,7 +11,7 @@ namespace UnitTests.CodeTiger
             [Fact]
             public void ThrowsArgumentNullExceptionForNullString()
             {
-                Assert.Throws<ArgumentNullException>(() => ((string)null).SplitAt(0));
+                Assert.Throws<ArgumentNullException>(() => ((string)null!).SplitAt(0));
             }
 
             [Theory]
@@ -57,13 +57,13 @@ namespace UnitTests.CodeTiger
             public void ThrowsArgumentNullExceptionForNullSourceString()
             {
                 Assert.Throws<ArgumentNullException>(
-                    () => ((string)null).Contains("foo", StringComparison.Ordinal));
+                    () => ((string)null!).Contains("foo", StringComparison.Ordinal));
             }
 
             [Fact]
             public void ThrowsArgumentNullExceptionForNullValueString()
             {
-                Assert.Throws<ArgumentNullException>(() => "".Contains(null, StringComparison.Ordinal));
+                Assert.Throws<ArgumentNullException>(() => "".Contains(null!, StringComparison.Ordinal));
             }
 
             [Theory]

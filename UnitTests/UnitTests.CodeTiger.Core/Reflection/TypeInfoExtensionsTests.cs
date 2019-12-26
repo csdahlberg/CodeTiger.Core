@@ -18,7 +18,7 @@ namespace UnitTests.CodeTiger.Reflection
             [Fact]
             public void ThrowsArgumentNullExceptionForNullType()
             {
-                TypeInfo target = null;
+                TypeInfo target = null!;
 
                 Assert.Throws<ArgumentNullException>("typeInfo", () => target.IsCompilerGenerated());
             }
@@ -131,7 +131,7 @@ namespace UnitTests.CodeTiger.Reflection
                 Justification = "This class is used for reflection-based unit testing.")]
             private class ClassWithNoAttributes
             {
-                public string Name { get; set; }
+                public string? Name { get; set; }
             }
 
             [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes",
@@ -149,7 +149,7 @@ namespace UnitTests.CodeTiger.Reflection
                 Justification = "This class is used for reflection-based unit testing.")]
             private class ClassWithExpressionBodiedProperty
             {
-                public string Name { get; set; }
+                public string? Name { get; set; }
                 public bool IsNameEmpty => string.IsNullOrEmpty(Name) || Name.Any(c => c != ' ');
             }
 
@@ -158,7 +158,7 @@ namespace UnitTests.CodeTiger.Reflection
                 Justification = "This class is used for reflection-based unit testing.")]
             private class ClassWithNonCompilerGeneratedAttributes
             {
-                public string Name { get; set; }
+                public string? Name { get; set; }
             }
 
             private struct StructWithNoAttributes
@@ -178,7 +178,7 @@ namespace UnitTests.CodeTiger.Reflection
             [Fact]
             public void ThrowsArgumentNullExceptionForNullType()
             {
-                TypeInfo target = null;
+                TypeInfo target = null!;
 
                 Assert.Throws<ArgumentNullException>("typeInfo", () => target.IsStatic());
             }

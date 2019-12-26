@@ -157,7 +157,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             [Fact]
             public void ThrowsArgumentNullExceptionWhenTaskIsNull()
             {
-                Task task = null;
+                Task task = null!;
 
                 Assert.Throws<ArgumentNullException>(
                     () => task.Wait(Timeout.InfiniteTimeSpan, CancellationToken.None));

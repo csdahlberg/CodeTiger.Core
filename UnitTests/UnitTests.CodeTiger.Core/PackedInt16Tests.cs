@@ -156,7 +156,7 @@ namespace UnitTests.CodeTiger
             [Fact]
             public void ThrowsArgumentNullExceptionWhenValueIsNull()
             {
-                Assert.Throws<ArgumentNullException>(() => new PackedInt16(null));
+                Assert.Throws<ArgumentNullException>(() => new PackedInt16(null!));
             }
 
             [Theory]

@@ -13,7 +13,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             [Fact]
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
-                List<int> target = null;
+                List<int> target = null!;
 
                 static bool predicate(int element) => true;
 
@@ -25,7 +25,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenPredicateIsNull()
             {
                 var target = new List<int>();
-                Func<int, bool> predicate = null;
+                Func<int, bool> predicate = null!;
 
                 Assert.Throws<ArgumentNullException>("predicate",
                     () => EnumerableExtensions.AnyNot(target, predicate));
@@ -107,7 +107,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             [Fact]
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
-                List<int> target = null;
+                List<int> target = null!;
 
                 Assert.Throws<ArgumentNullException>("source",
                     () => EnumerableExtensions.None(target));
@@ -139,7 +139,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             [Fact]
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
-                List<int> target = null;
+                List<int> target = null!;
 
                 static bool predicate(int element) => true;
 
@@ -151,7 +151,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenPredicateIsNull()
             {
                 var target = new List<int>();
-                Func<int, bool> predicate = null;
+                Func<int, bool> predicate = null!;
 
                 Assert.Throws<ArgumentNullException>("predicate",
                     () => EnumerableExtensions.None(target, predicate));
@@ -233,7 +233,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             [Fact]
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
-                List<int> target = null;
+                List<int> target = null!;
 
                 static bool predicate(int element) => true;
 
@@ -245,7 +245,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenPredicateIsNull()
             {
                 var target = new List<int>();
-                Func<int, bool> predicate = null;
+                Func<int, bool> predicate = null!;
 
                 Assert.Throws<ArgumentNullException>("predicate",
                     () => EnumerableExtensions.SkipUntil(target, predicate));
@@ -345,7 +345,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             [Fact]
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
-                List<int> target = null;
+                List<int> target = null!;
 
                 static bool predicate(int element, int index) => true;
 
@@ -357,7 +357,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenPredicateIsNull()
             {
                 var target = new List<int>();
-                Func<int, int, bool> predicate = null;
+                Func<int, int, bool> predicate = null!;
 
                 Assert.Throws<ArgumentNullException>("predicate",
                     () => EnumerableExtensions.SkipUntil(target, predicate));
@@ -457,7 +457,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             [Fact]
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
-                List<int> target = null;
+                List<int> target = null!;
 
                 static bool predicate(int element) => true;
 
@@ -469,7 +469,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenPredicateIsNull()
             {
                 var target = new List<int>();
-                Func<int, bool> predicate = null;
+                Func<int, bool> predicate = null!;
 
                 Assert.Throws<ArgumentNullException>("predicate",
                     () => EnumerableExtensions.TakeUntil(target, predicate));
@@ -568,7 +568,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             [Fact]
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
-                List<int> target = null;
+                List<int> target = null!;
 
                 static bool predicate(int element, int index) => true;
 
@@ -580,7 +580,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenPredicateIsNull()
             {
                 var target = new List<int>();
-                Func<int, int, bool> predicate = null;
+                Func<int, int, bool> predicate = null!;
 
                 Assert.Throws<ArgumentNullException>("predicate",
                     () => EnumerableExtensions.TakeUntil(target, predicate));
@@ -679,7 +679,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             [Fact]
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
-                List<int> target = null;
+                List<int> target = null!;
 
                 static bool predicate(int element) => true;
 
@@ -691,7 +691,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenPredicateIsNull()
             {
                 var target = new List<int>();
-                Func<int, bool> predicate = null;
+                Func<int, bool> predicate = null!;
 
                 Assert.Throws<ArgumentNullException>("predicate",
                     () => EnumerableExtensions.WhereNot(target, predicate));
@@ -795,7 +795,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             [Fact]
             public void ThrowsArgumentNullExceptionWhenSourceIsNull()
             {
-                List<int> target = null;
+                List<int> target = null!;
 
                 static bool predicate(int element, int index) => true;
 
@@ -807,7 +807,7 @@ namespace UnitTests.CodeTiger.Collections.Generic
             public void ThrowsArgumentNullExceptionWhenPredicateIsNull()
             {
                 var target = new List<int>();
-                Func<int, int, bool> predicate = null;
+                Func<int, int, bool> predicate = null!;
 
                 Assert.Throws<ArgumentNullException>("predicate",
                     () => EnumerableExtensions.WhereNot(target, predicate));

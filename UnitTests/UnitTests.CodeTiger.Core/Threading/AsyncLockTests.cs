@@ -36,8 +36,8 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                IDisposable firstLockObject = null;
-                Task<IDisposable> secondLockObjectTask = null;
+                IDisposable? firstLockObject = null;
+                Task<IDisposable>? secondLockObjectTask = null;
 
                 try
                 {
@@ -64,8 +64,8 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                IDisposable firstLockObject = null;
-                Task<IDisposable> secondLockObjectTask = null;
+                IDisposable? firstLockObject = null;
+                Task<IDisposable>? secondLockObjectTask = null;
 
                 try
                 {
@@ -120,8 +120,8 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                IDisposable firstLockObject = null;
-                Task<IDisposable> secondLockObjectTask = null;
+                IDisposable? firstLockObject = null;
+                Task<IDisposable>? secondLockObjectTask = null;
 
                 try
                 {
@@ -149,8 +149,8 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                IDisposable firstLockObject = null;
-                Task<IDisposable> secondLockObjectTask = null;
+                IDisposable? firstLockObject = null;
+                Task<IDisposable>? secondLockObjectTask = null;
 
                 try
                 {
@@ -185,8 +185,8 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncLock();
 
-                IDisposable firstLockObject = null;
-                Task<IDisposable> secondLockObjectTask = null;
+                IDisposable? firstLockObject = null;
+                Task<IDisposable>? secondLockObjectTask = null;
 
                 try
                 {

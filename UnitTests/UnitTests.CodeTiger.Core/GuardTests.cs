@@ -14,8 +14,10 @@ namespace UnitTests.CodeTiger
             [Fact]
             public void ThrowsArgumentNullExceptionWhenObjectArgumentIsNull()
             {
+                object argumentValue = null!;
+
                 Assert.Throws<ArgumentNullException>("DummyArgumentName",
-                    () => Guard.ArgumentIsNotNull<object>("DummyArgumentName", (object)null));
+                    () => Guard.ArgumentIsNotNull("DummyArgumentName", argumentValue));
             }
 
             [Fact]
@@ -23,7 +25,7 @@ namespace UnitTests.CodeTiger
             {
                 object argumentValue = new object();
 
-                object actual = Guard.ArgumentIsNotNull<object>("DummyArgumentName", argumentValue);
+                object actual = Guard.ArgumentIsNotNull("DummyArgumentName", argumentValue);
 
                 Assert.Same(argumentValue, actual);
             }
@@ -129,8 +131,10 @@ namespace UnitTests.CodeTiger
             [Fact]
             public void ThrowsCorrectObjectDisposedExceptionForNullDisposableClassWhenHasObjectBeenDisposedIsTrue()
             {
+                DisposableClass objectValue = null!;
+
                 var actual = Assert.Throws<ObjectDisposedException>(
-                    () => Guard.ObjectHasNotBeenDisposed<DisposableClass>(null, true));
+                    () => Guard.ObjectHasNotBeenDisposed(objectValue, true));
                 Assert.Equal(typeof(DisposableClass).FullName, actual.ObjectName);
             }
 
@@ -154,7 +158,7 @@ namespace UnitTests.CodeTiger
             public void ThrowsCorrectObjectDisposedExceptionForNullIDisposableWhenHasObjectBeenDisposedIsTrue()
             {
                 var actual = Assert.Throws<ObjectDisposedException>(
-                    () => Guard.ObjectHasNotBeenDisposed<IDisposable>(null, true));
+                    () => Guard.ObjectHasNotBeenDisposed<IDisposable>(null!, true));
                 Assert.Equal(typeof(IDisposable).FullName, actual.ObjectName);
             }
 
