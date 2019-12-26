@@ -57,7 +57,7 @@ namespace UnitTests.CodeTiger
             public void ThrowsArgumentNullExceptionForNullSourceString()
             {
                 Assert.Throws<ArgumentNullException>(
-                    () => ((string)null!).Contains("foo", StringComparison.Ordinal));
+                    () => StringExtensions.Contains(null!, "foo", StringComparison.Ordinal));
             }
 
             [Fact]
