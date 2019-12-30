@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using CodeTiger;
 using Xunit;
 
@@ -69,6 +71,8 @@ namespace UnitTests.CodeTiger
             [Theory]
             [InlineData("", "")]
             [InlineData("Test", "")]
+            [SuppressMessage("Design", "CA1062:Validate arguments of public methods",
+                Justification = "This value should only ever be called by the unit test framework")]
             public void ReturnsTrueWhenValueIsEmptyString(string source, string value)
             {
                 Assert.True(source.Contains(value, StringComparison.Ordinal));
@@ -80,6 +84,8 @@ namespace UnitTests.CodeTiger
             [InlineData("This is a test", "This is ")]
             [InlineData("This is a test", " is a")]
             [InlineData("This is a test", "a test")]
+            [SuppressMessage("Design", "CA1062:Validate arguments of public methods",
+                Justification = "This value should only ever be called by the unit test framework")]
             public void ReturnsTrueWhenSourceContainsValueWithSameCasing(string source, string value)
             {
                 Assert.True(source.Contains(value, StringComparison.Ordinal));
@@ -92,6 +98,8 @@ namespace UnitTests.CodeTiger
             [InlineData("This is a test", "this is ")]
             [InlineData("This is a test", " IS a")]
             [InlineData("This is a test", "a TEST")]
+            [SuppressMessage("Design", "CA1062:Validate arguments of public methods",
+                Justification = "This value should only ever be called by the unit test framework")]
             public void ReturnsTrueWhenSourceContainsValueWithDifferentCasing(string source, string value)
             {
                 Assert.True(source.Contains(value, StringComparison.OrdinalIgnoreCase));
@@ -100,6 +108,8 @@ namespace UnitTests.CodeTiger
             [Theory]
             [InlineData("", "a test")]
             [InlineData("Test", "a test")]
+            [SuppressMessage("Design", "CA1062:Validate arguments of public methods",
+                Justification = "This value should only ever be called by the unit test framework")]
             public void ReturnsFalseWhenSourceDoesNotContainValue(string source, string value)
             {
                 Assert.False(source.Contains(value, StringComparison.OrdinalIgnoreCase));
