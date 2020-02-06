@@ -217,16 +217,16 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(argumentValue, actual);
             }
         }
-
+        
         public class ArgumentIsWithinRange_String_Double_Double_Double
         {
             [Theory]
-            // TODO: Handle this without xunit crashing: [InlineData(double.MinValue, (double)-1.79768e+308, (double)1.79768e+308)]
-            // TODO: Handle this without xunit crashing: [InlineData(double.MaxValue, (double)-1.79768e+308, (double)1.79768e+308)]
-            // TODO: Handle this without xunit crashing: [InlineData(double.MinValue, (double)0, (double)0)]
+            [InlineData(double.MinValue, (double)-1.79768e+308, (double)1.79768e+308)]
+            [InlineData(double.MaxValue, (double)-1.79768e+308, (double)1.79768e+308)]
+            [InlineData(double.MinValue, (double)0, (double)0)]
             [InlineData((double)-1, (double)0, (double)0)]
             [InlineData((double)1, (double)0, (double)0)]
-            // TODO: Handle this without xunit crashing: [InlineData(double.MaxValue, (double)0, (double)0)]
+            [InlineData(double.MaxValue, (double)0, (double)0)]
             public void ThrowsArgumentOutOfRangeExceptionWhenArgumentIsOutsideOfRange(double argumentValue,
                 double minimumValue, double maximumValue)
             {
@@ -236,13 +236,13 @@ namespace UnitTests.CodeTiger
             }
 
             [Theory]
-            // TODO: Handle this without xunit crashing: [InlineData(double.MinValue, double.MinValue, double.MaxValue)]
-            // TODO: Handle this without xunit crashing: [InlineData((double)-1.79768e+308, double.MinValue, double.MaxValue)]
-            // TODO: Handle this without xunit crashing: [InlineData((double)-1, double.MinValue, double.MaxValue)]
-            // TODO: Handle this without xunit crashing: [InlineData((double)0, double.MinValue, double.MaxValue)]
-            // TODO: Handle this without xunit crashing: [InlineData((double)1, double.MinValue, double.MaxValue)]
-            // TODO: Handle this without xunit crashing: [InlineData((double)1.79768e+308, double.MinValue, double.MaxValue)]
-            // TODO: Handle this without xunit crashing: [InlineData(double.MaxValue, double.MinValue, double.MaxValue)]
+            [InlineData(double.MinValue, double.MinValue, double.MaxValue)]
+            [InlineData((double)-1.79768e+308, double.MinValue, double.MaxValue)]
+            [InlineData((double)-1, double.MinValue, double.MaxValue)]
+            [InlineData((double)0, double.MinValue, double.MaxValue)]
+            [InlineData((double)1, double.MinValue, double.MaxValue)]
+            [InlineData((double)1.79768e+308, double.MinValue, double.MaxValue)]
+            [InlineData(double.MaxValue, double.MinValue, double.MaxValue)]
             [InlineData((double)-1.79768e+308, (double)-1.79768e+308, 1.79768e+308)]
             [InlineData((double)-1.79767e+308, (double)-1.79768e+308, 1.79768e+308)]
             [InlineData((double)-1, (double)-1.79768e+308, 1.79768e+308)]
