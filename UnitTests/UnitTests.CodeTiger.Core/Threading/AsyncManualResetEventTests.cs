@@ -542,15 +542,18 @@ namespace UnitTests.CodeTiger.Threading
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
-                    var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var waitTask1 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
-                    var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var waitTask2 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
-                    var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var waitTask3 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -611,15 +614,18 @@ namespace UnitTests.CodeTiger.Threading
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
-                    var waitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var waitTask1 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
-                    var waitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var waitTask2 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
-                    var waitTask3 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var waitTask3 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);

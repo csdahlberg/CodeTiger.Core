@@ -730,7 +730,8 @@ namespace UnitTests.CodeTiger.Collections.Generic
             [InlineData(1)]
             [InlineData(2)]
             [InlineData(100)]
-            public void ReturnsAllExceptFirstElementWhenPredicateReturnsTrueOnlyForFirstElement(int numberOfElements)
+            public void ReturnsAllExceptFirstElementWhenPredicateReturnsTrueOnlyForFirstElement(
+                int numberOfElements)
             {
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);
@@ -846,7 +847,8 @@ namespace UnitTests.CodeTiger.Collections.Generic
             [InlineData(1)]
             [InlineData(2)]
             [InlineData(100)]
-            public void ReturnsAllExceptFirstElementWhenPredicateReturnsTrueOnlyForFirstElement(int numberOfElements)
+            public void ReturnsAllExceptFirstElementWhenPredicateReturnsTrueOnlyForFirstElement(
+                int numberOfElements)
             {
                 var target = Enumerable.Range(0, numberOfElements)
                     .Select(x => x * 2);

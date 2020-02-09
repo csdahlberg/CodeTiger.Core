@@ -126,7 +126,8 @@ namespace UnitTests.CodeTiger
             [InlineData((byte)2, (byte)0, (short)2)]
             [InlineData((byte)254, (byte)127, (short)32766)]
             [InlineData((byte)255, (byte)127, short.MaxValue)]
-            public void SetsValueToCombinationOfValuesPassedIn(byte lowerValue, byte upperValue, short expectedValue)
+            public void SetsValueToCombinationOfValuesPassedIn(byte lowerValue, byte upperValue,
+                short expectedValue)
             {
                 var target = new PackedInt16(lowerValue, upperValue);
                 
@@ -146,7 +147,8 @@ namespace UnitTests.CodeTiger
             [InlineData((byte)2, (byte)0, (short)2)]
             [InlineData((byte)254, (byte)127, (short)32766)]
             [InlineData((byte)255, (byte)127, short.MaxValue)]
-            public void SetsValueToCombinationOfValuesPassedIn(byte lowerValue, byte upperValue, short expectedValue)
+            public void SetsValueToCombinationOfValuesPassedIn(byte lowerValue, byte upperValue,
+                short expectedValue)
             {
                 var target = new PackedInt16(new[] { lowerValue, upperValue });
 

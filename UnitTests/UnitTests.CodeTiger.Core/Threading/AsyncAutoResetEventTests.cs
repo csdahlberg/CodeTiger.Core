@@ -312,7 +312,8 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncAutoResetEvent(true);
 
-                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(500)),
+                var successfulWaitTask = Task.Factory.StartNew(
+                    () => target.WaitOne(TimeSpan.FromMilliseconds(500)),
                     CancellationToken.None,
                     TaskCreationOptions.LongRunning,
                     TaskScheduler.Default);
@@ -320,7 +321,8 @@ namespace UnitTests.CodeTiger.Threading
                 // Add a small delay to make sure the first task calls WaitOne first
                 Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                var unsuccessfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                var unsuccessfulWaitTask = Task.Factory.StartNew(
+                    () => target.WaitOne(TimeSpan.FromMilliseconds(250)),
                     CancellationToken.None,
                     TaskCreationOptions.LongRunning,
                     TaskScheduler.Default);
@@ -340,7 +342,8 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncAutoResetEvent(false);
                 target.Set();
 
-                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(500)),
+                var successfulWaitTask = Task.Factory.StartNew(
+                    () => target.WaitOne(TimeSpan.FromMilliseconds(500)),
                     CancellationToken.None,
                     TaskCreationOptions.LongRunning,
                     TaskScheduler.Default);
@@ -348,7 +351,8 @@ namespace UnitTests.CodeTiger.Threading
                 // Add a small delay to make sure the first task calls WaitOne first
                 Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                var unsuccessfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                var unsuccessfulWaitTask = Task.Factory.StartNew(
+                    () => target.WaitOne(TimeSpan.FromMilliseconds(250)),
                     CancellationToken.None,
                     TaskCreationOptions.LongRunning,
                     TaskScheduler.Default);
@@ -366,7 +370,8 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncAutoResetEvent(false);
 
-                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(500)),
+                var successfulWaitTask = Task.Factory.StartNew(
+                    () => target.WaitOne(TimeSpan.FromMilliseconds(500)),
                     CancellationToken.None,
                     TaskCreationOptions.LongRunning,
                     TaskScheduler.Default);
@@ -374,7 +379,8 @@ namespace UnitTests.CodeTiger.Threading
                 // Add a small delay to make sure the first task calls WaitOne first
                 Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                var unsuccessfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                var unsuccessfulWaitTask = Task.Factory.StartNew(
+                    () => target.WaitOne(TimeSpan.FromMilliseconds(250)),
                     CancellationToken.None,
                     TaskCreationOptions.LongRunning,
                     TaskScheduler.Default);
@@ -399,7 +405,8 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncAutoResetEvent(true);
                 target.Set();
 
-                var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(500)),
+                var successfulWaitTask = Task.Factory.StartNew(
+                    () => target.WaitOne(TimeSpan.FromMilliseconds(500)),
                     CancellationToken.None,
                     TaskCreationOptions.LongRunning,
                     TaskScheduler.Default);
@@ -407,7 +414,8 @@ namespace UnitTests.CodeTiger.Threading
                 // Add a small delay to make sure the first task calls WaitOne first
                 Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                var unsuccessfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                var unsuccessfulWaitTask = Task.Factory.StartNew(
+                    () => target.WaitOne(TimeSpan.FromMilliseconds(250)),
                     CancellationToken.None,
                     TaskCreationOptions.LongRunning,
                     TaskScheduler.Default);
@@ -425,7 +433,8 @@ namespace UnitTests.CodeTiger.Threading
             {
                 var target = new AsyncAutoResetEvent(true);
 
-                var successfulWaitTask1 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(500)),
+                var successfulWaitTask1 = Task.Factory.StartNew(
+                    () => target.WaitOne(TimeSpan.FromMilliseconds(500)),
                     CancellationToken.None,
                     TaskCreationOptions.LongRunning,
                     TaskScheduler.Default);
@@ -433,7 +442,8 @@ namespace UnitTests.CodeTiger.Threading
                 // Add a small delay to make sure the first task calls WaitOne first
                 Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                var successfulWaitTask2 = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(500)),
+                var successfulWaitTask2 = Task.Factory.StartNew(
+                    () => target.WaitOne(TimeSpan.FromMilliseconds(500)),
                     CancellationToken.None,
                     TaskCreationOptions.LongRunning,
                     TaskScheduler.Default);
@@ -441,7 +451,8 @@ namespace UnitTests.CodeTiger.Threading
                 // Add a small delay to make sure the second task calls WaitOne first
                 Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                var unsuccessfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(TimeSpan.FromMilliseconds(250)),
+                var unsuccessfulWaitTask = Task.Factory.StartNew(
+                    () => target.WaitOne(TimeSpan.FromMilliseconds(250)),
                     CancellationToken.None,
                     TaskCreationOptions.LongRunning,
                     TaskScheduler.Default);
@@ -513,7 +524,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -545,7 +557,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -581,7 +594,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -613,7 +627,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -658,7 +673,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -689,7 +705,8 @@ namespace UnitTests.CodeTiger.Threading
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
-                    var waitTask = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var waitTask = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -728,7 +745,8 @@ namespace UnitTests.CodeTiger.Threading
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
-                    var waitTask = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var waitTask = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -750,7 +768,8 @@ namespace UnitTests.CodeTiger.Threading
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
-                    var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var successfulWaitTask = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -758,7 +777,8 @@ namespace UnitTests.CodeTiger.Threading
                     // Add a small delay to make sure the first task calls WaitOne first
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                    var unsuccessfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var unsuccessfulWaitTask = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -769,7 +789,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -783,7 +804,8 @@ namespace UnitTests.CodeTiger.Threading
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
-                    var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var successfulWaitTask = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -791,7 +813,8 @@ namespace UnitTests.CodeTiger.Threading
                     // Add a small delay to make sure the first task calls WaitOne first
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                    var unsuccessfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var unsuccessfulWaitTask = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -802,7 +825,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -815,7 +839,8 @@ namespace UnitTests.CodeTiger.Threading
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
-                    var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var successfulWaitTask = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -823,7 +848,8 @@ namespace UnitTests.CodeTiger.Threading
                     // Add a small delay to make sure the first task calls WaitOne first
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                    var unsuccessfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var unsuccessfulWaitTask = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -838,7 +864,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -852,7 +879,8 @@ namespace UnitTests.CodeTiger.Threading
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
-                    var successfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var successfulWaitTask = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -860,7 +888,8 @@ namespace UnitTests.CodeTiger.Threading
                     // Add a small delay to make sure the first task calls WaitOne first
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                    var unsuccessfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var unsuccessfulWaitTask = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -871,7 +900,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -884,7 +914,8 @@ namespace UnitTests.CodeTiger.Threading
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
-                    var successfulWaitTask1 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var successfulWaitTask1 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -892,7 +923,8 @@ namespace UnitTests.CodeTiger.Threading
                     // Add a small delay to make sure the first task calls WaitOne first
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                    var successfulWaitTask2 = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var successfulWaitTask2 = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -900,7 +932,8 @@ namespace UnitTests.CodeTiger.Threading
                     // Add a small delay to make sure the second task calls WaitOne first
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
-                    var unsuccessfulWaitTask = Task.Factory.StartNew(() => target.WaitOne(Timeout.Infinite, cancelSource.Token),
+                    var unsuccessfulWaitTask = Task.Factory.StartNew(
+                        () => target.WaitOne(Timeout.Infinite, cancelSource.Token),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
@@ -918,7 +951,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -1037,7 +1071,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -1072,7 +1107,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -1111,7 +1147,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -1146,7 +1183,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -1196,7 +1234,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    var aggregateException = Assert.Throws<AggregateException>(() => unsuccessfulWaitTask.Wait(50));
+                    var aggregateException = Assert.Throws<AggregateException>(
+                        () => unsuccessfulWaitTask.Wait(50));
                     Assert.Equal(typeof(OperationCanceledException),
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
@@ -1615,7 +1654,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -1641,7 +1681,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -1672,7 +1713,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -1698,7 +1740,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -1736,7 +1779,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
         }
@@ -1825,7 +1869,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -1851,7 +1896,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -1882,7 +1928,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -1908,7 +1955,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -1946,7 +1994,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
         }
@@ -2035,7 +2084,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -2061,7 +2111,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -2092,7 +2143,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -2118,7 +2170,8 @@ namespace UnitTests.CodeTiger.Threading
 
                     cancelSource.Cancel();
 
-                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask).ConfigureAwait(false);
+                    await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
+                        .ConfigureAwait(false);
                 }
             }
 
