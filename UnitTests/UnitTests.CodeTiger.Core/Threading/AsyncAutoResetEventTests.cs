@@ -12,8 +12,14 @@ namespace UnitTests.CodeTiger.Threading
     /// </summary>
     public static class AsyncAutoResetEventTests
     {
+        [Collection("AsyncAutoResetEvent.WaitOne collection")]
         public class WaitOne
         {
+            public WaitOne(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public void ReturnsOnceWhenEventIsInitiallySet()
             {
@@ -87,10 +93,21 @@ namespace UnitTests.CodeTiger.Threading
 
                 Assert.True(successfulWaitTask2.Wait(TimeSpan.FromMilliseconds(500)));
             }
+
+            [CollectionDefinition("AsyncAutoResetEvent.WaitOne collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncAutoResetEvent.WaitOne_Int32 collection")]
         public class WaitOne_Int32
         {
+            public WaitOne_Int32(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public void DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
             {
@@ -270,10 +287,21 @@ namespace UnitTests.CodeTiger.Threading
                 Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(1000)));
                 Assert.False(unsuccessfulWaitTask.Result);
             }
+
+            [CollectionDefinition("AsyncAutoResetEvent.WaitOne_Int32 collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncAutoResetEvent.WaitOne_TimeSpan collection")]
         public class WaitOne_TimeSpan
         {
+            public WaitOne_TimeSpan(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public void DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
             {
@@ -472,10 +500,21 @@ namespace UnitTests.CodeTiger.Threading
                 Assert.True(unsuccessfulWaitTask.Wait(TimeSpan.FromMilliseconds(300)));
                 Assert.False(unsuccessfulWaitTask.Result);
             }
+
+            [CollectionDefinition("AsyncAutoResetEvent.WaitOne_TimeSpan collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncAutoResetEvent.WaitOne_CancellationToken collection")]
         public class WaitOne_CancellationToken
         {
+            public WaitOne_CancellationToken(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public void DoesNotReturnUntilCancelTokenIsSetWhenEventIsAlwaysUnset()
             {
@@ -679,10 +718,21 @@ namespace UnitTests.CodeTiger.Threading
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
             }
+
+            [CollectionDefinition("AsyncAutoResetEvent.WaitOne_CancellationToken collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncAutoResetEvent.WaitOne_Int32_CancellationToken collection")]
         public class WaitOne_Int32_CancellationToken
         {
+            public WaitOne_Int32_CancellationToken(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public void DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
             {
@@ -957,10 +1007,21 @@ namespace UnitTests.CodeTiger.Threading
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
             }
+
+            [CollectionDefinition("AsyncAutoResetEvent.WaitOne_Int32_CancellationToken collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncAutoResetEvent.WaitOne_TimeSpan_CancellationToken collection")]
         public class WaitOne_TimeSpan_CancellationToken
         {
+            public WaitOne_TimeSpan_CancellationToken(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public void DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
             {
@@ -1240,10 +1301,21 @@ namespace UnitTests.CodeTiger.Threading
                         aggregateException.Flatten().InnerExceptions.Single().GetType());
                 }
             }
+
+            [CollectionDefinition("AsyncAutoResetEvent.WaitOne_TimeSpan_CancellationToken collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncAutoResetEvent.WaitOneAsync collection")]
         public class WaitOneAsync
         {
+            public WaitOneAsync(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public async Task ReturnsOnceWhenEventIsInitiallySet()
             {
@@ -1310,10 +1382,21 @@ namespace UnitTests.CodeTiger.Threading
 
                 await successfulWaitTask2.ConfigureAwait(false);
             }
+
+            [CollectionDefinition("AsyncAutoResetEvent.WaitOneAsync collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncAutoResetEvent.WaitOneAsync_Int32 collection")]
         public class WaitOneAsync_Int32
         {
+            public WaitOneAsync_Int32(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public async Task DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
             {
@@ -1461,10 +1544,21 @@ namespace UnitTests.CodeTiger.Threading
 
                 Assert.False(await unsuccessfulWaitTask.ConfigureAwait(false));
             }
+
+            [CollectionDefinition("AsyncAutoResetEvent.WaitOneAsync_Int32 collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncAutoResetEvent.WaitOneAsync_TimeSpan collection")]
         public class WaitOneAsync_TimeSpan
         {
+            public WaitOneAsync_TimeSpan(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public async Task DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
             {
@@ -1611,10 +1705,21 @@ namespace UnitTests.CodeTiger.Threading
 
                 Assert.False(await unsuccessfulWaitTask.ConfigureAwait(false));
             }
+
+            [CollectionDefinition("AsyncAutoResetEvent.WaitOneAsync_TimeSpan collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncAutoResetEvent.WaitOneAsync_CancellationToken collection")]
         public class WaitOneAsync_CancellationToken
         {
+            public WaitOneAsync_CancellationToken(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public async Task DoesNotReturnUntilCancelTokenIsSetWhenEventIsAlwaysUnset()
             {
@@ -1783,10 +1888,21 @@ namespace UnitTests.CodeTiger.Threading
                         .ConfigureAwait(false);
                 }
             }
+
+            [CollectionDefinition("AsyncAutoResetEvent.WaitOneAsync_CancellationToken collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncAutoResetEvent.WaitOneAsync_Int32_CancellationToken collection")]
         public class WaitOneAsync_Int32_CancellationToken
         {
+            public WaitOneAsync_Int32_CancellationToken(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public async Task DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
             {
@@ -1998,10 +2114,21 @@ namespace UnitTests.CodeTiger.Threading
                         .ConfigureAwait(false);
                 }
             }
+
+            [CollectionDefinition("AsyncAutoResetEvent.WaitOneAsync_Int32_CancellationToken collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncAutoResetEvent.WaitOneAsync_TimeSpan_CancellationToken collection")]
         public class WaitOneAsync_TimeSpan_CancellationToken
         {
+            public WaitOneAsync_TimeSpan_CancellationToken(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public async Task DoesNotReturnUntilTimeoutElapsesWhenEventIsAlwaysUnset()
             {
@@ -2212,6 +2339,11 @@ namespace UnitTests.CodeTiger.Threading
                     await Assert.ThrowsAsync<TaskCanceledException>(() => unsuccessfulWaitTask)
                         .ConfigureAwait(false);
                 }
+            }
+
+            [CollectionDefinition("AsyncAutoResetEvent.WaitOneAsync_TimeSpan_CancellationToken collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
             }
         }
     }

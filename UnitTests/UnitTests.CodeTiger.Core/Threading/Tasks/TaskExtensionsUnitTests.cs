@@ -14,8 +14,14 @@ namespace UnitTests.CodeTiger.Threading.Tasks
     {
         private static readonly Task _completedTask = Task.FromResult(84);
 
+        [Collection("TaskExtensions.WithTimeout_Int32 collection")]
         public class WithTimeout_Int32
         {
+            public WithTimeout_Int32(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public void ReturnsOriginalTaskWhenTimeoutIsInfinite()
             {
@@ -81,10 +87,21 @@ namespace UnitTests.CodeTiger.Threading.Tasks
                 Assert.Equal(typeof(TaskCanceledException),
                     aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
+
+            [CollectionDefinition("TaskExtensions.WithTimeout_Int32 collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
-        
+
+        [Collection("TaskExtensions.WithTimeout_TimeSpan collection")]
         public class WithTimeout_TimeSpan
         {
+            public WithTimeout_TimeSpan(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public void ReturnsOriginalTaskWhenTimeoutIsInfiniteTimeSpan()
             {
@@ -150,10 +167,21 @@ namespace UnitTests.CodeTiger.Threading.Tasks
                 Assert.Equal(typeof(TaskCanceledException),
                     aggregateException.Flatten().InnerExceptions.Single().GetType());
             }
+
+            [CollectionDefinition("TaskExtensions.WithTimeout_TimeSpan collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("TaskExtensions.Wait_TimeSpan_CancellationToken collection")]
         public class Wait_TimeSpan_CancellationToken
         {
+            public Wait_TimeSpan_CancellationToken(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public void ThrowsArgumentNullExceptionWhenTaskIsNull()
             {
@@ -247,6 +275,11 @@ namespace UnitTests.CodeTiger.Threading.Tasks
 
                 // Wait for outstanding tasks to complete
                 task.Wait();
+            }
+
+            [CollectionDefinition("TaskExtensions.Wait_TimeSpan_CancellationToken collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
             }
         }
     }

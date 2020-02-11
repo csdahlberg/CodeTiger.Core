@@ -12,8 +12,14 @@ namespace UnitTests.CodeTiger.Threading
     /// </summary>
     public static class AsyncLockTests
     {
+        [Collection("AsyncLock.Acquire collection")]
         public class Acquire
         {
+            public Acquire(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public void ReturnsImmediatelyToFirstCaller()
             {
@@ -94,10 +100,21 @@ namespace UnitTests.CodeTiger.Threading
                     secondLockObjectTask?.Result?.Dispose();
                 }
             }
+
+            [CollectionDefinition("AsyncLock.Acquire collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncLock.Acquire_CancellationToken collection")]
         public class Acquire_CancellationToken
         {
+            public Acquire_CancellationToken(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public void ReturnsImmediatelyToFirstCaller()
             {
@@ -222,10 +239,21 @@ namespace UnitTests.CodeTiger.Threading
                     secondLockObjectTask?.Result?.Dispose();
                 }
             }
+
+            [CollectionDefinition("AsyncLock.Acquire_CancellationToken collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncLock.AcquireAsync collection")]
         public class AcquireAsync
         {
+            public AcquireAsync(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public async Task ReturnsCompletedTaskToFirstCaller()
             {
@@ -296,10 +324,21 @@ namespace UnitTests.CodeTiger.Threading
                 (await firstLockObjectTask.ConfigureAwait(false)).Dispose();
                 (await secondLockObjectTask.ConfigureAwait(false)).Dispose();
             }
+
+            [CollectionDefinition("AsyncLock.AcquireAsync collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
+            }
         }
 
+        [Collection("AsyncLock.AcquireAsync_CancellationToken collection")]
         public class AcquireAsync_CancellationToken
         {
+            public AcquireAsync_CancellationToken(LargeThreadPoolFixture fixture)
+            {
+                _ = fixture;
+            }
+
             [Fact]
             public async Task ReturnsCompletedTaskToFirstCaller()
             {
@@ -397,6 +436,11 @@ namespace UnitTests.CodeTiger.Threading
                     // Clean up any outstanding locks or tasks
                     (await firstLockObjectTask.ConfigureAwait(false)).Dispose();
                 }
+            }
+
+            [CollectionDefinition("AsyncLock.AcquireAsync_CancellationToken collection")]
+            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            {
             }
         }
     }
