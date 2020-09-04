@@ -10,7 +10,7 @@ namespace CodeTiger
     /// Provides support for asynchronous lazy initialization.
     /// </summary>
     /// <typeparam name="T">The type of object to be lazily initialized.</typeparam>
-    public class AsyncLazy<T> : Lazy<Task<T>>
+    public sealed class AsyncLazy<T> : Lazy<Task<T>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncLazy{T}"/> class that uses the default constructor of
