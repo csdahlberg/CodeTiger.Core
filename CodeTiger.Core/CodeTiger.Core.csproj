@@ -45,7 +45,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CodeTiger.CodeAnalysis" Version="1.0.1-beta02">
+    <PackageReference Include="CodeTiger.CodeAnalysis" Version="1.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
