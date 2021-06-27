@@ -164,7 +164,7 @@ namespace UnitTests.CodeTiger
                 return new object[][]
                 {
                     new object[] { decimal.MinValue },
-                    new object[] { (decimal)-79228162514264337593543950334m },
+                    new object[] { -79228162514264337593543950334m },
                     new object[] { decimal.MinusOne },
                     new object[] { decimal.Zero },
                 };

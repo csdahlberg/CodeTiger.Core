@@ -23,7 +23,7 @@ namespace CodeTiger.Threading
         private readonly LockReleaser _releaser;
         private readonly Task<IDisposable> _completedWaitTask;
 
-        private int _acquiredCount = 0;
+        private int _acquiredCount;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncLock"/> class.

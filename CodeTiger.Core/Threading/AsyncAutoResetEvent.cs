@@ -13,7 +13,7 @@ namespace CodeTiger.Threading
             = new ConcurrentQueue<TaskCompletionSource<bool>>();
         private readonly AsyncLock _pendingWaitTaskSourcesLock = new AsyncLock();
 
-        private int _isSignaled = 0;
+        private int _isSignaled;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncAutoResetEvent"/> class, specifying whether the
