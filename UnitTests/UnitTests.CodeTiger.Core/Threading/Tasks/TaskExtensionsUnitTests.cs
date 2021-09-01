@@ -89,7 +89,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             }
 
             [CollectionDefinition("TaskExtensions.WithTimeout_Int32 collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -169,7 +169,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             }
 
             [CollectionDefinition("TaskExtensions.WithTimeout_TimeSpan collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -278,7 +278,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             }
 
             [CollectionDefinition("TaskExtensions.Wait_TimeSpan_CancellationToken collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }

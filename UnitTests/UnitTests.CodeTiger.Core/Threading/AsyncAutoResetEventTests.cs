@@ -95,7 +95,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncAutoResetEvent.WaitOne collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -289,7 +289,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncAutoResetEvent.WaitOne_Int32 collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -502,7 +502,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncAutoResetEvent.WaitOne_TimeSpan collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -720,7 +720,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncAutoResetEvent.WaitOne_CancellationToken collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -1009,7 +1009,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncAutoResetEvent.WaitOne_Int32_CancellationToken collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -1303,7 +1303,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncAutoResetEvent.WaitOne_TimeSpan_CancellationToken collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -1384,7 +1384,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncAutoResetEvent.WaitOneAsync collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -1546,7 +1546,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncAutoResetEvent.WaitOneAsync_Int32 collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -1707,7 +1707,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncAutoResetEvent.WaitOneAsync_TimeSpan collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -1890,7 +1890,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncAutoResetEvent.WaitOneAsync_CancellationToken collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -2116,7 +2116,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncAutoResetEvent.WaitOneAsync_Int32_CancellationToken collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -2342,7 +2342,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncAutoResetEvent.WaitOneAsync_TimeSpan_CancellationToken collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }

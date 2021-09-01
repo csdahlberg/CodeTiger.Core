@@ -102,7 +102,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncLock.Acquire collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -241,7 +241,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncLock.Acquire_CancellationToken collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -326,7 +326,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncLock.AcquireAsync collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
@@ -439,7 +439,7 @@ namespace UnitTests.CodeTiger.Threading
             }
 
             [CollectionDefinition("AsyncLock.AcquireAsync_CancellationToken collection")]
-            public class LargeThreadPoolCollection : ICollectionFixture<LargeThreadPoolFixture>
+            public class LargeThreadPoolCollectionFixture : ICollectionFixture<LargeThreadPoolFixture>
             {
             }
         }
