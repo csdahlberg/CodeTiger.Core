@@ -159,7 +159,7 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(argumentValue, actual);
             }
 
-            public static IEnumerable<object[]> GetNegativeDecimalValuesForEdgeCases()
+            private static IEnumerable<object[]> GetNegativeDecimalValuesForEdgeCases()
             {
                 return new object[][]
                 {
@@ -169,7 +169,7 @@ namespace UnitTests.CodeTiger
                 };
             }
 
-            public static IEnumerable<object[]> GetNonNegativeDecimalValuesForEdgeCases()
+            private static IEnumerable<object[]> GetNonNegativeDecimalValuesForEdgeCases()
             {
                 return new object[][]
                 {

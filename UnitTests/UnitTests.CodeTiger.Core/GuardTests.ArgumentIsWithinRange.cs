@@ -284,7 +284,7 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(argumentValue, actual);
             }
 
-            public static IEnumerable<object[]> GetDecimalValuesForOutOfRangeEdgeCases()
+            private static IEnumerable<object[]> GetDecimalValuesForOutOfRangeEdgeCases()
             {
                 return new object[][]
                 {
@@ -307,7 +307,7 @@ namespace UnitTests.CodeTiger
                 };
             }
 
-            public static IEnumerable<object[]> GetDecimalValuesForWithinRangeEdgeCases()
+            private static IEnumerable<object[]> GetDecimalValuesForWithinRangeEdgeCases()
             {
                 return new object[][]
                 {

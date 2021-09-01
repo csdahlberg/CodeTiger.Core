@@ -18,7 +18,7 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(lowerValue, target.LowerByte);
             }
 
-            public static IEnumerable<object[]> GetByteValuesForEdgeCases()
+            private static IEnumerable<object[]> GetByteValuesForEdgeCases()
             {
                 byte[] edgeCaseValues = new byte[] { byte.MinValue, 1, 254, byte.MaxValue };
 
@@ -43,7 +43,7 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(upperValue, target.UpperByte);
             }
 
-            public static IEnumerable<object[]> GetByteValuesForEdgeCases()
+            private static IEnumerable<object[]> GetByteValuesForEdgeCases()
             {
                 byte[] edgeCaseValues = new byte[] { byte.MinValue, 1, 254, byte.MaxValue };
 
@@ -71,7 +71,7 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(upperValue, actual[1]);
             }
 
-            public static IEnumerable<object[]> GetByteValuesForEdgeCases()
+            private static IEnumerable<object[]> GetByteValuesForEdgeCases()
             {
                 byte[] edgeCaseValues = new byte[] { byte.MinValue, 1, 254, byte.MaxValue };
 

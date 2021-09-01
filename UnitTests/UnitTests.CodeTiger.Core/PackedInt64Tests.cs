@@ -19,7 +19,7 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(lowerValue, target.LowerInt32);
             }
 
-            public static IEnumerable<object[]> GetInt32ValuesForEdgeCases()
+            private static IEnumerable<object[]> GetInt32ValuesForEdgeCases()
             {
                 int[] edgeCaseValues = new int[]
                 {
@@ -47,7 +47,7 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(upperValue, target.UpperInt32);
             }
 
-            public static IEnumerable<object[]> GetInt32ValuesForEdgeCases()
+            private static IEnumerable<object[]> GetInt32ValuesForEdgeCases()
             {
                 int[] edgeCaseValues = new int[]
                 {
@@ -78,7 +78,7 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(upperValue, actual[1]);
             }
 
-            public static IEnumerable<object[]> GetInt32ValuesForEdgeCases()
+            private static IEnumerable<object[]> GetInt32ValuesForEdgeCases()
             {
                 int[] edgeCaseValues = new int[]
                 {
@@ -112,7 +112,7 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(value3, actual[3]);
             }
 
-            public static IEnumerable<object[]> GetInt16ValuesForEdgeCases()
+            private static IEnumerable<object[]> GetInt16ValuesForEdgeCases()
             {
                 short[] edgeCaseValues = new short[]
                 {
@@ -164,7 +164,7 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(value7, actual[7]);
             }
 
-            public static IEnumerable<object[]> GetByteValuesForEdgeCases()
+            private static IEnumerable<object[]> GetByteValuesForEdgeCases()
             {
                 byte[] edgeCaseValues = new byte[] { byte.MinValue, 1, 254, byte.MaxValue };
 
