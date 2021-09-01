@@ -142,7 +142,7 @@ namespace UnitTests.CodeTiger
             {
                 public Func<int> GetFunc()
                 {
-                    int i = 1;
+                    int i = GetHashCode();
                     return () => i;
                 }
             }
