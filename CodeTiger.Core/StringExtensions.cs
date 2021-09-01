@@ -41,7 +41,11 @@ namespace CodeTiger
             Guard.ArgumentIsNotNull(nameof(source), source);
             Guard.ArgumentIsNotNull(nameof(value), value);
 
+#if NET5_0_OR_GREATER
+            return source.Contains(value, comparisonType);
+#else
             return source.IndexOf(value, comparisonType) >= 0;
+#endif
         }
     }
 }
