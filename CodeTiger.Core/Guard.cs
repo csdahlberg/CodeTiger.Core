@@ -142,7 +142,7 @@ namespace CodeTiger
             {
                 // Try to get the actual type of the object, but fall back to to compile-time generic type argument
                 // if the object is null.
-                string objectTypeName = disposableObject?.GetType().FullName ?? typeof(T).FullName;
+                string? objectTypeName = disposableObject?.GetType().FullName ?? typeof(T).FullName;
 
                 throw new ObjectDisposedException(objectTypeName);
             }

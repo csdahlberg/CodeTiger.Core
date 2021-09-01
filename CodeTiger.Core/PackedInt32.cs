@@ -206,7 +206,7 @@ namespace CodeTiger
         /// <param name="obj">The object to compare to this value.</param>
         /// <returns><c>true</c> if <paramref name="obj"/> is equal to this value, <c>false</c> otherwise.
         /// </returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is PackedInt32 && (PackedInt32)obj == this;
         }
