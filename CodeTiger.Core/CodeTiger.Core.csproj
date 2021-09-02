@@ -22,6 +22,10 @@
     <IncludeSource>True</IncludeSource>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\CodeTiger.Core.snk</AssemblyOriginatorKeyFile>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>5</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <WarningLevel>5</WarningLevel>
     <NoWarn />
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <RootNamespace>CodeTiger</RootNamespace>
@@ -48,9 +52,6 @@
     <PackageReference Include="CodeTiger.CodeAnalysis" Version="1.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
-      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>

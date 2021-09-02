@@ -5,7 +5,11 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <IsPackable>False</IsPackable>
-    <NoWarn>1701</NoWarn>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>5</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <WarningLevel>5</WarningLevel>
+    <NoWarn />
     <RootNamespace>UnitTests.CodeTiger</RootNamespace>
     <Product>CodeTiger.Core</Product>
     <Authors>Chris Dahlberg</Authors>
@@ -28,10 +32,6 @@
 
   <ItemGroup>
     <PackageReference Include="CodeTiger.CodeAnalysis" Version="1.1.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

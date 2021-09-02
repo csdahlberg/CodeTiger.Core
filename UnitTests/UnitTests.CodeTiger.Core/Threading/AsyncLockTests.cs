@@ -96,7 +96,9 @@ namespace UnitTests.CodeTiger.Threading
                 finally
                 {
                     // Clean up any outstanding locks or tasks
+#pragma warning disable CA1508 // Avoid dead conditional code
                     firstLockObject?.Dispose();
+#pragma warning restore CA1508 // Avoid dead conditional code
                     secondLockObjectTask?.Result?.Dispose();
                 }
             }
@@ -192,7 +194,9 @@ namespace UnitTests.CodeTiger.Threading
                 finally
                 {
                     // Clean up any outstanding locks or tasks
+#pragma warning disable CA1508 // Avoid dead conditional code
                     firstLockObject?.Dispose();
+#pragma warning restore CA1508 // Avoid dead conditional code
                     secondLockObjectTask?.Result?.Dispose();
                 }
             }
@@ -236,7 +240,9 @@ namespace UnitTests.CodeTiger.Threading
                 {
                     // Clean up any outstanding locks or tasks
                     firstLockObject?.Dispose();
+#pragma warning disable CA1508 // Avoid dead conditional code
                     secondLockObjectTask?.Result?.Dispose();
+#pragma warning restore CA1508 // Avoid dead conditional code
                 }
             }
 
