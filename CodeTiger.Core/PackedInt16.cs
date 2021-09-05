@@ -173,7 +173,7 @@ namespace CodeTiger
         /// </returns>
         public override bool Equals(object? obj)
         {
-            return obj is PackedInt16 && (PackedInt16)obj == this;
+            return obj is PackedInt16 other && other == this;
         }
 
         /// <summary>

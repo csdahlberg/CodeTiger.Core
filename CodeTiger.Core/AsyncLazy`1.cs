@@ -53,8 +53,6 @@ namespace CodeTiger
         /// <see cref="LazyThreadSafetyMode.ExecutionAndPublication"/>.
         /// </summary>
         /// <param name="valueFactory">The function to use to produce the lazily initialized value.</param>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
-            Justification = "This is ")]
         public AsyncLazy(Func<Task<T>> valueFactory)
             : base(valueFactory)
         {
@@ -69,8 +67,6 @@ namespace CodeTiger
         /// <param name="valueFactory">The function to use to produce the lazily initialized value.</param>
         /// <param name="isThreadSafe">Indicates whether less-performant but thread-safe operations should be used
         /// when creating or reading the lazy-initialized value.</param>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
-            Justification = "Nesting of a generic type within a Func or Action type is acceptable.")]
         public AsyncLazy(Func<Task<T>> valueFactory, bool isThreadSafe)
             : base(valueFactory, isThreadSafe)
         {
@@ -83,8 +79,6 @@ namespace CodeTiger
         /// <param name="valueFactory">The function to use to produce the lazily initialized value.</param>
         /// <param name="mode">Specifies the thread-safety mode to use when creating or reading the
         /// lazy-initialized value.</param>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
-            Justification = "Nesting of a generic type within a Func or Action type is acceptable.")]
         public AsyncLazy(Func<Task<T>> valueFactory, LazyThreadSafetyMode mode)
             : base(valueFactory, mode)
         {
@@ -94,10 +88,6 @@ namespace CodeTiger
         /// Gets an awaiter used to await <see cref="Lazy{T}.Value"/>.
         /// </summary>
         /// <returns>An awaiter instance.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate",
-            Justification = "It is not appropriate to use a property here.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Awaiter",
-            Justification = "Awaiter is spelled correctly.")]
         public TaskAwaiter<T> GetAwaiter()
         {
             return Value.GetAwaiter();

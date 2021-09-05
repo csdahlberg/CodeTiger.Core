@@ -42,7 +42,6 @@ namespace CodeTiger.Threading
 
             var knownWaitTaskSource = _waitTaskSource;
 
-#pragma warning disable 0420 // Disable CS0420, since it is safe to use volatile fields with Interlocked.* methods
             while (knownWaitTaskSource.Task.IsCompleted
                 && Interlocked.CompareExchange(ref _waitTaskSource, newWaitTaskSource, knownWaitTaskSource)
                     != knownWaitTaskSource)
@@ -50,7 +49,6 @@ namespace CodeTiger.Threading
                 spinner.SpinOnce();
                 knownWaitTaskSource = _waitTaskSource;
             }
-#pragma warning restore 0420
         }
 
         /// <summary>

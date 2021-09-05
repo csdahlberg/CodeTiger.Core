@@ -55,9 +55,7 @@ namespace CodeTiger.Threading.Tasks
             }
 
 #pragma warning disable CA2000 // Dispose objects before losing scope
-#pragma warning disable IDE0067 // Dispose objects before losing scope
             var timeoutCancelTokenSource = new CancellationTokenSource();
-#pragma warning restore IDE0067 // Dispose objects before losing scope
 #pragma warning restore CA2000 // Dispose objects before losing scope
 
             var timeoutTask = Task.Delay(timeout, timeoutCancelTokenSource.Token);
@@ -130,9 +128,7 @@ namespace CodeTiger.Threading.Tasks
             }
 
 #pragma warning disable CA2000 // Dispose objects before losing scope
-#pragma warning disable IDE0067 // Dispose objects before losing scope
             var timeoutCancelTokenSource = new CancellationTokenSource();
-#pragma warning restore IDE0067 // Dispose objects before losing scope
 #pragma warning restore CA2000 // Dispose objects before losing scope
 
             var timeoutTask = Task.Delay(timeout, timeoutCancelTokenSource.Token);

@@ -208,7 +208,7 @@ namespace CodeTiger
         /// </returns>
         public override bool Equals(object? obj)
         {
-            return obj is PackedInt32 && (PackedInt32)obj == this;
+            return obj is PackedInt32 other && other == this;
         }
 
         /// <summary>

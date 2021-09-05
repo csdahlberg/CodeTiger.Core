@@ -34,6 +34,7 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncLock();
 
                 using (var firstLockObject = target.Acquire()) { }
+
                 using (var secondLockObject = target.Acquire()) { }
             }
 
@@ -131,6 +132,7 @@ namespace UnitTests.CodeTiger.Threading
                 var target = new AsyncLock();
 
                 using (var firstLockObject = target.Acquire(CancellationToken.None)) { }
+
                 using (var secondLockObject = target.Acquire(CancellationToken.None)) { }
             }
 

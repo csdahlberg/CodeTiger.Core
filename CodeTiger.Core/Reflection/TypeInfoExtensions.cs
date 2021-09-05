@@ -39,5 +39,4 @@ namespace CodeTiger.Reflection
             return (typeInfo.Attributes & StaticAttributes) == StaticAttributes;
         }
     }
-
 }

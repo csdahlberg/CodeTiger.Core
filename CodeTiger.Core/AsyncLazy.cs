@@ -59,8 +59,6 @@ namespace CodeTiger
         /// <typeparam name="T">The type of object to be lazily initialized.</typeparam>
         /// <param name="valueFactory">The function to use to produce the lazily initialized value.</param>
         /// <returns>A new <see cref="AsyncLazy{T}"/>.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
-            Justification = "Nesting of a generic type within a Func or Action type is acceptable.")]
         public static AsyncLazy<T> Create<T>(Func<Task<T>> valueFactory)
         {
             return new AsyncLazy<T>(valueFactory);
@@ -77,8 +75,6 @@ namespace CodeTiger
         /// <param name="isThreadSafe">Indicates whether less-performant but thread-safe operations should be used
         /// when creating or reading the lazy-initialized value.</param>
         /// <returns>A new <see cref="AsyncLazy{T}"/>.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
-            Justification = "Nesting of a generic type within a Func or Action type is acceptable.")]
         public static AsyncLazy<T> Create<T>(Func<Task<T>> valueFactory, bool isThreadSafe)
         {
             return new AsyncLazy<T>(valueFactory, isThreadSafe);
@@ -93,8 +89,6 @@ namespace CodeTiger
         /// <param name="mode">Specifies the thread-safety mode to use when creating or reading the
         /// lazy-initialized value.</param>
         /// <returns>A new <see cref="AsyncLazy{T}"/>.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
-            Justification = "Nesting of a generic type within a Func or Action type is acceptable.")]
         public static AsyncLazy<T> Create<T>(Func<Task<T>> valueFactory, LazyThreadSafetyMode mode)
         {
             return new AsyncLazy<T>(valueFactory, mode);
