@@ -121,20 +121,37 @@ namespace CodeTiger.Threading
 
             var cancellationRegistration = cancellationToken.Register(() => waitTaskSource.TrySetCanceled());
 
+#if NET5_0_OR_GREATER
             return waitTaskSource.Task
-                .ContinueWith(task =>
+                .ContinueWith(async task =>
                     {
                         if (waitTaskSource.Task.IsCanceled)
                         {
-                            cancellationRegistration.Dispose();
+                            await cancellationRegistration.DisposeAsync().ConfigureAwait(false);
                         }
 
-                        return task;
+                        return await task.ConfigureAwait(false);
                     },
                     CancellationToken.None,
                     TaskContinuationOptions.ExecuteSynchronously,
                     TaskScheduler.Current)
                 .Unwrap();
+#else
+            return waitTaskSource.Task
+                .ContinueWith(task =>
+                {
+                    if (waitTaskSource.Task.IsCanceled)
+                    {
+                        cancellationRegistration.Dispose();
+                    }
+
+                    return task;
+                },
+                    CancellationToken.None,
+                    TaskContinuationOptions.ExecuteSynchronously,
+                    TaskScheduler.Current)
+                .Unwrap();
+#endif
         }
 
         private void ReleaseLock()
