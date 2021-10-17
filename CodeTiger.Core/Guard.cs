@@ -93,6 +93,67 @@ namespace CodeTiger
         }
 
         /// <summary>
+        /// Ensures that an argument is null, throwing an exception if it is not null.
+        /// </summary>
+        /// <typeparam name="T">The type of the argument.</typeparam>
+        /// <param name="name">The name of the argument.</param>
+        /// <param name="value">The value of the argument.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is not null.</exception>
+        public static void ArgumentIsNull<T>(string name, T? value)
+            where T : class
+        {
+            if (value != null)
+            {
+                throw new ArgumentException(
+                    string.Format(CultureInfo.CurrentCulture, Strings.ArgumentMustBeNullMessageFormat,
+                        Environment.NewLine, name),
+                    name);
+            }
+        }
+
+        /// <summary>
+        /// Ensures that a string argument is null or empty, throwing an exception if it is not.
+        /// </summary>
+        /// <param name="name">The name of the argument.</param>
+        /// <param name="value">The value of the argument.</param>
+        /// <returns><paramref name="value"/> if it is null or empty.</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is not null or empty.
+        /// </exception>
+        public static string? ArgumentIsNullOrEmpty(string name, string? value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentException(
+                    string.Format(CultureInfo.CurrentCulture, Strings.ArgumentMustBeNullOrEmptyMessageFormat,
+                        Environment.NewLine, name),
+                    name);
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Ensures that a string argument is null, empty, or whitespace, throwing an exception if it is not.
+        /// </summary>
+        /// <param name="name">The name of the argument.</param>
+        /// <param name="value">The value of the argument.</param>
+        /// <returns><paramref name="value"/> if it is null, empty, or whitespace.</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is not null, empty, or only
+        /// whitespace characters.</exception>
+        public static string? ArgumentIsNullOrWhiteSpace(string name, string? value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException(
+                    string.Format(CultureInfo.CurrentCulture, Strings.ArgumentMustBeNullOrWhiteSpaceMessageFormat,
+                        Environment.NewLine, name),
+                    name);
+            }
+
+            return value;
+        }
+
+        /// <summary>
         /// Ensures that an argument is valid, throwing an exception if it is not valid.
         /// </summary>
         /// <param name="name">The name of the argument.</param>

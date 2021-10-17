@@ -9,7 +9,7 @@ namespace UnitTests.CodeTiger
     /// </summary>
     public partial class GuardTests
     {
-        public class ArgumentIsNotNull1_String_T1
+        public class ArgumentIsNotNull_String_T1
         {
             [Fact]
             public void ThrowsArgumentNullExceptionWhenObjectArgumentIsNull()
@@ -31,7 +31,7 @@ namespace UnitTests.CodeTiger
             }
         }
 
-        public class ArgumentIsNotNullOrEmpty
+        public class ArgumentIsNotNullOrEmpty_String_String
         {
             [Fact]
             public void ThrowsArgumentNullExceptionWhenArgumentIsNull()
@@ -63,7 +63,7 @@ namespace UnitTests.CodeTiger
             }
         }
 
-        public class ArgumentIsNotNullOrWhiteSpace
+        public class ArgumentIsNotNullOrWhiteSpace_String_String
         {
             [Fact]
             public void ThrowsArgumentNullExceptionWhenArgumentIsNull()
@@ -97,6 +97,96 @@ namespace UnitTests.CodeTiger
             public void DoesNotThrowExceptionWhenArgumentIsNotNullOrWhiteSpace(string argumentValue)
             {
                 string actual = Guard.ArgumentIsNotNullOrWhiteSpace("DummyArgumentName", argumentValue);
+
+                Assert.Equal(argumentValue, actual);
+            }
+        }
+
+        public class ArgumentIsNull_String_T1
+        {
+            [Fact]
+            public void ThrowsArgumentExceptionWhenObjectArgumentIsNotNull()
+            {
+                object? argumentValue = new object();
+
+                Assert.Throws<ArgumentException>("DummyArgumentName",
+                    () => Guard.ArgumentIsNull("DummyArgumentName", argumentValue));
+            }
+
+            [Fact]
+            public void DoesNotThrowExceptionWhenObjectArgumentIsNull()
+            {
+                object? argumentValue = null;
+
+                Guard.ArgumentIsNull("DummyArgumentName", argumentValue);
+            }
+        }
+
+        public class ArgumentIsNullOrEmpty_String_String
+        {
+            [Theory]
+            [InlineData(" ")]
+            [InlineData("\t")]
+            [InlineData("x")]
+            [InlineData(" x")]
+            [InlineData("x ")]
+            [InlineData(" x ")]
+            [InlineData("Testing")]
+            public void ThrowsArgumentExceptionWhenArgumentIsNotNullOrEmpty(string argumentValue)
+            {
+                Assert.Throws<ArgumentException>("DummyArgumentName",
+                    () => Guard.ArgumentIsNullOrEmpty("DummyArgumentName", argumentValue));
+            }
+
+            [Fact]
+            public void DoesNotThrowExceptionWhenArgumentIsEmptyString()
+            {
+                Guard.ArgumentIsNullOrEmpty("DummyArgumentName", "");
+            }
+
+            [Fact]
+            public void DoesNotThrowExceptionWhenArgumentIsNull()
+            {
+                Guard.ArgumentIsNullOrEmpty("DummyArgumentName", null);
+            }
+        }
+
+        public class ArgumentIsNullOrWhiteSpace_String_String
+        {
+            [Theory]
+            [InlineData("x")]
+            [InlineData(" x")]
+            [InlineData("x ")]
+            [InlineData(" x ")]
+            [InlineData("Testing")]
+            public void ThrowsArgumentExceptionWhenArgumentIsNotNullOrWhiteSpace(string argumentValue)
+            {
+                Assert.Throws<ArgumentException>("DummyArgumentName",
+                    () => Guard.ArgumentIsNullOrWhiteSpace("DummyArgumentName", argumentValue));
+            }
+
+            [Fact]
+            public void DoesNotThrowExceptionWhenArgumentIsNull()
+            {
+                string? actual = Guard.ArgumentIsNullOrWhiteSpace("DummyArgumentName", null);
+
+                Assert.Null(actual);
+            }
+
+            [Fact]
+            public void DoesNotThrowExceptionWhenArgumentIsEmptyString()
+            {
+                string? actual = Guard.ArgumentIsNullOrWhiteSpace("DummyArgumentName", "");
+
+                Assert.Equal("", actual);
+            }
+
+            [Theory]
+            [InlineData(" ")]
+            [InlineData("\t")]
+            public void DoesNotThrowExceptionWhenArgumentIsWhiteSpace(string argumentValue)
+            {
+                string? actual = Guard.ArgumentIsNullOrWhiteSpace("DummyArgumentName", argumentValue);
 
                 Assert.Equal(argumentValue, actual);
             }

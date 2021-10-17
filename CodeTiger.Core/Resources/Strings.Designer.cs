@@ -19,7 +19,7 @@ namespace CodeTiger.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
@@ -75,6 +75,33 @@ namespace CodeTiger.Resources {
         internal static string ArgumentCannotBeOnlyWhitespaceMessageFormat {
             get {
                 return ResourceManager.GetString("ArgumentCannotBeOnlyWhitespaceMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value must be null.{0}Parameter name: {1}.
+        /// </summary>
+        internal static string ArgumentMustBeNullMessageFormat {
+            get {
+                return ResourceManager.GetString("ArgumentMustBeNullMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value must be null or empty.{0}Parameter name: {1}.
+        /// </summary>
+        internal static string ArgumentMustBeNullOrEmptyMessageFormat {
+            get {
+                return ResourceManager.GetString("ArgumentMustBeNullOrEmptyMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value must be null or white space.{0}Parameter name: {1}.
+        /// </summary>
+        internal static string ArgumentMustBeNullOrWhiteSpaceMessageFormat {
+            get {
+                return ResourceManager.GetString("ArgumentMustBeNullOrWhiteSpaceMessageFormat", resourceCulture);
             }
         }
         

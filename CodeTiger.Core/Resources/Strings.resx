@@ -123,6 +123,15 @@
   <data name="ArgumentCannotBeOnlyWhitespaceMessageFormat" xml:space="preserve">
     <value>Value cannot consist only of whitespace characters.{0}Parameter name: {1}</value>
   </data>
+  <data name="ArgumentMustBeNullMessageFormat" xml:space="preserve">
+    <value>Value must be null.{0}Parameter name: {1}</value>
+  </data>
+  <data name="ArgumentMustBeNullOrEmptyMessageFormat" xml:space="preserve">
+    <value>Value must be null or empty.{0}Parameter name: {1}</value>
+  </data>
+  <data name="ArgumentMustBeNullOrWhiteSpaceMessageFormat" xml:space="preserve">
+    <value>Value must be null or white space.{0}Parameter name: {1}</value>
+  </data>
   <data name="ArgumentOutOfRangeMessage" xml:space="preserve">
     <value>Value does not fall within the expected range.</value>
   </data>
