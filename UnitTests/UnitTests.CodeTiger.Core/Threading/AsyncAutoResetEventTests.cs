@@ -1328,7 +1328,7 @@ namespace UnitTests.CodeTiger.Threading
             public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(false);
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 await target.WaitOneAsync().ConfigureAwait(false);
             }
@@ -1344,7 +1344,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 Assert.False(successfulWaitTask.IsCompleted);
 
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 await successfulWaitTask.ConfigureAwait(false);
             }
@@ -1353,7 +1353,7 @@ namespace UnitTests.CodeTiger.Threading
             public async Task ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(true);
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 await target.WaitOneAsync().ConfigureAwait(false);
             }
@@ -1378,7 +1378,7 @@ namespace UnitTests.CodeTiger.Threading
                 await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
                 Assert.False(successfulWaitTask2.IsCompleted);
 
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 await successfulWaitTask2.ConfigureAwait(false);
             }
@@ -1448,7 +1448,7 @@ namespace UnitTests.CodeTiger.Threading
             public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(false);
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 var successfulWaitTask = target.WaitOneAsync(250);
 
@@ -1481,7 +1481,7 @@ namespace UnitTests.CodeTiger.Threading
                 Assert.False(successfulWaitTask.IsCompleted);
                 Assert.False(unsuccessfulWaitTask.IsCompleted);
 
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
                 Assert.True(successfulWaitTask.IsCompleted);
@@ -1495,7 +1495,7 @@ namespace UnitTests.CodeTiger.Threading
             public async Task ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(true);
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 var successfulWaitTask = target.WaitOneAsync(250);
 
@@ -1535,7 +1535,7 @@ namespace UnitTests.CodeTiger.Threading
                 Assert.False(successfulWaitTask2.IsCompleted);
                 Assert.False(unsuccessfulWaitTask.IsCompleted);
 
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 Assert.True(await successfulWaitTask2.ConfigureAwait(false));
 
@@ -1610,7 +1610,7 @@ namespace UnitTests.CodeTiger.Threading
             public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(false);
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 var successfulWaitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
@@ -1643,7 +1643,7 @@ namespace UnitTests.CodeTiger.Threading
                 Assert.False(successfulWaitTask.IsCompleted);
                 Assert.False(unsuccessfulWaitTask.IsCompleted);
 
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 Assert.True(await successfulWaitTask.ConfigureAwait(false));
                 await Task.Delay(50).ConfigureAwait(false);
@@ -1656,7 +1656,7 @@ namespace UnitTests.CodeTiger.Threading
             public async Task ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(true);
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 var successfulWaitTask = target.WaitOneAsync(TimeSpan.FromMilliseconds(250));
 
@@ -1696,7 +1696,7 @@ namespace UnitTests.CodeTiger.Threading
                 Assert.False(successfulWaitTask2.IsCompleted);
                 Assert.False(unsuccessfulWaitTask.IsCompleted);
 
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 Assert.True(await successfulWaitTask2.ConfigureAwait(false));
 
@@ -1768,7 +1768,7 @@ namespace UnitTests.CodeTiger.Threading
             public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(false);
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
@@ -1809,7 +1809,7 @@ namespace UnitTests.CodeTiger.Threading
                     Assert.False(successfulWaitTask.IsCompleted);
                     Assert.False(unsuccessfulWaitTask.IsCompleted);
 
-                    target.Set();
+                    await target.SetAsync().ConfigureAwait(false);
 
                     await Task.Delay(50).ConfigureAwait(false);
                     Assert.True(successfulWaitTask.IsCompleted);
@@ -1827,7 +1827,7 @@ namespace UnitTests.CodeTiger.Threading
             public async Task ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(true);
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
@@ -1875,7 +1875,7 @@ namespace UnitTests.CodeTiger.Threading
                     Assert.False(successfulWaitTask2.IsCompleted);
                     Assert.False(unsuccessfulWaitTask.IsCompleted);
 
-                    target.Set();
+                    await target.SetAsync().ConfigureAwait(false);
 
                     await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
                     Assert.True(successfulWaitTask2.IsCompleted);
@@ -1994,7 +1994,7 @@ namespace UnitTests.CodeTiger.Threading
             public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(false);
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
@@ -2035,7 +2035,7 @@ namespace UnitTests.CodeTiger.Threading
                     Assert.False(successfulWaitTask.IsCompleted);
                     Assert.False(unsuccessfulWaitTask.IsCompleted);
 
-                    target.Set();
+                    await target.SetAsync().ConfigureAwait(false);
 
                     await Task.Delay(50).ConfigureAwait(false);
                     Assert.True(successfulWaitTask.IsCompleted);
@@ -2053,7 +2053,7 @@ namespace UnitTests.CodeTiger.Threading
             public async Task ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(true);
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
@@ -2101,7 +2101,7 @@ namespace UnitTests.CodeTiger.Threading
                     Assert.False(successfulWaitTask2.IsCompleted);
                     Assert.False(unsuccessfulWaitTask.IsCompleted);
 
-                    target.Set();
+                    await target.SetAsync().ConfigureAwait(false);
 
                     await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
                     Assert.True(successfulWaitTask2.IsCompleted);
@@ -2220,7 +2220,7 @@ namespace UnitTests.CodeTiger.Threading
             public async Task ReturnsOnceWhenEventIsNotInitiallySetThenSetBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(false);
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
@@ -2261,7 +2261,7 @@ namespace UnitTests.CodeTiger.Threading
                     Assert.False(successfulWaitTask.IsCompleted);
                     Assert.False(unsuccessfulWaitTask.IsCompleted);
 
-                    target.Set();
+                    await target.SetAsync().ConfigureAwait(false);
 
                     await Task.Delay(50).ConfigureAwait(false);
                     Assert.True(successfulWaitTask.IsCompleted);
@@ -2279,7 +2279,7 @@ namespace UnitTests.CodeTiger.Threading
             public async Task ReturnsOnceWhenEventIsSetTwiceBeforeCallingWaitOneAsync()
             {
                 var target = new AsyncAutoResetEvent(true);
-                target.Set();
+                await target.SetAsync().ConfigureAwait(false);
 
                 using (var cancelSource = new CancellationTokenSource())
                 {
@@ -2327,7 +2327,7 @@ namespace UnitTests.CodeTiger.Threading
                     Assert.False(successfulWaitTask2.IsCompleted);
                     Assert.False(unsuccessfulWaitTask.IsCompleted);
 
-                    target.Set();
+                    await target.SetAsync().ConfigureAwait(false);
 
                     await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
                     Assert.True(successfulWaitTask2.IsCompleted);
