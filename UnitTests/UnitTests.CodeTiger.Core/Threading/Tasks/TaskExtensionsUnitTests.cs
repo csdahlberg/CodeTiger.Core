@@ -53,7 +53,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             [Fact]
             public void ReturnsTaskWhichThrowsTimeoutExceptionWhenTimeoutIsLessThanOriginalTaskDuration()
             {
-                var task = Task.Delay(200);
+                var task = Task.Delay(300);
                 var taskWithTimeout = task.WithTimeout(50);
 
                 var aggregateException = Assert.Throws<AggregateException>(() => taskWithTimeout.Wait());
@@ -67,7 +67,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             public void ReturnsTaskWhichCompletesNormallyWhenTimeoutIsGreaterThanTaskCompletionTime()
             {
                 var task = Task.Delay(50);
-                var taskWithTimeout = task.WithTimeout(200);
+                var taskWithTimeout = task.WithTimeout(300);
 
                 taskWithTimeout.Wait();
 
@@ -79,7 +79,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             public void ReturnsTaskWhichThrowsTaskCanceledExceptionWhenOriginalTaskIsCanceled()
             {
                 var taskSource = new TaskCompletionSource<bool>();
-                var taskWithTimeout = taskSource.Task.WithTimeout(200);
+                var taskWithTimeout = taskSource.Task.WithTimeout(300);
 
                 taskSource.SetCanceled();
 
@@ -133,7 +133,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             [Fact]
             public void ReturnsTaskWhichThrowsTimeoutExceptionWhenTimeoutIsLessThanOriginalTaskDuration()
             {
-                var task = Task.Delay(200);
+                var task = Task.Delay(300);
                 var taskWithTimeout = task.WithTimeout(TimeSpan.FromMilliseconds(50));
 
                 var actual = Assert.Throws<AggregateException>(() => taskWithTimeout.Wait());
@@ -147,7 +147,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             public void ReturnsTaskWhichCompletesNormallyWhenTimeoutIsGreaterThanTaskCompletionTime()
             {
                 var task = Task.Delay(50);
-                var taskWithTimeout = task.WithTimeout(TimeSpan.FromMilliseconds(200));
+                var taskWithTimeout = task.WithTimeout(TimeSpan.FromMilliseconds(300));
 
                 taskWithTimeout.Wait();
 
@@ -159,7 +159,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             public void ReturnsTaskWhichThrowsTaskCanceledExceptionWhenOriginalTaskIsCanceled()
             {
                 var taskSource = new TaskCompletionSource<bool>();
-                var taskWithTimeout = taskSource.Task.WithTimeout(TimeSpan.FromMilliseconds(200));
+                var taskWithTimeout = taskSource.Task.WithTimeout(TimeSpan.FromMilliseconds(300));
 
                 taskSource.SetCanceled();
 
@@ -206,7 +206,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             {
                 var task = Task.Delay(50);
                 
-                bool actual = task.Wait(TimeSpan.FromMilliseconds(200), CancellationToken.None);
+                bool actual = task.Wait(TimeSpan.FromMilliseconds(300), CancellationToken.None);
 
                 Assert.True(actual);
             }
@@ -214,7 +214,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             [Fact]
             public void ThrowsOperationCanceledExceptionImmediatelyWhenCancellationTokenIsInitiallySet()
             {
-                var task = Task.Delay(100);
+                var task = Task.Delay(300);
                 
                 Assert.Throws<OperationCanceledException>(
                     () => task.Wait(Timeout.InfiniteTimeSpan, new CancellationToken(true)));
@@ -254,7 +254,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             [Fact]
             public void ReturnsFalseImmediatelyWhenTimeoutIsZero()
             {
-                var task = Task.Delay(100);
+                var task = Task.Delay(300);
                 
                 bool actual = task.Wait(TimeSpan.Zero, CancellationToken.None);
 
@@ -267,7 +267,7 @@ namespace UnitTests.CodeTiger.Threading.Tasks
             [Fact]
             public void ReturnsFalseWhenTimeoutExpires()
             {
-                var task = Task.Delay(100);
+                var task = Task.Delay(300);
                 
                 bool actual = task.Wait(TimeSpan.FromMilliseconds(25), CancellationToken.None);
 

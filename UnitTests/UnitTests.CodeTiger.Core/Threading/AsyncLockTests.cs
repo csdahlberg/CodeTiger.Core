@@ -85,14 +85,14 @@ namespace UnitTests.CodeTiger.Threading
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
 
-                    Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                    Thread.Sleep(TimeSpan.FromMilliseconds(200));
 
                     Assert.False(secondLockObjectTask.IsCompleted);
 
                     firstLockObject.Dispose();
                     firstLockObject = null;
 
-                    Assert.True(secondLockObjectTask.Wait(50));
+                    Assert.True(secondLockObjectTask.Wait(150));
                 }
                 finally
                 {
@@ -155,7 +155,7 @@ namespace UnitTests.CodeTiger.Threading
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
 
-                    Assert.False(secondLockObjectTask.Wait(100));
+                    Assert.False(secondLockObjectTask.Wait(150));
                 }
                 finally
                 {
@@ -184,14 +184,14 @@ namespace UnitTests.CodeTiger.Threading
                         TaskCreationOptions.LongRunning,
                         TaskScheduler.Default);
 
-                    Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                    Thread.Sleep(TimeSpan.FromMilliseconds(150));
 
                     Assert.False(secondLockObjectTask.IsCompleted);
 
                     firstLockObject.Dispose();
                     firstLockObject = null;
 
-                    Assert.True(secondLockObjectTask.Wait(50));
+                    Assert.True(secondLockObjectTask.Wait(150));
                 }
                 finally
                 {
@@ -213,7 +213,7 @@ namespace UnitTests.CodeTiger.Threading
 
                 try
                 {
-                    firstLockObject = target.Acquire(CancellationToken.None);
+                    firstLockObject = target.Acquire();
 
                     Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
@@ -225,14 +225,12 @@ namespace UnitTests.CodeTiger.Threading
                             TaskCreationOptions.LongRunning,
                             TaskScheduler.Default);
 
-                        Thread.Sleep(TimeSpan.FromMilliseconds(50));
-
-                        Assert.False(secondLockObjectTask.Wait(50));
+                        Assert.False(secondLockObjectTask.Wait(150));
 
                         cancellationTokenSource.Cancel();
 
                         var aggregateException = Assert.Throws<AggregateException>(
-                            () => secondLockObjectTask.Wait(50));
+                            () => secondLockObjectTask.Wait(150));
                         Assert.Equal(typeof(TaskCanceledException),
                             aggregateException.Flatten().InnerExceptions.Single().GetType());
                         secondLockObjectTask = null;
@@ -325,7 +323,7 @@ namespace UnitTests.CodeTiger.Threading
                 var secondLockObjectTask = target.AcquireAsync();
                 Assert.NotSame(firstLockObjectTask, secondLockObjectTask);
 
-                await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromMilliseconds(150)).ConfigureAwait(false);
                 Assert.False(secondLockObjectTask.IsCompleted);
 
                 // Clean up any outstanding locks or tasks
@@ -410,7 +408,7 @@ namespace UnitTests.CodeTiger.Threading
                 var secondLockObjectTask = target.AcquireAsync(CancellationToken.None);
                 Assert.NotSame(firstLockObjectTask, secondLockObjectTask);
 
-                await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromMilliseconds(150)).ConfigureAwait(false);
                 Assert.False(secondLockObjectTask.IsCompleted);
 
                 // Clean up any outstanding locks or tasks
@@ -431,7 +429,7 @@ namespace UnitTests.CodeTiger.Threading
                 {
                     var secondLockObjectTask = target.AcquireAsync(cancellationTokenSource.Token);
 
-                    await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
+                    await Task.Delay(TimeSpan.FromMilliseconds(150)).ConfigureAwait(false);
 
                     Assert.NotSame(firstLockObjectTask, secondLockObjectTask);
                     Assert.False(secondLockObjectTask.IsCompleted);
