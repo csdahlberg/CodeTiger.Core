@@ -99,17 +99,16 @@ namespace UnitTests.CodeTiger
         {
             [Theory]
             [MemberData(nameof(GetInt16ValuesForEdgeCases))]
-            public void GetterReturnsArrayWithValuesPassedInToConstructor(short value0, short value1, short value2,
-                short value3)
+            public void GetterReturnsArrayWithValuesPassedInToConstructor(short value0, short value1)
             {
-                var target = new PackedInt64(new[] { value0, value1, value2, value3 });
+                var target = new PackedInt64(new[] { value0, value1, value0, value1 });
 
                 short[] actual = target.GetInt16Values();
 
                 Assert.Equal(value0, actual[0]);
                 Assert.Equal(value1, actual[1]);
-                Assert.Equal(value2, actual[2]);
-                Assert.Equal(value3, actual[3]);
+                Assert.Equal(value0, actual[0]);
+                Assert.Equal(value1, actual[1]);
             }
 
             private static IEnumerable<object[]> GetInt16ValuesForEdgeCases()
@@ -123,16 +122,7 @@ namespace UnitTests.CodeTiger
                 {
                     for (int j = 0; j < edgeCaseValues.Length; j++)
                     {
-                        for (int k = 0; k < edgeCaseValues.Length; k++)
-                        {
-                            for (int l = 0; l < edgeCaseValues.Length; l++)
-                            {
-                                yield return new object[]
-                                {
-                                    edgeCaseValues[i], edgeCaseValues[j], edgeCaseValues[k], edgeCaseValues[l]
-                                };
-                            }
-                        }
+                        yield return new object[] { edgeCaseValues[i], edgeCaseValues[j] };
                     }
                 }
             }
@@ -142,14 +132,12 @@ namespace UnitTests.CodeTiger
         {
             [Theory]
             [MemberData(nameof(GetByteValuesForEdgeCases))]
-            [SuppressMessage("CodeTiger.Design", "CT1003:Methods should not exceed seven parameters.",
-                Justification = "This test requires more than seven generated arguments.")]
             public void GetterReturnsArrayWithValuesPassedInToConstructor(byte value0, byte value1, byte value2,
-                byte value3, byte value4, byte value5, byte value6, byte value7)
+                byte value3)
             {
                 var target = new PackedInt64(new[]
                 {
-                    value0, value1, value2, value3, value4, value5, value6, value7
+                    value0, value1, value2, value3, value0, value1, value2, value3
                 });
 
                 byte[] actual = target.GetByteValues();
@@ -158,10 +146,10 @@ namespace UnitTests.CodeTiger
                 Assert.Equal(value1, actual[1]);
                 Assert.Equal(value2, actual[2]);
                 Assert.Equal(value3, actual[3]);
-                Assert.Equal(value4, actual[4]);
-                Assert.Equal(value5, actual[5]);
-                Assert.Equal(value6, actual[6]);
-                Assert.Equal(value7, actual[7]);
+                Assert.Equal(value0, actual[4]);
+                Assert.Equal(value1, actual[5]);
+                Assert.Equal(value2, actual[6]);
+                Assert.Equal(value3, actual[7]);
             }
 
             private static IEnumerable<object[]> GetByteValuesForEdgeCases()
@@ -182,10 +170,6 @@ namespace UnitTests.CodeTiger
                                     edgeCaseValues[j],
                                     edgeCaseValues[k],
                                     edgeCaseValues[l],
-                                    edgeCaseValues[i],
-                                    edgeCaseValues[j],
-                                    edgeCaseValues[k],
-                                    edgeCaseValues[l]
                                 };
                             }
                         }
