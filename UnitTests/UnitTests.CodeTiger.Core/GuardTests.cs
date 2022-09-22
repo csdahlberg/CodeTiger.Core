@@ -37,7 +37,7 @@ namespace UnitTests.CodeTiger
             public void ThrowsArgumentNullExceptionWhenArgumentIsNull()
             {
                 Assert.Throws<ArgumentNullException>("DummyArgumentName",
-                    () => Guard.ArgumentIsNotNullOrEmpty("DummyArgumentName", null));
+                    () => Guard.ArgumentIsNotNullOrEmpty("DummyArgumentName", null!));
             }
 
             [Fact]
@@ -69,7 +69,7 @@ namespace UnitTests.CodeTiger
             public void ThrowsArgumentNullExceptionWhenArgumentIsNull()
             {
                 Assert.Throws<ArgumentNullException>("DummyArgumentName",
-                    () => Guard.ArgumentIsNotNullOrWhiteSpace("DummyArgumentName", null));
+                    () => Guard.ArgumentIsNotNullOrWhiteSpace("DummyArgumentName", null!));
             }
 
             [Fact]

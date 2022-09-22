@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using CodeTiger.Resources;
 
@@ -17,7 +18,7 @@ namespace CodeTiger
         /// <param name="value">The value of the argument.</param>
         /// <returns><paramref name="value"/> if it is not null.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="value"/> is null.</exception>
-        public static T ArgumentIsNotNull<T>(string name, [ValidatedNotNull] T? value)
+        public static T ArgumentIsNotNull<T>(string name, [NotNull] T? value)
             where T : class
         {
             if (value == null)
@@ -36,7 +37,7 @@ namespace CodeTiger
         /// <returns><paramref name="value"/> if it is not null or empty.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="value"/> is null.</exception>
         /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is empty.</exception>
-        public static string ArgumentIsNotNullOrEmpty(string name, [ValidatedNotNull] string? value)
+        public static string ArgumentIsNotNullOrEmpty(string name, [NotNull] string? value)
         {
             if (value == null)
             {
@@ -63,7 +64,7 @@ namespace CodeTiger
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="value"/> is null.</exception>
         /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is empty or contains only
         /// whitespace characters.</exception>
-        public static string ArgumentIsNotNullOrWhiteSpace(string name, [ValidatedNotNull] string? value)
+        public static string ArgumentIsNotNullOrWhiteSpace(string name, [NotNull] string? value)
         {
             if (value == null)
             {
@@ -177,7 +178,7 @@ namespace CodeTiger
         /// <returns><paramref name="value"/> if <paramref name="condition"/> is <c>true</c>.</returns>
         /// <exception cref="ArgumentException">Thrown when <paramref name="condition"/> is <c>false</c>.
         /// </exception>
-        public static T ArgumentIsValid<T>(string name, bool condition, [ValidatedNotNull] T value)
+        public static T ArgumentIsValid<T>(string name, bool condition, T value)
         {
             if (!condition)
             {
